@@ -55,9 +55,7 @@ const Contact = () => {
           viewport={{ once: true, amount: 0.2 }}
           className="bg-zinc-900 border border-zinc-700 p-6 sm:p-8 rounded-xl shadow-lg space-y-5"
         >
-          <h3 className="text-2xl sm:text-3xl font-semibold text-white">
-            Let’s Connect
-          </h3>
+          <h3 className="text-2xl sm:text-3xl font-semibold text-white">Let’s Connect</h3>
           <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
             Have a project in mind or just want to say hello? I’m always open to new ideas and collaborations.
           </p>
@@ -93,24 +91,17 @@ const Contact = () => {
           viewport={{ once: true, amount: 0.2 }}
           className="bg-zinc-900 border border-zinc-700 p-6 sm:p-8 rounded-xl shadow-lg space-y-6"
         >
-          {/* Hidden input to fix EmailJS template error */}
-          <input
-            type="hidden"
-            name="to_email"
-            value="tumithasan1@gmail.com"
-          />
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <input
               type="text"
-              name="form_name"
+              name="name"
               required
               placeholder="Your Name"
               className="w-full p-3 rounded-lg bg-zinc-800 text-white placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-lime-400"
             />
             <input
               type="email"
-              name="form_email"
+              name="email"
               required
               placeholder="Your Email"
               className="w-full p-3 rounded-lg bg-zinc-800 text-white placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-lime-400"
