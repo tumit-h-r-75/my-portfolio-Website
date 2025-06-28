@@ -2,6 +2,7 @@ import React from 'react';
 import Banner from '../components/Banner';
 import About from './About';
 import SkillBar from '../components/SkillBar';
+import Education from '../components/Education';
 
 const Home = () => {
     return (
@@ -14,6 +15,9 @@ const Home = () => {
             </section>
             <section>
                 <SkillBar></SkillBar>
+            </section>
+            <section>
+                <Education></Education>
             </section>
         </div>
     );
