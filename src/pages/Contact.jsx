@@ -40,7 +40,7 @@ const Contact = () => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true, amount: 0.2 }}
-      className="py-16 px-4 sm:px-6 md:px-10 lg:px-16 max-w-7xl mx-auto"
+      className="py-16 px-4 sm:px-6 md:px-10 xl:px-0 max-w-7xl mx-auto"
     >
       <h2 className="text-3xl sm:text-4xl font-bold text-lime-400 text-center mb-12 uppercase tracking-wide">
         Contact Me
@@ -49,11 +49,11 @@ const Contact = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Left Info Panel */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, amount: 0.2 }}
-          className="bg-zinc-900 border border-zinc-700 p-6 sm:p-8 rounded-xl shadow-lg space-y-5"
+          className="bg-zinc-900 border border-zinc-700 p-6 sm:p-8 rounded-xl shadow-lg space-y-5 w-full"
         >
           <h3 className="text-2xl sm:text-3xl font-semibold text-white">Let’s Connect</h3>
           <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
@@ -85,11 +85,11 @@ const Contact = () => {
         <motion.form
           ref={form}
           onSubmit={sendEmail}
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, amount: 0.2 }}
-          className="bg-zinc-900 border border-zinc-700 p-6 sm:p-8 rounded-xl shadow-lg space-y-6"
+          className="bg-zinc-900 border border-zinc-700 p-6 sm:p-8 rounded-xl shadow-lg space-y-6 w-full"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <input
