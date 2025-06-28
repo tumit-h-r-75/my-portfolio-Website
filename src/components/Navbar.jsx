@@ -28,21 +28,21 @@ const Navbar = () => {
       <NavLink
         to="/"
         onClick={() => handleScroll(homeRef)}
-        className="hover:text-blue-400 transition"
+        className="hover:text-lime-400 transition"
       >
         Home
       </NavLink>
       {isHome && (
         <>
-          <button onClick={() => handleScroll(aboutRef)} className="hover:text-blue-400 transition">About</button>
-          <button onClick={() => handleScroll(skillRef)} className="hover:text-blue-400 transition">Skills</button>
-          <button onClick={() => handleScroll(portfolioRef)} className="hover:text-blue-400 transition">Portfolio</button>
+          <button onClick={() => handleScroll(aboutRef)} className="hover:text-lime-400 transition">About</button>
+          <button onClick={() => handleScroll(skillRef)} className="hover:text-lime-400 transition">Skills</button>
+          <button onClick={() => handleScroll(portfolioRef)} className="hover:text-lime-400 transition">Portfolio</button>
         </>
       )}
       {isHome ? (
-        <button onClick={() => handleScroll(contactRef)} className="hover:text-blue-400 transition">Contact</button>
+        <button onClick={() => handleScroll(contactRef)} className="hover:text-lime-400 transition">Contact</button>
       ) : (
-        <NavLink to="/contact" className="hover:text-blue-400 transition">Contact</NavLink>
+        <NavLink to="/contact" className="hover:text-lime-400 transition">Contact</NavLink>
       )}
     </>
   );
@@ -64,7 +64,7 @@ const Navbar = () => {
         <a
           href="https://docs.google.com/document/d/120Q6nTObOvUmssKj0_qgXzFP980s19Oe/edit"
           target="_blank"
-          className="btn btn-secondary hidden sm:flex gap-2 items-center"
+          className="btn btn-warning hidden sm:flex text-black gap-2 items-center"
         >
           Download CV <FaDownload />
         </a>
@@ -83,9 +83,9 @@ const Navbar = () => {
         <div className="lg:hidden bg-zinc-800 px-6 py-4 space-y-4 text-base font-medium">
           {navItems}
           <a
-            href="https://drive.google.com/file/d/1RsJJs2JCPBGSGRNbm8k_ngUz2ezyLjbx/view?usp=sharing"
+            href="https://docs.google.com/document/d/120Q6nTObOvUmssKj0_qgXzFP980s19Oe/edit"
             target="_blank"
-            className="btn btn-secondary w-full mt-2 flex justify-center gap-2"
+            className="btn btn-warning w-full text-black mt-2 flex justify-center gap-2"
           >
             Download CV <FaDownload />
           </a>
