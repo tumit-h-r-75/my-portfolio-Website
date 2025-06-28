@@ -21,7 +21,9 @@ const ProjectsSection = () => {
         className="text-4xl font-bold text-lime-400 text-center mb-12 uppercase tracking-wide"
       >
         Projects
+        <div className="w-24 sm:w-52 md:w-96 h-1 bg-lime-400 mt-2 mx-auto rounded-full" />
       </motion.h2>
+      
 
       {/* Project Cards Grid */}
       <motion.div
