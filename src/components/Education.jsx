@@ -15,15 +15,15 @@ const Education = () => {
   return (
     <section
       ref={educationRef}
-      className="py-20 px-5 md:px-10 bg-transparent my-10"
+      className="py-16 px-4 sm:px-8 md:px-16 bg-transparent my-10"
     >
       {/* Section Header */}
       <div className="text-center mb-12">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-lime-400 uppercase tracking-widest mb-4 flex justify-center items-center gap-3 flex-wrap">
+        <h2 className="flex flex-wrap justify-center items-center gap-3 text-lime-400 font-bold uppercase tracking-widest mb-4 text-3xl sm:text-4xl md:text-5xl">
           <FaGraduationCap className="text-lime-400" />
           Education
         </h2>
-        <div className="w-24 sm:w-52 md:w-96 h-1 bg-lime-400 mt-2 mx-auto rounded-full" />
+        <div className="mx-auto w-20 sm:w-52 md:w-96 h-1 bg-lime-400 rounded-full" />
       </div>
 
       {/* Education Card */}
@@ -41,28 +41,28 @@ const Education = () => {
       >
         {/* Title */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
-          <FaUniversity className="text-lime-400 text-2xl md:text-3xl" />
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white">
+          <FaUniversity className="text-lime-400 text-2xl sm:text-3xl md:text-4xl" />
+          <h3 className="text-white font-semibold text-xl sm:text-2xl md:text-3xl">
             Diploma in Computer Science and Technology
           </h3>
         </div>
 
         {/* Timeline */}
-        <p className="text-gray-400 text-base md:text-lg mb-2 pl-9">
+        <p className="text-gray-400 text-sm sm:text-base md:text-lg mb-3 sm:pl-9">
           Satkhira Govt Polytechnic Institute —{" "}
           <span className="text-lime-400">(2022 - 2025)</span>
         </p>
 
         {/* Description */}
-        <p className="text-gray-300 text-[15px] sm:text-[16px] md:text-[17px] leading-relaxed text-justify mb-4 pl-9">
+        <p className="text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed text-justify mb-4 sm:pl-9">
           My education focuses on developing a strong foundation in computer science, covering subjects like programming, data structures, algorithms, networking, and software development. Throughout my studies, I have gained both theoretical knowledge and practical experience in various technologies, working on projects that enhance my problem-solving and critical thinking skills.
         </p>
-        <p className="text-gray-300 text-[15px] sm:text-[16px] md:text-[17px] leading-relaxed text-justify mb-6 pl-9">
+        <p className="text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed text-justify mb-6 sm:pl-9">
           This program has helped me understand the fundamentals of system design, database management, and modern web technologies, preparing me for a career in the dynamic field of technology.
         </p>
 
         {/* Details */}
-        <div className="space-y-2 text-[14px] sm:text-[15px] md:text-[16px] text-gray-300 pl-9">
+        <div className="space-y-3 text-gray-300 text-xs sm:text-sm md:text-base sm:pl-9">
           <p>
             <FaMapMarkerAlt className="inline mr-2 text-lime-400" />
             <strong>Location:</strong> Satkhira, Khulna, Bangladesh

@@ -46,22 +46,21 @@ const SkillBar = () => {
             initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="px-5 md:px-10 py-14 rounded-xl my-10 bg-transparent"
+            className="px-4 sm:px-6 md:px-10 py-12 sm:py-16 rounded-xl my-10 bg-transparent"
         >
-            {/* Header */}
             <div className="text-center mb-10">
                 <h2 className="text-4xl md:text-5xl font-bold text-lime-400 uppercase tracking-widest mb-3">
                     Skills
                 </h2>
-                <div className="w-96 h-1 bg-lime-400 mt-4 mx-auto rounded-full" />
+                
             </div>
+            {/* <div className=" h-1 bg-lime-400 mt-2 mx-auto rounded-full" /> */}
 
-            {/* Frontend Skills */}
             <div className="mb-10">
                 <h3 className="text-2xl text-lime-400 font-semibold mb-4 text-center">
                     Frontend Technologies
                 </h3>
-                <div className="flex flex-wrap justify-center gap-4">
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
                     {frontendSkills.map((skill, idx) => (
                         <motion.button
                             key={idx}
@@ -74,12 +73,11 @@ const SkillBar = () => {
                 </div>
             </div>
 
-            {/* Backend Skills */}
             <div className="mb-10">
                 <h3 className="text-2xl text-lime-400 font-semibold mb-4 text-center">
                     Backend Technologies
                 </h3>
-                <div className="flex flex-wrap justify-center gap-4">
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
                     {backendSkills.map((skill, idx) => (
                         <motion.button
                             key={idx}
@@ -92,7 +90,6 @@ const SkillBar = () => {
                 </div>
             </div>
 
-            {/* Skills Marquee Cards */}
             <Marquee pauseOnHover speed={60} gradient={false}>
                 {allSkills.map((skill, idx) => {
                     const Icon = skill.icon;
@@ -100,18 +97,17 @@ const SkillBar = () => {
                         <motion.div
                             key={idx}
                             whileHover={{ scale: 1.08 }}
-                            className={`group w-40 h-40 m-4 flex flex-col items-center justify-center bg-zinc-800 border border-lime-400 rounded-xl 
-        shadow-md cursor-pointer transition duration-500 hover:shadow-[0_0_30px_#84cc16]`} // enhanced glow
+                            className={`group w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 m-3 flex flex-col items-center  justify-center bg-zinc-800 border border-lime-400 rounded-xl shadow-md cursor-pointer transition duration-500 hover:shadow-[0_0_25px_#84cc16]`}
                         >
                             <motion.div
-                                className={`text-5xl mb-2 ${skill.color}`}
+                                className={`text-4xl sm:text-5xl mb-2 ${skill.color}`}
                                 animate={{ rotateY: 0 }}
-                                whileHover={{ rotateY: 360 }} // rotate on parent hover
+                                whileHover={{ rotateY: 360 }}
                                 transition={{ duration: 1 }}
                             >
                                 <Icon />
                             </motion.div>
-                            <p className="text-white text-sm font-semibold tracking-wide">
+                            <p className="text-white text-xs sm:text-sm font-semibold tracking-wide text-center px-1">
                                 {skill.name}
                             </p>
                         </motion.div>

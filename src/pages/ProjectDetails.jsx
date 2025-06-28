@@ -96,13 +96,6 @@ const ProjectDetails = () => {
         </a>
       </div>
 
-      {/* Back Link */}
-      <Link
-        to="/projects"
-        className="block mt-6 text-lime-400 underline hover:text-lime-600 flex items-center gap-2"
-      >
-        <FaArrowLeft /> Back to Projects
-      </Link>
     </motion.section>
   );
 };
