@@ -1,5 +1,14 @@
 import { useContext, useState } from "react";
-import { FaDownload, FaBars, FaTimes } from "react-icons/fa";
+import {
+  FaDownload,
+  FaBars,
+  FaTimes,
+  FaHome,
+  FaUserAlt,
+  FaLaptopCode,
+  FaProjectDiagram,
+  FaEnvelopeOpen,
+} from "react-icons/fa";
 import { Link, NavLink, useLocation } from "react-router";
 import logo from "../assets/TumitDev-logo-removebg-preview.png";
 import { NavigateContext } from "../context/NavigateProvider";
@@ -28,42 +37,45 @@ const Navbar = () => {
       <NavLink
         to="/"
         onClick={() => handleScroll(homeRef)}
-        className="hover:text-lime-400 transition"
+        className="hover:text-lime-400 transition flex items-center gap-2"
       >
-        Home
+        <FaHome /> Home
       </NavLink>
       {isHome && (
         <>
           <button
             onClick={() => handleScroll(aboutRef)}
-            className="hover:text-lime-400 transition"
+            className="hover:text-lime-400 transition flex items-center gap-2"
           >
-            About
+            <FaUserAlt /> About
           </button>
           <button
             onClick={() => handleScroll(skillRef)}
-            className="hover:text-lime-400 transition"
+            className="hover:text-lime-400 transition flex items-center gap-2"
           >
-            Skills
+            <FaLaptopCode /> Skills
           </button>
           <button
             onClick={() => handleScroll(portfolioRef)}
-            className="hover:text-lime-400 transition"
+            className="hover:text-lime-400 transition flex items-center gap-2"
           >
-            Portfolio
+            <FaProjectDiagram /> Portfolio
           </button>
         </>
       )}
       {isHome ? (
         <button
           onClick={() => handleScroll(contactRef)}
-          className="hover:text-lime-400 transition"
+          className="hover:text-lime-400 transition flex items-center gap-2"
         >
-          Contact
+          <FaEnvelopeOpen /> Contact
         </button>
       ) : (
-        <NavLink to="/contact" className="hover:text-lime-400 transition">
-          Contact
+        <NavLink
+          to="/contact"
+          className="hover:text-lime-400 transition flex items-center gap-2"
+        >
+          <FaEnvelopeOpen /> Contact
         </NavLink>
       )}
     </>
