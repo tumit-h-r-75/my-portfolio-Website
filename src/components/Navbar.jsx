@@ -96,7 +96,7 @@ const Navbar = () => {
 
         {/* Download CV Button */}
         <a
-          href="https://drive.google.com/file/d/10R6mAyJ-U-yd06xa7SeFT_azSWzjzUXq/view?usp=sharing"
+          href="https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing"
           target="_blank"
           rel="noreferrer"
           className="btn btn-warning hidden lg:flex text-black gap-2 items-center"
