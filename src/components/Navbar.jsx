@@ -96,7 +96,7 @@ const Navbar = () => {
 
         {/* Download CV Button */}
         <a
-          href="https://docs.google.com/document/d/120Q6nTObOvUmssKj0_qgXzFP980s19Oe/edit"
+          href="https://drive.google.com/file/d/10R6mAyJ-U-yd06xa7SeFT_azSWzjzUXq/view?usp=sharing"
           target="_blank"
           rel="noreferrer"
           className="btn btn-warning hidden lg:flex text-black gap-2 items-center"
@@ -123,7 +123,7 @@ const Navbar = () => {
           {navItems}
         </nav>
         <a
-          href="https://docs.google.com/document/d/120Q6nTObOvUmssKj0_qgXzFP980s19Oe/edit"
+          href="https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing"
           target="_blank"
           rel="noreferrer"
           className="btn btn-warning w-[90%] mx-auto mt-4 text-black flex justify-center gap-2"

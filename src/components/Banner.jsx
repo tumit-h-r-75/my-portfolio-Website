@@ -71,7 +71,7 @@ const Banner = () => {
                         Hire Me
                     </button>
                     <a
-                        href="https://docs.google.com/document/d/120Q6nTObOvUmssKj0_qgXzFP980s19Oe/edit"
+                        href="https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing"
                         target="_blank"
                         className="flex items-center justify-center text-black btn btn-warning"
                     >
