@@ -1,8 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 @plugin "daisyui";
 
 body {
-  font-family: 'Rancho', cursive;
+  font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
+}
+
+
+
+/* Bubble Animation Base */
+.bubble-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bubble {
+  position: absolute;
+  bottom: -150px;
+  background: #84cc16;
+  border-radius: 50%;
+  opacity: 0.15;
+  filter: blur(3px);
+  animation: floatUp 10s linear infinite;
+}
+
+/* Bubble Floating Animation */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateY(-120vh) scale(1.4);
+    opacity: 0;
+  }
 }

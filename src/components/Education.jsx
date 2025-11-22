@@ -81,7 +81,7 @@ const Education = () => {
           </p>
           <p className="pt-3">
             <span className="text-lime-400 font-semibold">Core Skills Learned:</span><br />
-            Python, Java, Data Structure & Algorithm, DBMS, Networking, Computer Architecture, Business Communication, Web Development (PHP), and more.
+            Python, Java, Data Structure & Algorithm, DBMS, Networking, Computer Architecture, Business Communication, Web Development ( javascript), and more.
           </p>
         </div>
       </motion.div>

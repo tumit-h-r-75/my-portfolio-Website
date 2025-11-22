@@ -1,5 +1,5 @@
 import { FaDownload, FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
-import banner from "../assets/my-img-removebg-preview.png";
+import banner from "../assets/WhatsApp Image 2025-11-13 at 18.31.47_b9149894-Photoroom.png";
 import { useContext } from "react";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
@@ -90,7 +90,7 @@ const Banner = () => {
                 <motion.img
                     src={banner}
                     alt="Tumit Hasan"
-                    className="rounded-full w-64 h-64 md:w-96 md:h-96 object-cover border-4 border-lime-500"
+                    className="rounded-full w-64 h-64 md:w-96 md:h-96 md:pt- object-cover border-4 border-lime-500 object-top"
                     whileHover={{
                         scale: 1.05,
                         boxShadow: "0px 0px 25px #84cc16", // lime glow

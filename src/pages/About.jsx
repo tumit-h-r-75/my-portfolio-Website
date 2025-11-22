@@ -3,7 +3,7 @@ import { FaCoffee, FaMusic, FaPlaneDeparture } from "react-icons/fa";
 import { GiCricketBat } from "react-icons/gi";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
-
+import aboutImg from "../assets/20250812_174823[1]-Photoroom.png"
 const About = () => {
   const { aboutRef } = useContext(NavigateContext);
 
@@ -17,8 +17,38 @@ const About = () => {
   return (
     <section
       ref={aboutRef}
-      className="bg-zinc-900 px-4 sm:px-6 md:px-10 py-16 rounded-xl m-4 border border-zinc-800 duration-300 hover:shadow-2xl hover:shadow-lime-500"
+      className="relative bg-zinc-900 px-4 sm:px-6 md:px-10 py-16 rounded-xl m-4 border border-zinc-800 duration-300 hover:shadow-2xl hover:shadow-lime-500 overflow-hidden"
     >
+
+      {/* Falling Lime Bubbles Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {[...Array(25)].map((_, i) => (
+          <span
+            key={i}
+            className="bubble"
+            style={{
+              left: `${Math.random() * 100}%`,
+              width: `${10 + Math.random() * 25}px`,
+              height: `${10 + Math.random() * 25}px`,
+              animationDuration: `${4 + Math.random() * 6}s`,
+              animationDelay: `${Math.random() * 5}s`,
+            }}
+          ></span>
+        ))}
+      </div>
+
+      {/* Background Animation */}
+      <div className="lime-bubbles">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+
+
       {/* Section Header */}
       <div className="text-center mb-10">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-lime-400 uppercase tracking-widest mb-4">
@@ -41,8 +71,8 @@ const About = () => {
             className="relative z-10 rounded-xl overflow-hidden border-4 border-lime-400 shadow-xl shadow-lime-700/30"
           >
             <img
-              className="w-52 sm:w-60 md:w-72 lg:w-80 xl:w-96 rounded-xl object-cover bg-white"
-              src="https://i.ibb.co/wFYYyQHc/my-img-removebg-preview.png"
+              className="w-52 sm:w-60 md:w-72 lg:w-80 xl:w-96 rounded-xl object-cover bg-white object-top"
+              src={aboutImg}
               alt="Tumit Hasan"
             />
           </motion.div>
@@ -67,7 +97,7 @@ const About = () => {
             <p><span className="text-lime-400 font-medium">Nationality:</span> Bangladeshi</p>
             <p><span className="text-lime-400 font-medium">Address:</span> Jashore, Bangladesh</p>
             <p><span className="text-lime-400 font-medium">Phone:</span> +8801611960330</p>
-            <p><span className="text-lime-400 font-medium">E-mail:</span> tumithasan@gmail.com</p>
+            <p><span className="text-lime-400 font-medium">E-mail:</span> tumithasan1@gmail.com</p>
             <p><span className="text-lime-400 font-medium">Education:</span> Diploma in Computer Science & Technology</p>
           </div>
         </div>
