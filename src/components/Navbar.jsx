@@ -10,7 +10,7 @@ import {
   FaEnvelopeOpen,
 } from "react-icons/fa";
 import { Link, NavLink, useLocation } from "react-router";
-import logo from "../assets/TumitDev-logo-removebg-preview.png";
+import logo from "../assets/bigLogo.png";
 import { NavigateContext } from "../context/NavigateProvider";
 
 const Navbar = () => {
@@ -86,7 +86,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" onClick={() => handleScroll(homeRef)}>
-          <img src={logo} alt="Logo" className="w-28 sm:w-36 h-22" />
+          <img src={logo} alt="Logo" className="w-40 sm:w-36 h-20" />
         </Link>
 
         {/* Desktop Menu */}

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import logo from "../assets/TumitDev-logo-removebg-preview.png";
+import logo from "../assets/bigLogo.png";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt, FaHome, FaUserAlt, FaCode, FaEnvelope } from "react-icons/fa";
