@@ -10,7 +10,7 @@ import {
   FaEnvelopeOpen,
 } from "react-icons/fa";
 import { Link, NavLink, useLocation } from "react-router";
-import logo from "../assets/bigLogo.png";
+import logo from "../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png";
 import { NavigateContext } from "../context/NavigateProvider";
 
 const Navbar = () => {

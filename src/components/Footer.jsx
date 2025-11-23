@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import logo from "../assets/bigLogo.png";
+import logo from "../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt, FaHome, FaUserAlt, FaCode, FaEnvelope } from "react-icons/fa";
