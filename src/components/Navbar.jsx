@@ -82,11 +82,11 @@ const Navbar = () => {
   );
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-zinc-900 bg-opacity-30 text-white shadow-lg backdrop-blur-md">
+    <header className="fixed top-0 left-0 w-full z-50 bg-zinc-900 bg-opacity-30 text-white shadow-lg backdrop-blur-md pl-5 pr-5">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" onClick={() => handleScroll(homeRef)}>
-          <img src={logo} alt="Logo" className="w-40 sm:w-36 h-20" />
+          <img src={logo} alt="Logo" className="w-36 sm:w-46" />
         </Link>
 
         {/* Desktop Menu */}
