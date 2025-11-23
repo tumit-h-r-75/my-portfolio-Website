@@ -14,7 +14,7 @@ const Banner = () => {
             initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="max-w-7xl mx-auto px-5 py-20 min-h-screen flex flex-col-reverse lg:flex-row items-center justify-between gap-10 pt-30"
+            className="max-w-7xl mx-auto px-10 py-20 min-h-screen flex flex-col-reverse lg:flex-row items-center justify-between gap-10 "
         >
             {/* Left Text Section */}
             <div className="lg:w-3/5 text-center lg:text-left ">

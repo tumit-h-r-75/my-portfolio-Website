@@ -40,7 +40,7 @@ const Contact = () => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true, amount: 0.2 }}
-      className="py-16 px-4 sm:px-6 md:px-10 xl:px-0 max-w-7xl mx-auto"
+      className="py-16 px-10 sm:px-10 md:px-10 max-w-7xl mx-auto"
     >
       <h2 className="text-3xl sm:text-4xl font-bold text-lime-400 text-center mb-12 uppercase tracking-wide">
         Contact Me

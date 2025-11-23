@@ -17,7 +17,7 @@ const About = () => {
   return (
     <section
       ref={aboutRef}
-      className="relative bg-zinc-900 px-4 sm:px-6 md:px-10 py-16 rounded-xl m-4 border border-zinc-800 duration-300 hover:shadow-2xl hover:shadow-lime-500 overflow-hidden"
+      className="relative bg-zinc-900 px-10 sm:px-10 md:px-10 py-16 rounded-xl mx-10 border border-zinc-800 duration-300 hover:shadow-2xl hover:shadow-lime-500 overflow-hidden"
     >
 
       {/* Falling Lime Bubbles Background */}

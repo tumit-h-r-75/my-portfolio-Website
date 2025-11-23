@@ -15,7 +15,7 @@ const Education = () => {
   return (
     <section
       ref={educationRef}
-      className="py-16 px-4 sm:px-8 md:px-16 bg-transparent my-10"
+      className="py-16 px-4 sm:px-5 md:px-9 bg-transparent my-10"
     >
       {/* Section Header */}
       <div className="text-center mb-12">
@@ -37,7 +37,7 @@ const Education = () => {
           transition: { duration: 0.4 },
         }}
         viewport={{ once: true, amount: 0.4 }}
-        className="max-w-5xl mx-auto bg-zinc-800 p-6 sm:p-8 md:p-10 rounded-xl border border-zinc-700 transition-all duration-500"
+        className="max-w-7xl mx-auto bg-zinc-800 p-10 sm:p-10 md:p-10 rounded-xl border border-zinc-700 transition-all duration-500"
       >
         {/* Title */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
