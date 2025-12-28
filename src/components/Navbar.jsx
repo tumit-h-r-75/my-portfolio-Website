@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import {
   FaDownload,
   FaBars,
@@ -9,128 +9,127 @@ import {
   FaProjectDiagram,
   FaEnvelopeOpen,
 } from "react-icons/fa";
-import { Link, NavLink, useLocation } from "react-router";
+import { Link, useLocation } from "react-router";
+import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png";
 import { NavigateContext } from "../context/NavigateProvider";
 
 const Navbar = () => {
-  const {
-    scrollToSection,
-    homeRef,
-    aboutRef,
-    skillRef,
-    contactRef,
-    portfolioRef,
-  } = useContext(NavigateContext);
-
+  const { scrollToSection, homeRef, aboutRef, skillRef, contactRef, portfolioRef } = useContext(NavigateContext);
   const location = useLocation();
   const isHome = location.pathname === "/";
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleScroll = (ref) => {
     scrollToSection(ref);
     setMenuOpen(false);
   };
 
-  const navItems = (
-    <>
-      <NavLink
-        to="/"
-        onClick={() => handleScroll(homeRef)}
-        className="hover:text-lime-400 transition flex items-center gap-2"
-      >
-        <FaHome /> Home
-      </NavLink>
-      {isHome && (
-        <>
-          <button
-            onClick={() => handleScroll(aboutRef)}
-            className="hover:text-lime-400 transition flex items-center gap-2"
-          >
-            <FaUserAlt /> About
-          </button>
-          <button
-            onClick={() => handleScroll(skillRef)}
-            className="hover:text-lime-400 transition flex items-center gap-2"
-          >
-            <FaLaptopCode /> Skills
-          </button>
-          <button
-            onClick={() => handleScroll(portfolioRef)}
-            className="hover:text-lime-400 transition flex items-center gap-2"
-          >
-            <FaProjectDiagram /> Portfolio
-          </button>
-        </>
-      )}
-      {isHome ? (
-        <button
-          onClick={() => handleScroll(contactRef)}
-          className="hover:text-lime-400 transition flex items-center gap-2"
-        >
-          <FaEnvelopeOpen /> Contact
-        </button>
-      ) : (
-        <NavLink
-          to="/contact"
-          className="hover:text-lime-400 transition flex items-center gap-2"
-        >
-          <FaEnvelopeOpen /> Contact
-        </NavLink>
-      )}
-    </>
-  );
+  const navLinks = [
+    { label: "Home", icon: <FaHome />, ref: homeRef },
+    { label: "About", icon: <FaUserAlt />, ref: aboutRef },
+    { label: "Skills", icon: <FaLaptopCode />, ref: skillRef },
+    { label: "Portfolio", icon: <FaProjectDiagram />, ref: portfolioRef },
+    { label: "Contact", icon: <FaEnvelopeOpen />, ref: contactRef },
+  ];
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-zinc-900 bg-opacity-30 text-white shadow-lg backdrop-blur-md pl-5 pr-5">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" onClick={() => handleScroll(homeRef)}>
-          <img src={logo} alt="Logo" className="w-36 sm:w-46" />
+    <header 
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
+        scrolled 
+        ? "bg-black/60 backdrop-blur-xl border-b border-white/10 py-3 shadow-2xl" 
+        : "bg-transparent py-6"
+      }`}
+    >
+      {/* Container 7xl Content Centered */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 flex justify-between items-center">
+        
+        {/* --- Logo Area --- */}
+        <Link to="/" onClick={() => handleScroll(homeRef)} className="relative shrink-0">
+          <img 
+            src={logo} 
+            alt="Logo" 
+            className={`transition-all duration-500 object-contain ${scrolled ? "w-32 md:w-36" : "w-44 md:w-52"}`} 
+          />
         </Link>
 
-        {/* Desktop Menu */}
-        <nav className="hidden lg:flex space-x-6 text-lg font-medium items-center">
-          {navItems}
+        {/* --- Desktop Navigation --- */}
+        <nav className="hidden lg:flex items-center gap-10">
+          {navLinks.map((item, idx) => (
+            <button
+              key={idx}
+              onClick={() => handleScroll(item.ref)}
+              className="relative py-2 text-[13px] font-black uppercase tracking-[0.2em] text-zinc-400 hover:text-white transition-all group flex items-center gap-2"
+            >
+              <span className="text-lime-400 group-hover:-translate-y-1 transition-transform duration-300">
+                {item.icon}
+              </span>
+              {item.label}
+              
+              {/* Animated Underline (Center to Outer) */}
+              <span className="absolute bottom-0 left-1/2 w-0 h-[2.5px] bg-lime-400 transition-all duration-300 group-hover:w-full group-hover:left-0" />
+            </button>
+          ))}
         </nav>
 
-        {/* Download CV Button */}
-        <a
-          href="https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing"
-          target="_blank"
-          rel="noreferrer"
-          className="btn btn-warning hidden lg:flex text-black gap-2 items-center"
-        >
-          Download CV <FaDownload />
-        </a>
+        {/* --- Action Area --- */}
+        <div className="flex items-center gap-4">
+          <motion.a
+            whileHover={{ y: -3, scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            href="https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing"
+            target="_blank"
+            className="hidden sm:flex items-center gap-2 bg-lime-400 text-black px-8 py-3 rounded-full font-black text-[11px] uppercase tracking-widest transition-all shadow-[0_10px_20px_rgba(163,230,53,0.3)] hover:bg-white"
+          >
+            Resume <FaDownload />
+          </motion.a>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="lg:hidden text-2xl text-white z-50"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <FaTimes /> : <FaBars />}
-        </button>
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="lg:hidden w-12 h-12 flex items-center justify-center text-white text-2xl"
+          >
+            {menuOpen ? <FaTimes className="text-lime-400" /> : <FaBars />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
-      <div
-        className={`lg:hidden fixed top-16 left-0 w-full bg-zinc-900 transition-all duration-300 ease-in-out z-40 ${
-          menuOpen ? "h-auto opacity-100 py-4" : "h-0 opacity-0 overflow-hidden"
-        }`}
-      >
-        <nav className="flex flex-col gap-4 items-start px-6 text-base font-medium">
-          {navItems}
-        </nav>
-        <a
-          href="https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing"
-          target="_blank"
-          rel="noreferrer"
-          className="btn btn-warning w-[90%] mx-auto mt-4 text-black flex justify-center gap-2"
-        >
-          Download CV <FaDownload />
-        </a>
-      </div>
+      {/* --- Mobile Fullscreen Overlay --- */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 h-screen w-full bg-[#050505]/fb backdrop-blur-3xl z-[90] flex flex-col items-center justify-center lg:hidden px-10"
+          >
+            <div className="flex flex-col gap-8 w-full text-center">
+              {navLinks.map((item, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleScroll(item.ref)}
+                  className="text-4xl font-black uppercase tracking-tighter text-zinc-600 hover:text-lime-400 transition-colors"
+                >
+                  {item.label}
+                </button>
+              ))}
+              <a
+                href="https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing"
+                className="mt-6 bg-lime-400 text-black py-4 rounded-xl font-black text-center text-lg uppercase mx-auto w-full max-w-xs"
+              >
+                Get Resume
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

@@ -9,36 +9,4 @@ body {
 
 
 
-/* Bubble Animation Base */
-.bubble-container {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
 
-.bubble {
-  position: absolute;
-  bottom: -150px;
-  background: #84cc16;
-  border-radius: 50%;
-  opacity: 0.15;
-  filter: blur(3px);
-  animation: floatUp 10s linear infinite;
-}
-
-/* Bubble Floating Animation */
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(0.5);
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.35;
-  }
-  100% {
-    transform: translateY(-120vh) scale(1.4);
-    opacity: 0;
-  }
-}
