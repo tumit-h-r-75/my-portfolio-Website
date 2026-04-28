@@ -2,7 +2,7 @@ import { NavLink } from "react-router";
 import logo from "../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
-import { FaPhoneAlt, FaHome, FaUserAlt, FaCode, FaEnvelope, FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
+import { FaPhoneAlt, FaHome, FaUserAlt, FaCode, FaEnvelope, FaGithub, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 import { useContext } from "react";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
@@ -11,10 +11,25 @@ const Footer = () => {
   const { scrollToSection, homeRef, aboutRef, skillRef, contactRef } = useContext(NavigateContext);
 
   const socialLinks = [
-    { icon: <FaGithub />, link: "https://github.com/tumit-h-r-75" },
-    { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/tumit-hasan-rafi/" },
-    { icon: <FaFacebook />, link: "https://www.facebook.com/tumit.hasan.rafi.2025" },
+    { icon: <FaGithub />, link: "https://github.com/tumit-h-r-75", className: "github", label: "GitHub" },
+    { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/tumit-hasan-rafi/", className: "linkedin", label: "LinkedIn" },
+    { icon: <FaInstagram />, link: "https://www.instagram.com/_t_u_m_i_t_h_a_s_a_n_r_a_f_i_/", className: "instagram", label: "Instagram" },
+    { icon: <FaFacebook />, link: "https://www.facebook.com/tumit.hasan.rafi.2025", className: "facebook", label: "Facebook" },
   ];
+
+  const socialContainerVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { staggerChildren: 0.12, delayChildren: 0.08 },
+    },
+  };
+
+  const socialItemVariants = {
+    hidden: { opacity: 0, y: 14, scale: 0.85 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.35, ease: "easeOut" } },
+  };
 
   return (
     <footer className="relative bg-[#050505] pt-20 pb-10 overflow-hidden border-t border-white/5">
@@ -34,19 +49,32 @@ const Footer = () => {
             <p className="text-zinc-400 text-base max-w-sm leading-relaxed">
               Building high-performance MERN Stack applications with a focus on clean code and exceptional user experience. Let's create something extraordinary together.
             </p>
-            <div className="flex gap-4">
-              {socialLinks.map((social, i) => (
-                <a
-                  key={i}
-                  href={social.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-lime-400 hover:border-lime-400 transition-all duration-300 shadow-lg hover:shadow-lime-400/20"
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
+            <motion.div
+              variants={socialContainerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="footer-socials relative z-10 mt-2 mb-2"
+            >
+              <div className="social-icons flex items-center justify-start gap-[10px]">
+                {socialLinks.map((social, i) => (
+                  <motion.a
+                    variants={socialItemVariants}
+                    whileHover={{ y: -3, scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    key={social.label}
+                    href={social.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className={`social-icon-link ${social.className}`}
+                    style={{ animationDelay: `${i * 0.22}s` }}
+                  >
+                    <span className="social-icon-inner">{social.icon}</span>
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* 2. Quick Access (Col-3) */}
@@ -131,8 +159,10 @@ const Footer = () => {
           </motion.div>
         </div>
 
-        {/* Footer Bottom */}
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <div className="footer-bottom pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-zinc-500 text-sm text-center md:text-left">
             &copy; {new Date().getFullYear()} <span className="text-white font-bold">Tumit Hasan</span>. All rights reserved.
           </p>
