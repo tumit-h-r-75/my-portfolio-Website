@@ -26,12 +26,11 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // মেনু ক্লোজ করার জন্য এবং স্ক্রল করার ফাংশন
   const handleScroll = (ref) => {
-    setMenuOpen(false); // মেনু আগে ক্লোজ হবে
+    setMenuOpen(false); 
     setTimeout(() => {
       scrollToSection(ref);
-    }, 300); // অ্যানিমেশন শেষ হওয়ার জন্য সামান্য দেরি
+    }, 300); 
   };
 
   const navLinks = [
