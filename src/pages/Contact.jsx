@@ -11,23 +11,69 @@ const Contact = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    emailjs
-      .sendForm("service_48upolr", "template_llgo81r", form.current, {
-        publicKey: "O_KNMjs2MVnNwEPJZ",
-      })
+
+    // Show loading state
+    Swal.fire({
+      title: "Sending Message...",
+      text: "Please wait while we process your request.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      background: "#18181b",
+      color: "#fff",
+    });
+
+    // Send Notification to Owner (You)
+    const sendToOwner = emailjs.sendForm(
+      "service_48upolr",
+      "template_llgo81r",
+      form.current,
+      { publicKey: "O_KNMjs2MVnNwEPJZ" }
+    );
+
+    // Send Auto-reply to User (Thank you mail)
+    // We catch the error here so it doesn't break the whole process if the template ID is wrong
+    const sendToUser = emailjs.sendForm(
+      "service_48upolr",
+      "template_auto_reply", // Replace this with your actual Auto-reply Template ID
+      form.current,
+      { publicKey: "O_KNMjs2MVnNwEPJZ" }
+    ).catch(err => {
+      console.warn("Auto-reply failed (Template might not be set up yet):", err);
+      return null; // Return null so Promise.all still resolves
+    });
+
+    Promise.all([sendToOwner, sendToUser])
       .then(
-        () => {
+        ([ownerRes, userRes]) => {
           e.target.reset();
+          
+          let successMessage = "Thank you! I've received your message. I'll get back to you soon.";
+          if (userRes) {
+            successMessage = "Thank you! I've received your message and sent a confirmation to your email. I'll get back to you soon.";
+          }
+
           Swal.fire({
-            title: "Success!",
-            text: "Your message has been sent.",
+            title: "Message Sent!",
+            text: successMessage,
             icon: "success",
             background: "#18181b",
             color: "#fff",
             confirmButtonColor: "#84cc16",
           });
         },
-        (error) => console.error("FAILED...", error.text)
+        (error) => {
+          console.error("FAILED TO SEND OWNER NOTIFICATION:", error);
+          Swal.fire({
+            title: "Oops!",
+            text: "Something went wrong while sending your message. Please try again or contact me directly via email.",
+            icon: "error",
+            background: "#18181b",
+            color: "#fff",
+            confirmButtonColor: "#ef4444",
+          });
+        }
       );
   };
 
