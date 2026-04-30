@@ -107,91 +107,53 @@ body {
 
 .social-icon-link {
   position: relative;
-  width: 4rem;
-  height: 4rem;
+  width: 3.5rem;
+  height: 3.5rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
+  border-radius: 1.25rem;
   overflow: hidden;
-  border: 1px solid rgba(125, 211, 252, 0.45);
-  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.94), rgba(224, 251, 255, 0.95) 42%, rgba(178, 235, 255, 0.9) 100%);
-  box-shadow:
-    0 0 16px rgba(34, 211, 238, 0.55),
-    0 0 34px rgba(34, 211, 238, 0.3),
-    inset 0 -5px 10px rgba(2, 132, 199, 0.2);
-  animation: socialFloat 3.1s ease-in-out infinite;
-  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
-}
-
-.social-icon-link::before {
-  content: "";
-  position: absolute;
-  inset: -35%;
-  border-radius: 999px;
-  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.9) 50%, transparent 70%);
-  opacity: 0.7;
-  transform: translateX(-85%) rotate(15deg);
-  animation: socialShine 2.4s ease-in-out infinite;
-  z-index: 0;
-}
-
-.social-icon-link::after {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 40% 28%, rgba(240, 252, 255, 0.96), rgba(190, 240, 255, 0.92));
-  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .social-icon-inner {
   position: relative;
   z-index: 2;
-  font-size: 1.4rem;
-  color: #334155;
-  transition: transform 0.28s ease, color 0.28s ease, text-shadow 0.28s ease;
+  font-size: 1.2rem;
+  color: #a1a1aa;
+  transition: all 0.4s ease;
+}
+
+.social-icon-link:hover {
+  border-color: rgba(163, 230, 53, 0.5);
+  background: rgba(163, 230, 53, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px -10px rgba(163, 230, 53, 0.3);
 }
 
 .social-icon-link:hover .social-icon-inner {
-  transform: scale(1.12) rotate(8deg);
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.85);
+  color: #a3e635;
+  transform: scale(1.1);
 }
 
 .social-icons .social-icon-link.github:hover {
-  border-color: rgba(147, 197, 253, 0.92);
-  box-shadow: 0 0 20px rgba(96, 165, 250, 0.65), 0 0 40px rgba(59, 130, 246, 0.35);
-}
-
-.social-icons .social-icon-link.github:hover .social-icon-inner {
-  color: #1d4ed8;
+  border-color: #a3e635;
 }
 
 .social-icons .social-icon-link.linkedin:hover {
-  border-color: rgba(56, 189, 248, 0.95);
-  box-shadow: 0 0 20px rgba(14, 165, 233, 0.7), 0 0 40px rgba(2, 132, 199, 0.35);
-}
-
-.social-icons .social-icon-link.linkedin:hover .social-icon-inner {
-  color: #0284c7;
+  border-color: #a3e635;
 }
 
 .social-icons .social-icon-link.instagram:hover {
-  border-color: rgba(244, 114, 182, 0.95);
-  box-shadow: 0 0 20px rgba(236, 72, 153, 0.66), 0 0 40px rgba(217, 70, 239, 0.34);
-}
-
-.social-icons .social-icon-link.instagram:hover .social-icon-inner {
-  color: #db2777;
+  border-color: #a3e635;
 }
 
 .social-icons .social-icon-link.facebook:hover {
-  border-color: rgba(129, 140, 248, 0.95);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.7), 0 0 40px rgba(79, 70, 229, 0.35);
-}
-
-.social-icons .social-icon-link.facebook:hover .social-icon-inner {
-  color: #4f46e5;
+  border-color: #a3e635;
 }
 
 @keyframes socialFloat {

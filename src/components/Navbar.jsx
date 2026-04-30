@@ -45,7 +45,7 @@ const Navbar = () => {
     <header 
       className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
         scrolled 
-        ? "bg-black/80 backdrop-blur-xl border-b border-white/10 py-3 shadow-2xl" 
+        ? "bg-black/80 backdrop-blur-xl py-3 shadow-2xl" 
         : "bg-transparent py-6"
       }`}
     >
