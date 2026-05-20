@@ -4,6 +4,7 @@ import emailjs from "@emailjs/browser";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
+import MagicBentoPanel from "../components/MagicBento/MagicBento";
 
 const Contact = () => {
   const { contactRef } = useContext(NavigateContext);
@@ -106,7 +107,8 @@ const Contact = () => {
 
           <div className="space-y-3 md:space-y-4">
             {/* Email - Clickable */}
-            <a 
+            <MagicBentoPanel
+              as="a"
               href="mailto:tumithasan1@gmail.com" 
               className="flex items-center gap-4 p-4 md:p-5 bg-zinc-900/50 border border-zinc-800 rounded-xl md:rounded-2xl hover:border-lime-400/50 transition-all group"
             >
@@ -117,10 +119,11 @@ const Contact = () => {
                 <p className="text-[10px] md:text-xs uppercase font-bold text-zinc-500 tracking-widest">Mail Me</p>
                 <p className="text-zinc-200 text-sm md:text-base font-medium truncate">tumithasan1@gmail.com</p>
               </div>
-            </a>
+            </MagicBentoPanel>
 
             {/* WhatsApp - Clickable */}
-            <a 
+            <MagicBentoPanel
+              as="a"
               href="https://wa.me/8801611960330" 
               target="_blank" 
               rel="noreferrer"
@@ -133,10 +136,10 @@ const Contact = () => {
                 <p className="text-[10px] md:text-xs uppercase font-bold text-zinc-500 tracking-widest">WhatsApp</p>
                 <p className="text-zinc-200 text-sm md:text-base font-medium">+880 1611-960330</p>
               </div>
-            </a>
+            </MagicBentoPanel>
 
             {/* Location */}
-            <div className="flex items-center gap-4 p-4 md:p-5 bg-zinc-900/50 border border-zinc-800 rounded-xl md:rounded-2xl">
+            <MagicBentoPanel className="flex items-center gap-4 p-4 md:p-5 bg-zinc-900/50 border border-zinc-800 rounded-xl md:rounded-2xl">
               <div className="text-lime-400 text-lg md:text-xl shrink-0">
                 <FaMapMarkerAlt />
               </div>
@@ -144,7 +147,7 @@ const Contact = () => {
                 <p className="text-[10px] md:text-xs uppercase font-bold text-zinc-500 tracking-widest">Location</p>
                 <p className="text-zinc-200 text-sm md:text-base font-medium">Satkhira, Bangladesh</p>
               </div>
-            </div>
+            </MagicBentoPanel>
           </div>
 
           {/* Social Links */}
@@ -175,7 +178,8 @@ const Contact = () => {
           transition={{ duration: 0.5 }}
           className="lg:col-span-7"
         >
-          <form
+          <MagicBentoPanel
+            as="form"
             ref={form}
             onSubmit={sendEmail}
             className="bg-zinc-900/30 border border-zinc-800 p-6 md:p-10 rounded-[1.5rem] md:rounded-[2rem] space-y-5 md:space-y-6"
@@ -222,7 +226,7 @@ const Contact = () => {
               <span>Send Message</span>
               <FaPaperPlane className="text-xs shrink-0" />
             </motion.button>
-          </form>
+          </MagicBentoPanel>
         </motion.div>
 
       </div>

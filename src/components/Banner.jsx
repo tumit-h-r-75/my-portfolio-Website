@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import { Typewriter } from "react-simple-typewriter";
 import DecryptedText from "./DecryptedText";
+import MagicBentoPanel from "./MagicBento/MagicBento";
 
 const Banner = () => {
     const { homeRef, contactRef, scrollToSection } = useContext(NavigateContext);
@@ -91,21 +92,23 @@ const Banner = () => {
 
                     {/* Action Buttons */}
                     <motion.div variants={itemVariants} className="flex flex-wrap gap-5 justify-center lg:justify-start mb-12">
-                        <button
+                        <MagicBentoPanel
+                            as="button"
                             onClick={() => scrollToSection(contactRef)}
                             className="relative group px-10 py-4 bg-lime-400 text-black font-black rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(163,230,53,0.5)]"
                         >
                             <span className="relative z-10">HIRE ME NOW</span>
                             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                        </button>
+                        </MagicBentoPanel>
                         
-                        <a
+                        <MagicBentoPanel
+                            as="a"
                             href="https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing"
                             target="_blank"
                             className="flex items-center gap-3 px-8 py-4 border border-zinc-800 text-white font-bold rounded-xl hover:bg-zinc-900 transition-all duration-300"
                         >
                             Get Resume <FaDownload className="text-lime-400 text-sm" />
-                        </a>
+                        </MagicBentoPanel>
                     </motion.div>
 
                     {/* Socials */}
@@ -141,7 +144,7 @@ const Banner = () => {
                         <div className="absolute inset-0 bg-lime-400/20 blur-[100px] rounded-full animate-pulse" />
                         
                         {/* Main Image Frame */}
-                        <div className="relative z-10 w-72 h-[400px] md:w-96 md:h-[500px] rounded-[3rem] overflow-hidden border-2 border-white/5 bg-zinc-900 group">
+                        <MagicBentoPanel className="relative z-10 w-72 h-[400px] md:w-96 md:h-[500px] rounded-[3rem] overflow-hidden border-2 border-white/5 bg-zinc-900 group">
                             <img
                                 src={banner}
                                 alt="Tumit Hasan"
@@ -153,7 +156,7 @@ const Banner = () => {
                                 <p className="text-xs text-zinc-400 uppercase font-bold tracking-[0.2em] mb-1">Experience</p>
                                 <p className="text-white font-black text-xl">1+ Year Product</p>
                             </div>
-                        </div>
+                        </MagicBentoPanel>
 
                         {/* Geometric Accents */}
                         <div className="absolute -top-10 -left-10 w-24 h-24 border-t-4 border-l-4 border-lime-400 rounded-tl-3xl" />

@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import aboutImg from "../assets/myImg.png";
 import DecryptedText from "../components/DecryptedText";
+import MagicBentoPanel from "../components/MagicBento/MagicBento";
 
 const About = () => {
   const { aboutRef } = useContext(NavigateContext);
@@ -92,14 +93,14 @@ const About = () => {
             style={{ y: typeof window !== "undefined" && window.innerWidth > 1024 ? imgY : 0 }} 
             className="lg:col-span-5 relative group order-1 lg:order-1"
           >
-            <div className="relative z-10 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border-2 border-white/10 bg-zinc-900 aspect-[4/5] shadow-2xl">
+            <MagicBentoPanel className="relative z-10 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border-2 border-white/10 bg-zinc-900 aspect-[4/5] shadow-2xl">
               <img
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 src={aboutImg}
                 alt="Tumit Hasan"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-40" />
-            </div>
+            </MagicBentoPanel>
             <div className="absolute -top-4 -right-4 md:-top-6 md:-right-6 w-full h-full border-2 border-lime-400/20 rounded-[1.5rem] md:rounded-[2.5rem] -z-10 hidden sm:block" />
           </motion.div>
 
@@ -145,7 +146,8 @@ const About = () => {
                 );
 
                 return info.link ? (
-                  <a 
+                  <MagicBentoPanel
+                    as="a"
                     key={idx} 
                     href={info.link} 
                     target="_blank" 
@@ -153,11 +155,11 @@ const About = () => {
                     className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5 hover:border-lime-400/40 hover:bg-lime-400/5 transition-all group"
                   >
                     {Content}
-                  </a>
+                  </MagicBentoPanel>
                 ) : (
-                  <div key={idx} className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5">
+                  <MagicBentoPanel key={idx} className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5">
                     {Content}
-                  </div>
+                  </MagicBentoPanel>
                 );
               })}
             </div>

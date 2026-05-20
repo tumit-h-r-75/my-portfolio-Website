@@ -14,6 +14,7 @@ import { SiTailwindcss, SiExpress, SiMongodb, SiTypescript, SiNextdotjs, SiAirta
 import Marquee from "react-fast-marquee";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
+import MagicBentoPanel from "./MagicBento/MagicBento";
 
 const frontendSkills = [
   { name: "React.js", icon: FaReact, color: "text-cyan-300" },
@@ -74,22 +75,23 @@ const SkillBar = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="rounded-3xl border border-white/10 bg-black/25 p-6 backdrop-blur-xl"
             >
-              <h3 className="mb-4 text-xl font-black text-white">{cat.title}</h3>
-              <div className="flex flex-wrap gap-2.5">
-                {cat.skills.map((skill) => (
-                  <span key={skill.name} className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-200">
-                    <skill.icon className={skill.color} />
-                    {skill.name}
-                  </span>
-                ))}
-              </div>
+              <MagicBentoPanel className="rounded-3xl border border-white/10 bg-black/25 p-6 backdrop-blur-xl">
+                <h3 className="mb-4 text-xl font-black text-white">{cat.title}</h3>
+                <div className="flex flex-wrap gap-2.5">
+                  {cat.skills.map((skill) => (
+                    <span key={skill.name} className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-200">
+                      <skill.icon className={skill.color} />
+                      {skill.name}
+                    </span>
+                  ))}
+                </div>
+              </MagicBentoPanel>
             </motion.div>
           ))}
         </div>
 
-        <div className="relative rounded-[2rem] border border-white/10 bg-black/25 p-5 md:p-6 backdrop-blur-xl overflow-hidden">
+        <MagicBentoPanel className="relative rounded-[2rem] border border-white/10 bg-black/25 p-5 md:p-6 backdrop-blur-xl overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-lime-400/5 via-transparent to-cyan-400/5" />
           <div className="relative z-10 mb-5 flex items-center justify-between">
             <h3 className="text-lg md:text-xl font-black uppercase tracking-[0.2em] text-white">
@@ -124,7 +126,7 @@ const SkillBar = () => {
               ))}
             </Marquee>
           </div>
-        </div>
+        </MagicBentoPanel>
       </div>
     </section>
   );

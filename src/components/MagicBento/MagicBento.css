@@ -1,0 +1,76 @@
+.magic-bento-panel {
+  --magic-glow-x: 50%;
+  --magic-glow-y: 50%;
+  --magic-glow-intensity: 0;
+  --magic-glow-color: 163, 230, 53;
+  position: relative;
+  isolation: isolate;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.magic-bento-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      260px circle at var(--magic-glow-x) var(--magic-glow-y),
+      rgba(var(--magic-glow-color), calc(var(--magic-glow-intensity) * 0.18)),
+      transparent 58%
+    );
+  opacity: 1;
+  transition: opacity 220ms ease;
+}
+
+.magic-bento-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      220px circle at var(--magic-glow-x) var(--magic-glow-y),
+      rgba(var(--magic-glow-color), calc(var(--magic-glow-intensity) * 0.75)),
+      rgba(var(--magic-glow-color), calc(var(--magic-glow-intensity) * 0.24)) 34%,
+      transparent 62%
+    );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.magic-bento-ripple {
+  position: absolute;
+  z-index: 3;
+  border-radius: 999px;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(163, 230, 53, 0.28), transparent 68%);
+  transform: translate(-50%, -50%) scale(0);
+  animation: magicBentoRipple 650ms ease-out forwards;
+}
+
+@keyframes magicBentoRipple {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magic-bento-panel {
+    transform: none !important;
+    will-change: auto;
+  }
+}
