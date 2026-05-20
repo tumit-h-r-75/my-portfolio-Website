@@ -7,6 +7,8 @@ const LetterGlitch = ({
   centerVignette = false,
   outerVignette = true,
   smooth = true,
+  updateRatio = 0.02,
+  maxDpr = 1.25,
   characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789'
 }) => {
   const canvasRef = useRef(null);
@@ -78,7 +80,7 @@ const LetterGlitch = ({
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
     const rect = parent.getBoundingClientRect();
 
     canvas.width = rect.width * dpr;
@@ -116,7 +118,7 @@ const LetterGlitch = ({
   const updateLetters = () => {
     if (!letters.current || letters.current.length === 0) return;
 
-    const updateCount = Math.max(1, Math.floor(letters.current.length * 0.05));
+    const updateCount = Math.max(1, Math.floor(letters.current.length * updateRatio));
 
     for (let i = 0; i < updateCount; i++) {
       const index = Math.floor(Math.random() * letters.current.length);
@@ -176,23 +178,39 @@ const LetterGlitch = ({
 
     context.current = canvas.getContext('2d');
     resizeCanvas();
-    animate();
+
+    let intervalId;
+    if (smooth) {
+      animate();
+    } else {
+      intervalId = window.setInterval(() => {
+        updateLetters();
+        drawLetters();
+      }, glitchSpeed);
+    }
 
     let resizeTimeout;
 
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        cancelAnimationFrame(animationRef.current);
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
         resizeCanvas();
-        animate();
+        if (smooth) {
+          animate();
+        }
       }, 100);
     };
 
     window.addEventListener('resize', handleResize);
 
     return () => {
-      cancelAnimationFrame(animationRef.current);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      window.clearInterval(intervalId);
       window.removeEventListener('resize', handleResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

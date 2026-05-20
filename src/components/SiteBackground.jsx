@@ -4,13 +4,23 @@ import LetterGlitch from "./LetterGlitch";
 
 const SiteBackground = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   // Device detect korar jonno (performance optimize)
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const checkMotion = () => setPrefersReducedMotion(motionQuery.matches);
+
     checkMobile();
+    checkMotion();
     window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    motionQuery.addEventListener("change", checkMotion);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      motionQuery.removeEventListener("change", checkMotion);
+    };
   }, []);
 
   return (
@@ -18,10 +28,12 @@ const SiteBackground = () => {
       <div className="absolute inset-0 opacity-80">
         <LetterGlitch
           glitchColors={["#17351f", "#65a30d", "#84cc16", "#bef264", "#22c55e"]}
-          glitchSpeed={isMobile ? 75 : 45}
+          glitchSpeed={prefersReducedMotion ? 700 : isMobile ? 180 : 120}
           centerVignette={false}
           outerVignette
-          smooth
+          smooth={false}
+          updateRatio={isMobile ? 0.008 : 0.012}
+          maxDpr={isMobile ? 1 : 1.15}
           characters="01<>[]{};:/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ"
           className="h-full w-full"
         />
@@ -34,11 +46,13 @@ const SiteBackground = () => {
       <div className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(163,230,53,${isMobile ? '0.1' : '0.14'}),transparent_62%)]`} />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.78))]" />
 
-      <motion.div
-        animate={{ y: ["-20%", "120%"], opacity: [0, 0.35, 0] }}
-        transition={{ duration: isMobile ? 7 : 5, repeat: Infinity, ease: "linear" }}
-        className="absolute left-0 right-0 h-32 bg-gradient-to-b from-transparent via-lime-300/10 to-transparent blur-sm"
-      />
+      {!prefersReducedMotion && !isMobile && (
+        <motion.div
+          animate={{ y: ["-20%", "120%"], opacity: [0, 0.28, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+          className="absolute left-0 right-0 h-32 bg-gradient-to-b from-transparent via-lime-300/10 to-transparent blur-sm"
+        />
+      )}
 
       <motion.div
         animate={{
@@ -61,7 +75,7 @@ const SiteBackground = () => {
         />
       )}
 
-      {[...Array(isMobile ? 2 : 5)].map((_, i) => (
+      {!prefersReducedMotion && [...Array(isMobile ? 1 : 3)].map((_, i) => (
         <motion.div
           key={i}
           initial={{ 
@@ -83,7 +97,7 @@ const SiteBackground = () => {
         />
       ))}
 
-      {[...Array(isMobile ? 6 : 14)].map((_, i) => (
+      {!prefersReducedMotion && [...Array(isMobile ? 3 : 7)].map((_, i) => (
         <motion.div
           key={i}
           initial={{ x: Math.random() * 100 + "vw", y: "105vh", opacity: 0 }}

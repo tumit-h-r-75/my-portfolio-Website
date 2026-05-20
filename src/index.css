@@ -7,6 +7,78 @@ body {
   overflow-x: hidden;
 }
 
+:where(button, a[href]) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(button, a[href]):not(:disabled) {
+  transition-property: scale, filter, box-shadow, background-color, border-color, color, transform;
+  transition-duration: 180ms;
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:where(button, a[href]):not(:disabled):active {
+  scale: 0.96;
+  filter: brightness(1.12);
+  animation: clickGlow 420ms ease-out;
+}
+
+.site-text-glitch :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, li, input, textarea) {
+  text-shadow: 0 0 0 rgba(163, 230, 53, 0);
+}
+
+.site-text-glitch :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, li):not(.social-icon-inner) {
+  animation: globalTextGlitch 5.5s steps(1, end) infinite;
+}
+
+.site-text-glitch :where(input, textarea):not(:focus) {
+  animation: globalTextGlitch 7s steps(1, end) infinite;
+}
+
+.site-text-glitch :where(button, a[href]):hover {
+  animation-duration: 1.9s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-text-glitch :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, li, input, textarea) {
+    animation: none !important;
+    text-shadow: none !important;
+  }
+}
+
+@keyframes globalTextGlitch {
+  0%,
+  88%,
+  100% {
+    text-shadow: 0 0 0 rgba(163, 230, 53, 0);
+    filter: none;
+  }
+  90% {
+    text-shadow:
+      1px 0 rgba(163, 230, 53, 0.45),
+      -1px 0 rgba(34, 211, 238, 0.22);
+    filter: brightness(1.08);
+  }
+  91% {
+    text-shadow:
+      -1px 0 rgba(163, 230, 53, 0.38),
+      1px 0 rgba(34, 211, 238, 0.18);
+  }
+  92% {
+    text-shadow: 0 0 8px rgba(163, 230, 53, 0.22);
+    filter: brightness(1.04);
+  }
+}
+
+@keyframes clickGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(163, 230, 53, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 0 16px rgba(163, 230, 53, 0);
+  }
+}
+
 .preloader-banner-glow {
   position: absolute;
   left: 50%;
@@ -174,4 +246,3 @@ body {
     transform: translateX(85%) rotate(15deg);
   }
 }
-

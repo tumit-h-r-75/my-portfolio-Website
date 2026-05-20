@@ -35,7 +35,7 @@ const RootApp = () => {
           <AnimatePresence>{isLoading && <Preloader onFinish={() => setIsLoading(false)} />}</AnimatePresence>
 
           {/* Main App Content - Transparent background rakte hobe */}
-          <div className='relative z-10 selection:bg-lime-400 selection:text-black'>
+          <div className='site-text-glitch relative z-10 selection:bg-lime-400 selection:text-black'>
             <RouterProvider router={router} />
           </div>
         </div>

@@ -143,12 +143,13 @@ const ElectricBorder = ({
     const baseFlatness = 0;
     const displacement = 60;
     const borderOffset = 60;
+    let isVisible = false;
 
     const updateSize = () => {
       const rect = container.getBoundingClientRect();
       const width = rect.width + borderOffset * 2;
       const height = rect.height + borderOffset * 2;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
       canvas.width = width * dpr;
       canvas.height = height * dpr;
@@ -160,10 +161,15 @@ const ElectricBorder = ({
     };
 
     let { width, height } = updateSize();
-    let lastDpr = Math.min(window.devicePixelRatio || 1, 2);
+    let lastDpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
     const drawElectricBorder = (currentTime) => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (!isVisible) {
+        animationRef.current = null;
+        return;
+      }
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       if (dpr !== lastDpr) {
         lastDpr = dpr;
         const newSize = updateSize();
@@ -191,7 +197,7 @@ const ElectricBorder = ({
       const maxRadius = Math.min(borderWidth, borderHeight) / 2;
       const radius = Math.min(borderRadius, maxRadius);
       const approximatePerimeter = 2 * (borderWidth + borderHeight) + 2 * Math.PI * radius;
-      const sampleCount = Math.floor(approximatePerimeter / 2);
+      const sampleCount = Math.floor(approximatePerimeter / 3);
 
       ctx.beginPath();
 
@@ -223,13 +229,29 @@ const ElectricBorder = ({
     });
 
     resizeObserver.observe(container);
-    animationRef.current = requestAnimationFrame(drawElectricBorder);
+
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animationRef.current) {
+          lastFrameTimeRef.current = performance.now();
+          animationRef.current = requestAnimationFrame(drawElectricBorder);
+        } else if (!isVisible && animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+          animationRef.current = null;
+        }
+      },
+      { rootMargin: '160px' },
+    );
+
+    intersectionObserver.observe(container);
 
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
       resizeObserver.disconnect();
+      intersectionObserver.disconnect();
     };
   }, [color, speed, chaos, borderRadius, octavedNoise, getRoundedRectPoint]);
 
