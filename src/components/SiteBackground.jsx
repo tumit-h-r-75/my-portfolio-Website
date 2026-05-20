@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import LetterGlitch from "./LetterGlitch";
 
 const SiteBackground = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -14,14 +15,35 @@ const SiteBackground = () => {
 
   return (
     <div className="fixed inset-0 -z-50 overflow-hidden bg-[#020202]">
-      {/* 1. Base Gradient - Mobile-e blur komiye optimize kora hoyeche */}
-      <div className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(163,230,53,${isMobile ? '0.03' : '0.05'}),transparent_80%)]`} />
+      <div className="absolute inset-0 opacity-80">
+        <LetterGlitch
+          glitchColors={["#17351f", "#65a30d", "#84cc16", "#bef264", "#22c55e"]}
+          glitchSpeed={isMobile ? 75 : 45}
+          centerVignette={false}
+          outerVignette
+          smooth
+          characters="01<>[]{};:/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+          className="h-full w-full"
+        />
+      </div>
 
-      {/* 2. Optimized Orbs - Mobile-e sudhu 2ta thakbe ebong blur kom thakbe */}
+      {/* Contrast layer - content readable rakhar jonno */}
+      <div className="absolute inset-0 bg-black/55" />
+
+      {/* Brand glow */}
+      <div className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(163,230,53,${isMobile ? '0.1' : '0.14'}),transparent_62%)]`} />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.78))]" />
+
+      <motion.div
+        animate={{ y: ["-20%", "120%"], opacity: [0, 0.35, 0] }}
+        transition={{ duration: isMobile ? 7 : 5, repeat: Infinity, ease: "linear" }}
+        className="absolute left-0 right-0 h-32 bg-gradient-to-b from-transparent via-lime-300/10 to-transparent blur-sm"
+      />
+
       <motion.div
         animate={{
           scale: [1, 1.1, 1],
-          opacity: [0.2, 0.4, 0.2],
+          opacity: [0.12, 0.24, 0.12],
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         className={`absolute -top-20 -left-20 bg-lime-500/10 rounded-full 
@@ -32,15 +54,14 @@ const SiteBackground = () => {
         <motion.div
           animate={{
             scale: [1.2, 1, 1.2],
-            opacity: [0.1, 0.3, 0.1],
+            opacity: [0.08, 0.18, 0.08],
           }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-lime-600/10 blur-[120px] rounded-full"
+          className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-emerald-500/10 blur-[120px] rounded-full"
         />
       )}
 
-      {/* 3. Floating Geometric Squares - Mobile-e shonkhya komano hoyeche */}
-      {[...Array(isMobile ? 3 : 6)].map((_, i) => (
+      {[...Array(isMobile ? 2 : 5)].map((_, i) => (
         <motion.div
           key={i}
           initial={{ 
@@ -54,16 +75,15 @@ const SiteBackground = () => {
             y: [null, "-10vh"]
           }}
           transition={{
-            duration: 25,
+            duration: 28,
             repeat: Infinity,
             ease: "linear",
           }}
-          className="absolute w-16 h-16 border border-lime-400/10 rounded-xl"
+          className="absolute w-16 h-16 border border-lime-400/5 rounded-xl"
         />
       ))}
 
-      {/* 4. Optimized Particles - Hardware Accelerated */}
-      {[...Array(isMobile ? 12 : 25)].map((_, i) => (
+      {[...Array(isMobile ? 6 : 14)].map((_, i) => (
         <motion.div
           key={i}
           initial={{ x: Math.random() * 100 + "vw", y: "105vh", opacity: 0 }}
@@ -72,25 +92,22 @@ const SiteBackground = () => {
             opacity: [0, 0.5, 0],
           }}
           transition={{
-            duration: isMobile ? 12 : 8, // Mobile-e slow jabe jate CPU load kom hoy
+            duration: isMobile ? 14 : 10,
             repeat: Infinity,
             delay: Math.random() * 5,
           }}
-          // will-change-transform property performance boost kore
-          className="absolute w-1 h-1 bg-lime-400 rounded-full shadow-[0_0_8px_#a3e635] will-change-transform"
+          className="absolute w-1 h-1 bg-lime-300/70 rounded-full shadow-[0_0_8px_#a3e635] will-change-transform"
         />
       ))}
 
-      {/* 5. Static Grid - Mobile-e grid move korbe na (Lag bypass) */}
       <div 
-        className="absolute inset-0 opacity-[0.07] pointer-events-none"
+        className="absolute inset-0 opacity-[0.045] pointer-events-none"
         style={{
           backgroundImage: `linear-gradient(#ffffff10 1px, transparent 1px), linear-gradient(90deg, #ffffff10 1px, transparent 1px)`,
           backgroundSize: isMobile ? '30px 30px' : '40px 40px'
         }}
       />
 
-      {/* 6. Noise Texture - Mobile-e opacity r-o komano hoyeche */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
     </div>
   );
