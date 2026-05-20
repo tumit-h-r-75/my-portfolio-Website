@@ -6,6 +6,7 @@ import { FaPhoneAlt, FaHome, FaUserAlt, FaCode, FaEnvelope, FaGithub, FaLinkedin
 import { useContext } from "react";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
+import DecryptedText from "./DecryptedText";
 
 const Footer = () => {
   const { scrollToSection, homeRef, aboutRef, skillRef, contactRef } = useContext(NavigateContext);
@@ -164,7 +165,19 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         <div className="footer-bottom pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-zinc-500 text-sm text-center md:text-left">
-            &copy; {new Date().getFullYear()} <span className="text-white font-bold">Tumit Hasan</span>. All rights reserved.
+            &copy; {new Date().getFullYear()}{" "}
+            <DecryptedText
+              text="Tumit Hasan"
+              animateOn="view"
+              sequential
+              revealDirection="start"
+              speed={40}
+              maxIterations={14}
+              parentClassName="text-white font-bold"
+              className="text-white"
+              encryptedClassName="text-lime-400"
+            />
+            . All rights reserved.
           </p>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" />

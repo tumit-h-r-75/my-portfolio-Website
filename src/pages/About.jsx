@@ -4,6 +4,7 @@ import { GiCricketBat } from "react-icons/gi";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import aboutImg from "../assets/myImg.png";
+import DecryptedText from "../components/DecryptedText";
 
 const About = () => {
   const { aboutRef } = useContext(NavigateContext);
@@ -25,7 +26,24 @@ const About = () => {
   ];
 
   const personalInfo = [
-    { icon: <FaUser />, label: "Name", value: "Tumit Hasan", link: null },
+    {
+      icon: <FaUser />,
+      label: "Name",
+      value: (
+        <DecryptedText
+          text="Tumit Hasan"
+          animateOn="view"
+          sequential
+          revealDirection="start"
+          speed={40}
+          maxIterations={14}
+          parentClassName="text-zinc-200 font-medium"
+          className="text-zinc-200"
+          encryptedClassName="text-lime-400"
+        />
+      ),
+      link: null,
+    },
     { icon: <FaGlobeAmericas />, label: "Nationality", value: "Bangladeshi", link: null },
     { icon: <FaMapMarkerAlt />, label: "Address", value: "Jashore, Bangladesh", link: "https://maps.google.com/?q=Jashore,Bangladesh" },
     { icon: <FaPhoneAlt />, label: "Phone", value: "+8801611960330", link: "tel:+8801611960330" },
@@ -95,7 +113,19 @@ const About = () => {
                 MERN Stack <span className="text-lime-400 italic">Developer</span>
               </h3>
               <p className="text-zinc-400 text-base md:text-lg leading-relaxed text-justify">
-                Hello! I'm <span className="text-white font-bold">Tumit Hasan</span>, a dedicated and results-driven MERN Stack Developer. I specialize in <span className="text-lime-400 font-semibold underline underline-offset-4 decoration-lime-400/30">React.js, Node.js, MongoDB, Express.js</span>, and <span className="text-lime-400 font-semibold">Tailwind CSS</span>.
+                Hello! I'm{" "}
+                <DecryptedText
+                  text="Tumit Hasan"
+                  animateOn="view"
+                  sequential
+                  revealDirection="start"
+                  speed={40}
+                  maxIterations={14}
+                  parentClassName="text-white font-bold"
+                  className="text-white"
+                  encryptedClassName="text-lime-400"
+                />
+                , a dedicated and results-driven MERN Stack Developer. I specialize in <span className="text-lime-400 font-semibold underline underline-offset-4 decoration-lime-400/30">React.js, Node.js, MongoDB, Express.js</span>, and <span className="text-lime-400 font-semibold">Tailwind CSS</span>.
                 <br /><br />
                 I love turning ideas into responsive, functional digital products. I focus on clean, maintainable code, and real-world solutions.
               </p>

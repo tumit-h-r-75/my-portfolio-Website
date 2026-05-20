@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import { Typewriter } from "react-simple-typewriter";
+import DecryptedText from "./DecryptedText";
 
 const Banner = () => {
     const { homeRef, contactRef, scrollToSection } = useContext(NavigateContext);
@@ -56,7 +57,19 @@ const Banner = () => {
                     </motion.h1>
                     
                     <motion.div variants={itemVariants} className="text-xl md:text-2xl text-zinc-400 font-medium mb-8">
-                        I am <span className="text-white font-bold">Tumit Hasan</span>, a{" "}
+                        I am{" "}
+                        <DecryptedText
+                            text="Tumit Hasan"
+                            animateOn="view"
+                            sequential
+                            revealDirection="start"
+                            speed={40}
+                            maxIterations={14}
+                            parentClassName="text-white font-bold"
+                            className="text-white"
+                            encryptedClassName="text-lime-400"
+                        />
+                        , a{" "}
                         <span className="text-lime-400 italic">
                             <Typewriter
                                 words={['MERN Stack Developer', 'Solution Architect', 'React Expert', 'Clean Code Enthusiast']}
