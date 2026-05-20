@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import SiteBackground from './components/SiteBackground'; // Import koro
 import Preloader from './components/Preloader';
+import ClickSpark from './components/ClickSpark';
 
 ReactGA.initialize("G-9QH68429Q0");
 ReactGA.send("pageview"); 
@@ -18,15 +19,27 @@ const RootApp = () => {
 
   return (
     <NavigateProvider>
-      {/* Background Section */}
-      <SiteBackground />
+      <ClickSpark
+        sparkColor="#a3e635"
+        sparkSize={12}
+        sparkRadius={24}
+        sparkCount={10}
+        duration={520}
+        easing="ease-out"
+        extraScale={1.15}
+      >
+        <div className="relative min-h-screen">
+          {/* Background Section */}
+          <SiteBackground />
 
-      <AnimatePresence>{isLoading && <Preloader onFinish={() => setIsLoading(false)} />}</AnimatePresence>
+          <AnimatePresence>{isLoading && <Preloader onFinish={() => setIsLoading(false)} />}</AnimatePresence>
 
-      {/* Main App Content - Transparent background rakte hobe */}
-      <div className='relative z-10 selection:bg-lime-400 selection:text-black'>
-        <RouterProvider router={router} />
-      </div>
+          {/* Main App Content - Transparent background rakte hobe */}
+          <div className='relative z-10 selection:bg-lime-400 selection:text-black'>
+            <RouterProvider router={router} />
+          </div>
+        </div>
+      </ClickSpark>
     </NavigateProvider>
   );
 };
