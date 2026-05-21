@@ -1,8 +1,9 @@
 import { Link } from "react-router";
 import { motion } from "framer-motion";
-import { FaArrowRight, FaRocket, FaCode, FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { FaArrowRight, FaCode, FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import ElectricBorder from "./ElectricBorder/ElectricBorder";
 import MagicBentoPanel from "./MagicBento/MagicBento";
+import DecryptLabel from "./DecryptLabel";
 
 const ProjectCard = ({ project }) => {
   // Normalize techStack data
@@ -73,10 +74,6 @@ const ProjectCard = ({ project }) => {
                   </a>
                 )}
               </div>
-              
-              <div className="p-4 bg-lime-400 rounded-3xl text-black shadow-[0_0_30px_rgba(163,230,53,0.4)] group-hover:rotate-12 transition-transform duration-500">
-                <FaRocket size={20} />
-              </div>
             </div>
           </div>
 
@@ -91,7 +88,11 @@ const ProjectCard = ({ project }) => {
               
               <div className="space-y-1">
                 <h3 className="text-3xl md:text-4xl font-black text-white leading-tight tracking-tight group-hover:text-lime-400 transition-colors duration-300">
-                  {project.name}
+                  <DecryptLabel
+                    text={project.name}
+                    parentClassName="text-white font-black group-hover:text-lime-400"
+                    className="text-white group-hover:text-lime-400"
+                  />
                 </h3>
                 <div className="h-1 w-0 group-hover:w-20 bg-lime-400 transition-all duration-500" />
               </div>
@@ -106,7 +107,7 @@ const ProjectCard = ({ project }) => {
                   to={`/projects/${project.id}`}
                   className="flex items-center gap-3 bg-white/5 backdrop-blur-md border border-white/10 px-8 py-4 rounded-[1.5rem] text-white font-bold group/btn hover:bg-lime-400 hover:text-black hover:border-lime-400 transition-all duration-500"
                 >
-                  EXPLORE CASE STUDY
+                  <DecryptLabel text="EXPLORE CASE STUDY" animateOn="hover" sequential={false} maxIterations={8} speed={35} parentClassName="text-white font-bold" className="text-white" />
                   <FaArrowRight className="-rotate-45 group-hover/btn:rotate-0 transition-transform duration-500" />
                 </Link>
                 

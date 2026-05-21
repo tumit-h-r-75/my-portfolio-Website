@@ -13,6 +13,7 @@ import { Link, useLocation } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png";
 import { NavigateContext } from "../context/NavigateProvider";
+import DecryptLabel from "./DecryptLabel";
 
 const Navbar = () => {
   const { scrollToSection, homeRef, aboutRef, skillRef, contactRef, portfolioRef } = useContext(NavigateContext);
@@ -71,7 +72,15 @@ const Navbar = () => {
               <span className="text-lime-400 group-hover:-translate-y-1 transition-transform duration-300">
                 {item.icon}
               </span>
-              {item.label}
+              <DecryptLabel
+                text={item.label}
+                animateOn="hover"
+                sequential={false}
+                maxIterations={8}
+                speed={35}
+                parentClassName="text-inherit group-hover:text-white"
+                className="text-inherit group-hover:text-white"
+              />
               <span className="absolute bottom-0 left-1/2 w-0 h-[2.5px] bg-lime-400 transition-all duration-300 group-hover:w-full group-hover:left-0" />
             </button>
           ))}
@@ -86,7 +95,7 @@ const Navbar = () => {
             target="_blank"
             className="hidden sm:flex items-center gap-2 bg-lime-400 text-black px-6 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-white transition-colors"
           >
-            Resume <FaDownload />
+            <DecryptLabel text="Resume" animateOn="hover" sequential={false} maxIterations={6} speed={30} parentClassName="text-black" className="text-black" encryptedClassName="text-zinc-600" /> <FaDownload />
           </motion.a>
 
           {/* Toggle Button */}
@@ -131,7 +140,15 @@ const Navbar = () => {
                     className="flex items-center gap-4 text-2xl font-bold uppercase tracking-tighter text-zinc-400 hover:text-lime-400 transition-colors text-left"
                   >
                     <span className="text-lime-400 text-xl">{item.icon}</span>
-                    {item.label}
+                    <DecryptLabel
+                text={item.label}
+                animateOn="hover"
+                sequential={false}
+                maxIterations={8}
+                speed={35}
+                parentClassName="text-inherit group-hover:text-white"
+                className="text-inherit group-hover:text-white"
+              />
                   </motion.button>
                 ))}
                 
@@ -142,7 +159,7 @@ const Navbar = () => {
                   href="YOUR_RESUME_LINK"
                   className="mt-10 bg-lime-400 text-black py-4 rounded-xl font-black text-center text-sm uppercase flex items-center justify-center gap-2"
                 >
-                  Download Resume <FaDownload />
+                  <DecryptLabel text="Download Resume" animateOn="view" parentClassName="text-black font-black" className="text-black" encryptedClassName="text-zinc-600" /> <FaDownload />
                 </motion.a>
               </div>
             </motion.div>

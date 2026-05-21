@@ -11,6 +11,7 @@ import {
   FaLayerGroup,
 } from "react-icons/fa";
 import projects from "../components/data/projects";
+import DecryptLabel from "../components/DecryptLabel";
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -19,7 +20,9 @@ const ProjectDetails = () => {
   if (!project) {
     return (
       <section className="px-6 py-24 text-center">
-        <h2 className="mb-4 text-3xl font-black text-white">Project not found</h2>
+        <h2 className="mb-4 text-3xl font-black text-white">
+          <DecryptLabel text="Project not found" parentClassName="text-white font-black" className="text-white" />
+        </h2>
         <p className="mb-8 text-zinc-400">The project you are looking for does not exist.</p>
         <Link
           to="/"
@@ -71,14 +74,14 @@ const ProjectDetails = () => {
               <span className="mr-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-lime-400 text-black align-middle text-lg">
                 <FaLaptopCode />
               </span>
-              {project.name}
+              <DecryptLabel text={project.name} parentClassName="text-white font-black" className="text-white" />
             </h1>
 
             <p className="text-[16px] leading-relaxed text-zinc-300 md:text-lg">{project.description}</p>
 
             <div className="rounded-2xl border border-white/15 bg-white/[0.04] p-5 backdrop-blur-xl">
               <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-lime-300">
-                <FaTools /> Tech Stack
+                <FaTools /> <DecryptLabel text="Tech Stack" parentClassName="text-lime-300 font-bold" className="text-lime-300" />
               </h2>
               <div className="flex flex-wrap gap-2.5">
                 {techItems.map((tech, idx) => (
@@ -107,14 +110,14 @@ const ProjectDetails = () => {
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           <div className="rounded-2xl border border-white/15 bg-white/[0.04] p-5 backdrop-blur-xl">
             <h2 className="mb-3 flex items-center gap-2 text-lg font-bold text-lime-300">
-              <FaBug /> Challenges Faced
+              <FaBug /> <DecryptLabel text="Challenges Faced" parentClassName="text-lime-300 font-bold" className="text-lime-300" />
             </h2>
             <p className="leading-relaxed text-zinc-300">{project.challenges}</p>
           </div>
 
           <div className="rounded-2xl border border-white/15 bg-white/[0.04] p-5 backdrop-blur-xl">
             <h2 className="mb-3 flex items-center gap-2 text-lg font-bold text-lime-300">
-              <FaRocket /> Future Plans
+              <FaRocket /> <DecryptLabel text="Future Plans" parentClassName="text-lime-300 font-bold" className="text-lime-300" />
             </h2>
             <p className="leading-relaxed text-zinc-300">{project.futurePlans}</p>
           </div>

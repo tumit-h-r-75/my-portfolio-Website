@@ -4,7 +4,7 @@ import { GiCricketBat } from "react-icons/gi";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import aboutImg from "../assets/myImg.png";
-import DecryptedText from "../components/DecryptedText";
+import DecryptLabel, { DecryptSplitHeading } from "../components/DecryptLabel";
 import MagicBentoPanel from "../components/MagicBento/MagicBento";
 
 const About = () => {
@@ -31,16 +31,11 @@ const About = () => {
       icon: <FaUser />,
       label: "Name",
       value: (
-        <DecryptedText
+        <DecryptLabel
           text="Tumit Hasan"
-          animateOn="view"
-          sequential
           revealDirection="start"
-          speed={40}
-          maxIterations={14}
           parentClassName="text-zinc-200 font-medium"
           className="text-zinc-200"
-          encryptedClassName="text-lime-400"
         />
       ),
       link: null,
@@ -81,7 +76,7 @@ const About = () => {
             transition={{ duration: 0.6 }}
             className="text-4xl sm:text-5xl md:text-8xl font-black text-white uppercase tracking-tighter"
           >
-            ABOUT <span className="text-lime-400">ME</span>
+            <DecryptSplitHeading before="ABOUT " highlight="ME" />
           </motion.h2>
           <div className="w-16 md:w-24 h-1 bg-lime-400 mx-auto mt-4 rounded-full shadow-[0_0_15px_#a3e635]" />
         </div>
@@ -111,20 +106,15 @@ const About = () => {
           >
             <div className="space-y-4">
               <h3 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white leading-tight">
-                MERN Stack <span className="text-lime-400 italic">Developer</span>
+                <DecryptSplitHeading before="MERN Stack " highlight="Developer" highlightClassName="text-lime-400 italic" />
               </h3>
               <p className="text-zinc-400 text-base md:text-lg leading-relaxed text-justify">
                 Hello! I'm{" "}
-                <DecryptedText
+                <DecryptLabel
                   text="Tumit Hasan"
-                  animateOn="view"
-                  sequential
                   revealDirection="start"
-                  speed={40}
-                  maxIterations={14}
                   parentClassName="text-white font-bold"
                   className="text-white"
-                  encryptedClassName="text-lime-400"
                 />
                 , a dedicated and results-driven MERN Stack Developer. I specialize in <span className="text-lime-400 font-semibold underline underline-offset-4 decoration-lime-400/30">React.js, Node.js, MongoDB, Express.js</span>, and <span className="text-lime-400 font-semibold">Tailwind CSS</span>.
                 <br /><br />
@@ -169,7 +159,7 @@ const About = () => {
         {/* --- 3. Interests Section --- */}
         <div className="mt-20 md:mt-32">
           <h3 className="text-2xl md:text-5xl font-black text-white text-center uppercase tracking-tighter mb-8 md:mb-12">
-            My <span className="text-lime-400">Interests</span>
+            <DecryptSplitHeading before="My " highlight="Interests" />
           </h3>
 
           <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-4 md:gap-8">
@@ -186,7 +176,17 @@ const About = () => {
                 className="aspect-square sm:w-28 sm:h-28 md:w-36 md:h-36 bg-zinc-900 border border-white/10 flex flex-col items-center justify-center rounded-2xl md:rounded-[2.5rem] text-white cursor-pointer transition-all duration-300"
               >
                 <div className="text-3xl md:text-4xl mb-2 md:mb-3">{interest.icon}</div>
-                <p className="text-[10px] md:text-sm font-black uppercase tracking-widest">{interest.label}</p>
+                <p className="text-[10px] md:text-sm font-black uppercase tracking-widest">
+                  <DecryptLabel
+                    text={interest.label}
+                    animateOn="hover"
+                    sequential={false}
+                    maxIterations={8}
+                    speed={35}
+                    parentClassName="text-white"
+                    className="text-white"
+                  />
+                </p>
               </motion.div>
             ))}
           </div>

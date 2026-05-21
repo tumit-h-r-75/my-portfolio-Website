@@ -3,6 +3,7 @@ import ProjectCard from "./ProjectCard";
 import projects from "./data/projects";
 import { NavigateContext } from "../context/NavigateProvider";
 import { motion } from "framer-motion";
+import DecryptLabel from "./DecryptLabel";
 
 const ProjectsSection = () => {
   const { portfolioRef } = useContext(NavigateContext);
@@ -20,7 +21,7 @@ const ProjectsSection = () => {
         viewport={{ once: true }}
         className="text-3xl sm:text-4xl md:text-5xl font-bold text-lime-400 text-center mb-12 uppercase tracking-wide"
       >
-        Projects
+        <DecryptLabel text="Projects" parentClassName="text-lime-400 font-bold" className="text-lime-400" />
         <div className="w-20 sm:w-48 md:w-80 h-1 bg-lime-400 mt-2 mx-auto rounded-full" />
       </motion.h2>
 

@@ -6,7 +6,7 @@ import { FaPhoneAlt, FaHome, FaUserAlt, FaCode, FaEnvelope, FaGithub, FaLinkedin
 import { useContext } from "react";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
-import DecryptedText from "./DecryptedText";
+import DecryptLabel from "./DecryptLabel";
 
 const Footer = () => {
   const { scrollToSection, homeRef, aboutRef, skillRef, contactRef } = useContext(NavigateContext);
@@ -86,7 +86,7 @@ const Footer = () => {
             className="md:col-span-3"
           >
             <h3 className="text-white font-bold text-lg mb-6 uppercase tracking-widest italic border-l-4 border-lime-400 pl-3">
-              Navigation
+              <DecryptLabel text="Navigation" parentClassName="text-white font-bold" className="text-white" />
             </h3>
             <ul className="space-y-4">
               {[
@@ -101,7 +101,17 @@ const Footer = () => {
                     className="group flex items-center gap-3 text-zinc-400 hover:text-lime-400 transition-all duration-300"
                   >
                     <span className="text-sm group-hover:scale-125 transition-transform">{item.icon}</span>
-                    <span className="font-medium">{item.label}</span>
+                    <span className="font-medium">
+                      <DecryptLabel
+                        text={item.label}
+                        animateOn="hover"
+                        sequential={false}
+                        maxIterations={8}
+                        speed={35}
+                        parentClassName="text-inherit group-hover:text-lime-400"
+                        className="text-inherit group-hover:text-lime-400"
+                      />
+                    </span>
                   </button>
                 </li>
               ))}
@@ -116,7 +126,7 @@ const Footer = () => {
             className="md:col-span-4"
           >
             <h3 className="text-white font-bold text-lg mb-6 uppercase tracking-widest italic border-l-4 border-lime-400 pl-3">
-              Connect Directly
+              <DecryptLabel text="Connect Directly" parentClassName="text-white font-bold" className="text-white" />
             </h3>
             <div className="space-y-5">
               {/* Location Link (Google Maps) */}
@@ -166,22 +176,19 @@ const Footer = () => {
         <div className="footer-bottom pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-zinc-500 text-sm text-center md:text-left">
             &copy; {new Date().getFullYear()}{" "}
-            <DecryptedText
+            <DecryptLabel
               text="Tumit Hasan"
-              animateOn="view"
-              sequential
               revealDirection="start"
-              speed={40}
-              maxIterations={14}
               parentClassName="text-white font-bold"
               className="text-white"
-              encryptedClassName="text-lime-400"
             />
             . All rights reserved.
           </p>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" />
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Available for hire</span>
+            <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+              <DecryptLabel text="Available for hire" parentClassName="text-zinc-400" className="text-zinc-400" encryptedClassName="text-lime-400/70" />
+            </span>
           </div>
         </div>
       </div>

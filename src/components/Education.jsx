@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
+import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
 
 const Education = () => {
   const { educationRef } = useContext(NavigateContext);
@@ -35,10 +36,12 @@ const Education = () => {
             className="flex items-center gap-2 text-lime-400 mb-4"
           >
             <div className="w-10 h-[1px] bg-lime-400"></div>
-            <span className="text-sm font-bold tracking-[0.3em] uppercase">Qualifications</span>
+            <span className="text-sm font-bold tracking-[0.3em] uppercase">
+              <DecryptLabel text="Qualifications" parentClassName="text-lime-400" className="text-lime-400" />
+            </span>
           </motion.div>
           <h2 className="text-4xl md:text-6xl font-extrabold text-white leading-tight">
-            Education<span className="text-lime-400">.</span>
+            <DecryptSplitHeading before="Education" highlight="." highlightClassName="text-lime-400" />
           </h2>
         </div>
 
@@ -58,7 +61,11 @@ const Education = () => {
                 <div className="space-y-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <h3 className="text-2xl md:text-4xl font-bold text-gray-100 group-hover:text-lime-400 transition-colors duration-300">
-                            Diploma in Computer Science <br /> & Technology
+                            <DecryptLabel
+                              text="Diploma in Computer Science & Technology"
+                              parentClassName="text-gray-100 font-bold group-hover:text-lime-400"
+                              className="text-gray-100 group-hover:text-lime-400"
+                            />
                         </h3>
                         <div className="text-lime-400 font-mono text-lg flex items-center gap-2 bg-lime-400/5 px-4 py-1 rounded-full border border-lime-400/20 w-fit">
                             <FaCalendarAlt size={14}/> 2022 — 2025
@@ -104,7 +111,9 @@ const Education = () => {
                     </div>
                     <div>
                         <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">Institute</p>
-                        <p className="text-white font-bold leading-tight">Satkhira Govt <br /> Polytechnic Institute</p>
+                        <p className="text-white font-bold leading-tight">
+                          <DecryptLabel text="Satkhira Govt Polytechnic Institute" parentClassName="text-white font-bold" className="text-white" />
+                        </p>
                     </div>
                 </div>
 

@@ -15,6 +15,7 @@ import Marquee from "react-fast-marquee";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import MagicBentoPanel from "./MagicBento/MagicBento";
+import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
 
 const frontendSkills = [
   { name: "React.js", icon: FaReact, color: "text-cyan-300" },
@@ -56,7 +57,7 @@ const SkillBar = () => {
             viewport={{ once: true }}
             className="text-4xl md:text-6xl font-black text-white uppercase tracking-tight"
           >
-            Tech <span className="text-lime-400">Skills</span>
+            <DecryptSplitHeading before="Tech " highlight="Skills" />
           </motion.h2>
           <p className="mx-auto mt-5 max-w-2xl text-sm md:text-base text-zinc-400">
             Modern frontend, backend, and CMS workflow focused on performance and clean architecture.
@@ -77,7 +78,9 @@ const SkillBar = () => {
               transition={{ delay: i * 0.1 }}
             >
               <MagicBentoPanel className="rounded-3xl border border-white/10 bg-black/25 p-6 backdrop-blur-xl">
-                <h3 className="mb-4 text-xl font-black text-white">{cat.title}</h3>
+                <h3 className="mb-4 text-xl font-black text-white">
+                  <DecryptLabel text={cat.title} parentClassName="text-white font-black" className="text-white" />
+                </h3>
                 <div className="flex flex-wrap gap-2.5">
                   {cat.skills.map((skill) => (
                     <span key={skill.name} className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-200">
@@ -95,7 +98,7 @@ const SkillBar = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-lime-400/5 via-transparent to-cyan-400/5" />
           <div className="relative z-10 mb-5 flex items-center justify-between">
             <h3 className="text-lg md:text-xl font-black uppercase tracking-[0.2em] text-white">
-              Skill <span className="text-lime-400">Marquee</span>
+              <DecryptSplitHeading before="Skill " highlight="Marquee" />
             </h3>
           </div>
 

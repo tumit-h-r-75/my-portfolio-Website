@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import MagicBentoPanel from "../components/MagicBento/MagicBento";
+import DecryptLabel, { DecryptSplitHeading } from "../components/DecryptLabel";
 
 const Contact = () => {
   const { contactRef } = useContext(NavigateContext);
@@ -92,7 +93,7 @@ const Contact = () => {
           viewport={{ once: true }}
           className="text-2xl sm:text-3xl md:text-5xl font-bold text-white uppercase tracking-tight"
         >
-          Let’s Work <span className="text-lime-400 font-light italic">Together</span>
+          <DecryptSplitHeading before="Let's Work " highlight="Together" highlightClassName="text-lime-400 font-light italic" />
         </motion.h2>
         <div className="w-16 md:w-20 h-1 bg-lime-400 mt-3 md:mt-4" />
       </div>
@@ -223,7 +224,9 @@ const Contact = () => {
               type="submit"
               className="w-full sm:w-max px-8 py-3.5 md:px-10 md:py-4 bg-lime-400 hover:bg-lime-500 text-black font-bold text-xs md:text-sm uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-lime-900/20"
             >
-              <span>Send Message</span>
+              <span>
+                <DecryptLabel text="Send Message" animateOn="hover" sequential={false} maxIterations={8} speed={35} parentClassName="text-black font-bold" className="text-black" encryptedClassName="text-zinc-600" />
+              </span>
               <FaPaperPlane className="text-xs shrink-0" />
             </motion.button>
           </MagicBentoPanel>

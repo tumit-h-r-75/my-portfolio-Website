@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import { Typewriter } from "react-simple-typewriter";
-import DecryptedText from "./DecryptedText";
+import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
 import MagicBentoPanel from "./MagicBento/MagicBento";
 
 const Banner = () => {
@@ -47,28 +47,33 @@ const Banner = () => {
                         variants={itemVariants}
                         className="inline-block px-4 py-1.5 rounded-full bg-lime-400/10 border border-lime-400/20 text-lime-400 text-sm font-bold tracking-widest uppercase mb-6"
                     >
-                        Available for Freelance
+                        <DecryptLabel
+                            text="Available for Freelance"
+                            parentClassName="text-lime-400"
+                            className="text-lime-400"
+                        />
                     </motion.span>
 
                     <motion.h1 
                         variants={itemVariants}
                         className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-6 leading-[1.1] tracking-tighter"
                     >
-                        I Build <span className="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-emerald-500">Digital</span> <br /> Masterpieces.
+                        <DecryptSplitHeading
+                            before="I Build "
+                            highlight="Digital"
+                            highlightClassName="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-emerald-500"
+                        />
+                        <br />
+                        <DecryptLabel text="Masterpieces." parentClassName="text-white" className="text-white" />
                     </motion.h1>
                     
                     <motion.div variants={itemVariants} className="text-xl md:text-2xl text-zinc-400 font-medium mb-8">
                         I am{" "}
-                        <DecryptedText
+                        <DecryptLabel
                             text="Tumit Hasan"
-                            animateOn="view"
-                            sequential
                             revealDirection="start"
-                            speed={40}
-                            maxIterations={14}
                             parentClassName="text-white font-bold"
                             className="text-white"
-                            encryptedClassName="text-lime-400"
                         />
                         , a{" "}
                         <span className="text-lime-400 italic">
@@ -97,7 +102,9 @@ const Banner = () => {
                             onClick={() => scrollToSection(contactRef)}
                             className="relative group px-10 py-4 bg-lime-400 text-black font-black rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(163,230,53,0.5)]"
                         >
-                            <span className="relative z-10">HIRE ME NOW</span>
+                            <span className="relative z-10">
+                                <DecryptLabel text="HIRE ME NOW" parentClassName="text-black font-black" className="text-black" encryptedClassName="text-zinc-600" />
+                            </span>
                             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                         </MagicBentoPanel>
                         
@@ -107,7 +114,8 @@ const Banner = () => {
                             target="_blank"
                             className="flex items-center gap-3 px-8 py-4 border border-zinc-800 text-white font-bold rounded-xl hover:bg-zinc-900 transition-all duration-300"
                         >
-                            Get Resume <FaDownload className="text-lime-400 text-sm" />
+                            <DecryptLabel text="Get Resume" parentClassName="text-white font-bold" className="text-white" />{" "}
+                            <FaDownload className="text-lime-400 text-sm" />
                         </MagicBentoPanel>
                     </motion.div>
 
@@ -154,7 +162,9 @@ const Banner = () => {
                             {/* Floating Stats or Glass Badge */}
                             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[80%] backdrop-blur-xl bg-white/5 border border-white/10 p-4 rounded-2xl text-center">
                                 <p className="text-xs text-zinc-400 uppercase font-bold tracking-[0.2em] mb-1">Experience</p>
-                                <p className="text-white font-black text-xl">1+ Year Product</p>
+                                <p className="text-white font-black text-xl">
+                                    <DecryptLabel text="1+ Year Product" parentClassName="text-white font-black" className="text-white" />
+                                </p>
                             </div>
                         </MagicBentoPanel>
 

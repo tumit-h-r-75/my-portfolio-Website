@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import DecryptLabel from "./DecryptLabel";
 import bannerImage from "../assets/myImg.png";
 
 const Preloader = ({ onFinish }) => {
@@ -73,10 +74,20 @@ const Preloader = ({ onFinish }) => {
 
             <div className="absolute inset-x-0 bottom-0 p-5 md:p-7">
               <h2 className="preloader-text-pop text-2xl font-black tracking-[0.18em] text-white md:text-3xl">
-                TUMIT HASAN
+                <DecryptLabel
+                  text="TUMIT HASAN"
+                  revealDirection="start"
+                  parentClassName="text-white font-black tracking-[0.18em]"
+                  className="text-white"
+                />
               </h2>
               <p className="preloader-subtext-pop mt-1 text-xs uppercase tracking-[0.34em] text-zinc-300">
-                MERN Stack Developer
+                <DecryptLabel
+                  text="MERN Stack Developer"
+                  revealDirection="end"
+                  parentClassName="text-zinc-300 uppercase tracking-[0.34em]"
+                  className="text-zinc-300"
+                />
               </p>
 
               <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-zinc-800/90">
