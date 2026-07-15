@@ -68,26 +68,23 @@ const StepCard = ({ step, index }) => (
 );
 
 /**
- * Builds a connector matching the reference site's shape: a long vertical
- * drop down the outgoing card's rail, then one rounded turn into a single
- * horizontal sweep across to the next card's rail (not a symmetric
- * horizontal-vertical-horizontal elbow).
+ * Builds a connector between the CENTERS of two consecutive cards: a long
+ * vertical drop, one rounded turn, then a horizontal sweep that runs straight
+ * through the next card's own center. Since cards paint above this layer,
+ * the segment "inside" each card is hidden by its opaque background, giving
+ * the illusion that the line dives through the middle of every card and
+ * re-emerges on the other side, matching the reference site.
  */
-const buildConnector = (a, b, isLeftToRight, radius) => {
-  const startX = isLeftToRight ? a.right : a.left;
-  const endX = isLeftToRight ? b.left : b.right;
-  const startY = a.midY;
-  const endY = b.midY;
-
-  const vSign = endY >= startY ? 1 : -1;
-  const hSign = endX >= startX ? 1 : -1;
-  const r = Math.max(0, Math.min(radius, Math.abs(endY - startY) - 1, Math.abs(endX - startX) - 1));
+const buildConnector = (aX, aY, bX, bY, radius) => {
+  const vSign = bY >= aY ? 1 : -1;
+  const hSign = bX >= aX ? 1 : -1;
+  const r = Math.max(0, Math.min(radius, Math.abs(bY - aY) - 1, Math.abs(bX - aX) - 1));
 
   const d = [
-    `M ${startX} ${startY}`,
-    `L ${startX} ${endY - r * vSign}`,
-    `Q ${startX} ${endY} ${startX + r * hSign} ${endY}`,
-    `L ${endX} ${endY}`,
+    `M ${aX} ${aY}`,
+    `L ${aX} ${bY - r * vSign}`,
+    `Q ${aX} ${bY} ${aX + r * hSign} ${bY}`,
+    `L ${bX} ${bY}`,
   ].join(" ");
 
   return { d };
@@ -135,8 +132,7 @@ const Workflow = () => {
         if (!el) return null;
         const r = el.getBoundingClientRect();
         return {
-          left: r.left - containerRect.left,
-          right: r.right - containerRect.left,
+          midX: r.left - containerRect.left + r.width / 2,
           midY: r.top - containerRect.top + r.height / 2,
         };
       });
@@ -146,8 +142,7 @@ const Workflow = () => {
         const a = rects[i];
         const b = rects[i + 1];
         if (!a || !b) continue;
-        const isLeftToRight = i % 2 === 0;
-        next.push(buildConnector(a, b, isLeftToRight, 48));
+        next.push(buildConnector(a.midX, a.midY, b.midX, b.midY, 48));
       }
       setConnectors(next);
 
@@ -224,7 +219,7 @@ const Workflow = () => {
 
         {pathLength > 0 && (
           <div
-            className="absolute z-10"
+            className="absolute"
             style={{
               left: rocket.x,
               top: rocket.y,
