@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect, useMemo } from 'react';
 import './BorderGlow.css';
 
 /** Site accent theme for BorderGlow: lime/cyan/green mesh matching the brand color. */
@@ -72,6 +72,7 @@ const BorderGlow = ({
   fillOpacity = 0.5,
 }) => {
   const cardRef = useRef(null);
+  const throttleRef = useRef(null);
 
   const getCenterOfElement = useCallback((el) => {
     const { width, height } = el.getBoundingClientRect();
@@ -115,6 +116,14 @@ const BorderGlow = ({
     card.style.setProperty('--cursor-angle', `${angle.toFixed(3)}deg`);
   }, [getEdgeProximity, getCursorAngle]);
 
+  const throttledPointerMove = useCallback((e) => {
+    if (throttleRef.current) return;
+    handlePointerMove(e);
+    throttleRef.current = setTimeout(() => {
+      throttleRef.current = null;
+    }, 16);
+  }, [handlePointerMove]);
+
   useEffect(() => {
     if (!animated || !cardRef.current) return;
     const card = cardRef.current;
@@ -141,7 +150,7 @@ const BorderGlow = ({
   return (
     <div
       ref={cardRef}
-      onPointerMove={handlePointerMove}
+      onPointerMove={throttledPointerMove}
       className={`border-glow-card ${className}`}
       style={{
         '--card-bg': backgroundColor,
