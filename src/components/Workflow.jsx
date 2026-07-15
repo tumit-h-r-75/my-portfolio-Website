@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaLightbulb,
@@ -66,7 +66,83 @@ const StepCard = ({ step, index }) => (
   </BorderGlow>
 );
 
+/** Builds a rounded elbow connector path between the facing edges of two cards. */
+const buildConnector = (a, b, isLeftToRight, radius) => {
+  const startX = isLeftToRight ? a.right : a.left;
+  const endX = isLeftToRight ? b.left : b.right;
+  const startY = a.midY;
+  const endY = b.midY;
+  const midX = (startX + endX) / 2;
+  const sign = endY >= startY ? 1 : -1;
+  const r = Math.min(radius, Math.abs(endY - startY) / 2, Math.abs(midX - startX) || radius);
+  const bendX1 = isLeftToRight ? midX - r : midX + r;
+  const bendX2 = isLeftToRight ? midX + r : midX - r;
+
+  const d = [
+    `M ${startX} ${startY}`,
+    `L ${bendX1} ${startY}`,
+    `Q ${midX} ${startY} ${midX} ${startY + r * sign}`,
+    `L ${midX} ${endY - r * sign}`,
+    `Q ${midX} ${endY} ${bendX2} ${endY}`,
+    `L ${endX} ${endY}`,
+  ].join(" ");
+
+  return { d, markerX: midX, markerY: (startY + endY) / 2 };
+};
+
 const Workflow = () => {
+  const containerRef = useRef(null);
+  const cardRefs = useRef([]);
+  const recomputeRef = useRef(() => {});
+  const [connectors, setConnectors] = useState([]);
+  const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) return undefined;
+
+    const recompute = () => {
+      const containerRect = container.getBoundingClientRect();
+      setSvgSize({ width: containerRect.width, height: containerRect.height });
+
+      const rects = cardRefs.current.map((el) => {
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return {
+          left: r.left - containerRect.left,
+          right: r.right - containerRect.left,
+          midY: r.top - containerRect.top + r.height / 2,
+        };
+      });
+
+      const next = [];
+      for (let i = 0; i < rects.length - 1; i++) {
+        const a = rects[i];
+        const b = rects[i + 1];
+        if (!a || !b) continue;
+        const isLeftToRight = i % 2 === 0;
+        const connector = buildConnector(a, b, isLeftToRight, 28);
+        next.push({ ...connector, flip: !isLeftToRight });
+      }
+      setConnectors(next);
+    };
+
+    recomputeRef.current = recompute;
+    recompute();
+    const ro = new ResizeObserver(recompute);
+    ro.observe(container);
+    window.addEventListener("resize", recompute);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", recompute);
+    };
+  }, []);
+
+  // The entrance slide (x transform) temporarily shifts each card's measured
+  // position; re-measure once it settles so the connector stays aligned.
+  const handleCardAnimationComplete = () => recomputeRef.current();
+
   return (
     <div className="mb-20 md:mb-28">
       <SectionHeading kicker="My Process" before="How I Build " highlight="Projects" align="center" />
@@ -97,51 +173,75 @@ const Workflow = () => {
         ))}
       </div>
 
-      {/* Desktop: zigzag alternating timeline */}
-      <div className="hidden md:grid grid-cols-[1fr_auto_1fr] gap-x-10">
-        {steps.map((step, i) => {
-          const isLeft = i % 2 === 0;
-          return (
-            <Fragment key={step.title}>
-              <div className="py-6 flex items-center justify-end">
-                {isLeft && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="w-full max-w-md"
-                  >
-                    <StepCard step={step} index={i} />
-                  </motion.div>
-                )}
-              </div>
+      {/* Desktop: zigzag timeline with a measured, rounded connector path */}
+      <div ref={containerRef} className="hidden md:block relative">
+        <svg
+          className="absolute top-0 left-0 pointer-events-none"
+          width={svgSize.width}
+          height={svgSize.height}
+          style={{ overflow: "visible" }}
+        >
+          {connectors.map((c, i) => (
+            <path key={i} d={c.d} fill="none" stroke="#52525b" strokeWidth="2" strokeDasharray="7 7" />
+          ))}
+        </svg>
 
-              <div className="flex flex-col items-center">
-                <div className="mt-6 w-11 h-11 rounded-full bg-lime-400 text-black font-black flex items-center justify-center shadow-[0_0_20px_rgba(163,230,53,0.4)] shrink-0">
-                  {i + 1}
+        {connectors.map((c, i) => (
+          <div
+            key={i}
+            className="absolute z-10 w-11 h-11 rounded-full bg-lime-400 border-4 border-black flex items-center justify-center text-black shadow-[0_0_20px_rgba(163,230,53,0.5)]"
+            style={{
+              left: c.markerX,
+              top: c.markerY,
+              transform: `translate(-50%, -50%) scaleX(${c.flip ? -1 : 1})`,
+            }}
+          >
+            <FaRocket className="text-lg -rotate-45" />
+          </div>
+        ))}
+
+        <div className="grid grid-cols-[1fr_auto_1fr] gap-x-10 relative">
+          {steps.map((step, i) => {
+            const isLeft = i % 2 === 0;
+            return (
+              <Fragment key={step.title}>
+                <div className="py-6 flex items-center justify-end">
+                  {isLeft && (
+                    <motion.div
+                      ref={(el) => (cardRefs.current[i] = el)}
+                      initial={{ opacity: 0, x: -30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5 }}
+                      onAnimationComplete={handleCardAnimationComplete}
+                      className="w-full max-w-md"
+                    >
+                      <StepCard step={step} index={i} />
+                    </motion.div>
+                  )}
                 </div>
-                {i < steps.length - 1 && (
-                  <div className="flex-1 w-px border-l-2 border-dashed border-zinc-700 my-2" />
-                )}
-              </div>
 
-              <div className="py-6 flex items-center justify-start">
-                {!isLeft && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="w-full max-w-md"
-                  >
-                    <StepCard step={step} index={i} />
-                  </motion.div>
-                )}
-              </div>
-            </Fragment>
-          );
-        })}
+                <div />
+
+                <div className="py-6 flex items-center justify-start">
+                  {!isLeft && (
+                    <motion.div
+                      ref={(el) => (cardRefs.current[i] = el)}
+                      initial={{ opacity: 0, x: 30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5 }}
+                      onAnimationComplete={handleCardAnimationComplete}
+                      className="w-full max-w-md"
+                    >
+                      <StepCard step={step} index={i} />
+                    </motion.div>
+                  )}
+                </div>
+              </Fragment>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
