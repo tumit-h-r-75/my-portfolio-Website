@@ -6,6 +6,7 @@ import { NavigateContext } from "../context/NavigateProvider";
 import { Typewriter } from "react-simple-typewriter";
 import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
 import MagicBentoPanel from "./MagicBento/MagicBento";
+import ShinyText from "./ShinyText/ShinyText";
 
 const Banner = () => {
     const { homeRef, contactRef, scrollToSection } = useContext(NavigateContext);
@@ -43,14 +44,16 @@ const Banner = () => {
                     viewport={{ once: true }}
                     className="lg:col-span-7 text-center lg:text-left order-2 lg:order-1"
                 >
-                    <motion.span 
+                    <motion.span
                         variants={itemVariants}
-                        className="inline-block px-4 py-1.5 rounded-full bg-lime-400/10 border border-lime-400/20 text-lime-400 text-sm font-bold tracking-widest uppercase mb-6"
+                        className="inline-block px-4 py-1.5 rounded-full bg-lime-400/10 border border-lime-400/20 text-sm font-bold tracking-widest uppercase mb-6"
                     >
-                        <DecryptLabel
+                        <ShinyText
                             text="Available for Freelance"
-                            parentClassName="text-lime-400"
-                            className="text-lime-400"
+                            speed={2.5}
+                            color="#a3e635"
+                            shineColor="#ffffff"
+                            spread={120}
                         />
                     </motion.span>
 
