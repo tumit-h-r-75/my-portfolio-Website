@@ -7,7 +7,7 @@ export const decryptDefaults = {
   speed: 45,
   maxIterations: 12,
   encryptedClassName: "text-lime-400",
-  disableAnimation: true,
+  disableAnimation: false,
 };
 
 /** Single-line decrypt with site-wide defaults; pass props to override (e.g. animateOn="hover"). */
