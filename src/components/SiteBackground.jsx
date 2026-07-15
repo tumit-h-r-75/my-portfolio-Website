@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const SiteBackground = () => {
+  const { isDark } = useContext(ThemeContext);
   const [isMobile, setIsMobile] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -23,28 +25,26 @@ const SiteBackground = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-50 overflow-hidden bg-[#020202]">
-      {/* LetterGlitch Disabled for Performance */}
-      {/* <div className="absolute inset-0 opacity-80">
-        <LetterGlitch
-          glitchColors={["#17351f", "#65a30d", "#84cc16", "#bef264", "#22c55e"]}
-          glitchSpeed={prefersReducedMotion ? 700 : isMobile ? 180 : 120}
-          centerVignette={false}
-          outerVignette
-          smooth={false}
-          updateRatio={isMobile ? 0.008 : 0.012}
-          maxDpr={isMobile ? 1 : 1.15}
-          characters="01<>[]{};:/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-          className="h-full w-full"
-        />
-      </div> */}
-
+    <div
+      className="fixed inset-0 -z-50 overflow-hidden transition-colors duration-300"
+      style={{ backgroundColor: isDark ? "#020202" : "#f4f4f5" }}
+    >
       {/* Contrast layer - content readable rakhar jonno */}
-      <div className="absolute inset-0 bg-black/55" />
+      <div
+        className="absolute inset-0 transition-colors duration-300"
+        style={{ backgroundColor: isDark ? "rgba(0,0,0,0.55)" : "rgba(255,255,255,0.55)" }}
+      />
 
       {/* Brand glow */}
       <div className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(163,230,53,${isMobile ? '0.1' : '0.14'}),transparent_62%)]`} />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.78))]" />
+      <div
+        className="absolute inset-0 transition-colors duration-300"
+        style={{
+          backgroundImage: isDark
+            ? "linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.78))"
+            : "linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.7))",
+        }}
+      />
 
       {!prefersReducedMotion && !isMobile && (
         <motion.div

@@ -13,7 +13,7 @@
 body {
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
-  @apply bg-black dark:bg-black text-zinc-900 dark:text-zinc-100 transition-colors duration-300;
+  @apply bg-white dark:bg-black text-zinc-900 dark:text-zinc-100 transition-colors duration-300;
 }
 
 :where(button, a[href]) {
