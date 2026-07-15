@@ -1,5 +1,5 @@
 import { Fragment, useLayoutEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import {
   FaLightbulb,
   FaDraftingCompass,
@@ -87,15 +87,38 @@ const buildConnector = (a, b, isLeftToRight, radius) => {
     `L ${endX} ${endY}`,
   ].join(" ");
 
-  return { d, markerX: midX, markerY: (startY + endY) / 2 };
+  return { d };
 };
 
 const Workflow = () => {
   const containerRef = useRef(null);
   const cardRefs = useRef([]);
+  const fullPathRef = useRef(null);
   const recomputeRef = useRef(() => {});
   const [connectors, setConnectors] = useState([]);
   const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
+  const [pathLength, setPathLength] = useState(0);
+  const [rocket, setRocket] = useState({ x: 0, y: 0, angle: 0 });
+
+  const fullPathD = connectors.map((c) => c.d).join(" ");
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"],
+  });
+
+  const placeRocketAt = (progress, len) => {
+    const path = fullPathRef.current;
+    if (!path || !len) return;
+
+    const clamped = Math.min(Math.max(progress, 0), 1);
+    const l = clamped * len;
+    const point = path.getPointAtLength(l);
+    const aheadPoint = path.getPointAtLength(Math.min(len, l + 1));
+    const angle = Math.atan2(aheadPoint.y - point.y, aheadPoint.x - point.x) * (180 / Math.PI);
+
+    setRocket({ x: point.x, y: point.y, angle });
+  };
 
   useLayoutEffect(() => {
     const container = containerRef.current;
@@ -121,10 +144,17 @@ const Workflow = () => {
         const b = rects[i + 1];
         if (!a || !b) continue;
         const isLeftToRight = i % 2 === 0;
-        const connector = buildConnector(a, b, isLeftToRight, 28);
-        next.push({ ...connector, flip: !isLeftToRight });
+        next.push(buildConnector(a, b, isLeftToRight, 28));
       }
       setConnectors(next);
+
+      // Path DOM updates asynchronously after state commit; measure next frame.
+      requestAnimationFrame(() => {
+        if (!fullPathRef.current) return;
+        const len = fullPathRef.current.getTotalLength();
+        setPathLength(len);
+        placeRocketAt(scrollYProgress.get(), len);
+      });
     };
 
     recomputeRef.current = recompute;
@@ -137,11 +167,16 @@ const Workflow = () => {
       ro.disconnect();
       window.removeEventListener("resize", recompute);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // The entrance slide (x transform) temporarily shifts each card's measured
   // position; re-measure once it settles so the connector stays aligned.
   const handleCardAnimationComplete = () => recomputeRef.current();
+
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    placeRocketAt(progress, pathLength);
+  });
 
   return (
     <div className="mb-20 md:mb-28">
@@ -181,24 +216,21 @@ const Workflow = () => {
           height={svgSize.height}
           style={{ overflow: "visible" }}
         >
-          {connectors.map((c, i) => (
-            <path key={i} d={c.d} fill="none" stroke="#52525b" strokeWidth="2" strokeDasharray="7 7" />
-          ))}
+          <path ref={fullPathRef} d={fullPathD} fill="none" stroke="#52525b" strokeWidth="2" strokeDasharray="7 7" />
         </svg>
 
-        {connectors.map((c, i) => (
+        {pathLength > 0 && (
           <div
-            key={i}
             className="absolute z-10 w-11 h-11 rounded-full bg-lime-400 border-4 border-black flex items-center justify-center text-black shadow-[0_0_20px_rgba(163,230,53,0.5)]"
             style={{
-              left: c.markerX,
-              top: c.markerY,
-              transform: `translate(-50%, -50%) scaleX(${c.flip ? -1 : 1})`,
+              left: rocket.x,
+              top: rocket.y,
+              transform: `translate(-50%, -50%) rotate(${rocket.angle - 45}deg)`,
             }}
           >
-            <FaRocket className="text-lg -rotate-45" />
+            <FaRocket className="text-lg" />
           </div>
-        ))}
+        )}
 
         <div className="grid grid-cols-[1fr_auto_1fr] gap-x-10 relative">
           {steps.map((step, i) => {
