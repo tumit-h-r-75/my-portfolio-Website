@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import LetterGlitch from "./LetterGlitch";
 
 const SiteBackground = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -25,7 +24,8 @@ const SiteBackground = () => {
 
   return (
     <div className="fixed inset-0 -z-50 overflow-hidden bg-[#020202]">
-      <div className="absolute inset-0 opacity-80">
+      {/* LetterGlitch Disabled for Performance */}
+      {/* <div className="absolute inset-0 opacity-80">
         <LetterGlitch
           glitchColors={["#17351f", "#65a30d", "#84cc16", "#bef264", "#22c55e"]}
           glitchSpeed={prefersReducedMotion ? 700 : isMobile ? 180 : 120}
@@ -37,7 +37,7 @@ const SiteBackground = () => {
           characters="01<>[]{};:/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ"
           className="h-full w-full"
         />
-      </div>
+      </div> */}
 
       {/* Contrast layer - content readable rakhar jonno */}
       <div className="absolute inset-0 bg-black/55" />

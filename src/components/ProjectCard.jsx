@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-import { motion } from "framer-motion";
 import { FaArrowRight, FaCode, FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import ElectricBorder from "./ElectricBorder/ElectricBorder";
 import MagicBentoPanel from "./MagicBento/MagicBento";
@@ -14,11 +13,7 @@ const ProjectCard = ({ project }) => {
     : [];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      whileHover={{ y: -10 }}
+    <div
       className="group relative h-[500px] w-full rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(163,230,53,0.1)]"
     >
       <ElectricBorder color="#a3e635" speed={1.2} chaos={0.08} borderRadius={40} className="h-full w-full rounded-[2.5rem]">
@@ -128,7 +123,7 @@ const ProjectCard = ({ project }) => {
           <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-lime-400 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-1000" />
         </MagicBentoPanel>
       </ElectricBorder>
-    </motion.div>
+    </div>
   );
 };
 
