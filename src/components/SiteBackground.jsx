@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import CursorGrid from "./CursorGrid/CursorGrid";
 
 const SiteBackground = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -99,7 +100,27 @@ const SiteBackground = () => {
         />
       ))}
 
-      <div 
+      {!prefersReducedMotion && !isMobile && (
+        <div className="absolute inset-0">
+          <CursorGrid
+            cellSize={64}
+            color="#a3e635"
+            radius={160}
+            falloff="smooth"
+            holdTime={350}
+            fadeDuration={750}
+            lineWidth={1}
+            maxOpacity={0.55}
+            fillOpacity={0.04}
+            gridOpacity={0}
+            cellRadius={4}
+            clickPulse
+            pulseSpeed={650}
+          />
+        </div>
+      )}
+
+      <div
         className="absolute inset-0 opacity-[0.045] pointer-events-none"
         style={{
           backgroundImage: `linear-gradient(#ffffff10 1px, transparent 1px), linear-gradient(90deg, #ffffff10 1px, transparent 1px)`,
