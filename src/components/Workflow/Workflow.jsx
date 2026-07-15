@@ -69,21 +69,22 @@ const StepCard = ({ step, index }) => (
 
 /**
  * Builds a connector between the CENTERS of two consecutive cards: a long
- * vertical drop, one rounded turn, then a horizontal sweep that runs straight
- * through the next card's own center. Since cards paint above this layer,
- * the segment "inside" each card is hidden by its opaque background, giving
- * the illusion that the line dives through the middle of every card and
- * re-emerges on the other side, matching the reference site.
+ * horizontal sweep at the outgoing card's row (running straight through the
+ * next card's side), one rounded turn, then a vertical drop down to that
+ * next card's own center. Since cards paint above this layer, the segment
+ * "inside" each card is hidden by its opaque background, giving the illusion
+ * that the line dives through the middle of every card and re-emerges on
+ * the other side, matching the reference site.
  */
 const buildConnector = (aX, aY, bX, bY, radius) => {
-  const vSign = bY >= aY ? 1 : -1;
   const hSign = bX >= aX ? 1 : -1;
-  const r = Math.max(0, Math.min(radius, Math.abs(bY - aY) - 1, Math.abs(bX - aX) - 1));
+  const vSign = bY >= aY ? 1 : -1;
+  const r = Math.max(0, Math.min(radius, Math.abs(bX - aX) - 1, Math.abs(bY - aY) - 1));
 
   const d = [
     `M ${aX} ${aY}`,
-    `L ${aX} ${bY - r * vSign}`,
-    `Q ${aX} ${bY} ${aX + r * hSign} ${bY}`,
+    `L ${bX - r * hSign} ${aY}`,
+    `Q ${bX} ${aY} ${bX} ${aY + r * vSign}`,
     `L ${bX} ${bY}`,
   ].join(" ");
 
