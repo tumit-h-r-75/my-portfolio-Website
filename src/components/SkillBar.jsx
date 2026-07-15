@@ -15,7 +15,7 @@ import Marquee from "react-fast-marquee";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import MagicBentoPanel from "./MagicBento/MagicBento";
-import DecryptLabel from "./DecryptLabel";
+import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
 import SectionHeading from "./SectionHeading";
 
 const frontendSkills = [

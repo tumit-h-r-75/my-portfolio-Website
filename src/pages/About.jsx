@@ -4,7 +4,7 @@ import { GiCricketBat } from "react-icons/gi";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import aboutImg from "../assets/myImg.png";
-import DecryptLabel from "../components/DecryptLabel";
+import DecryptLabel, { DecryptSplitHeading } from "../components/DecryptLabel";
 import MagicBentoPanel from "../components/MagicBento/MagicBento";
 import SectionHeading from "../components/SectionHeading";
 
