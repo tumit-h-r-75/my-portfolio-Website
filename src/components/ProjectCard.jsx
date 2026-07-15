@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { FaArrowRight, FaCode, FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import MagicBentoPanel from "./MagicBento/MagicBento";
 import DecryptLabel from "./DecryptLabel";
+import BorderGlow, { glowTheme } from "./BorderGlow/BorderGlow";
 
 const ProjectCard = ({ project }) => {
   // Normalize techStack data
@@ -19,9 +20,10 @@ const ProjectCard = ({ project }) => {
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       whileHover={{ y: -8 }}
-      className="group relative h-[500px] w-full rounded-[2.5rem] transition-shadow duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(163,230,53,0.1)]"
+      className="group relative h-[500px] w-full transition-shadow duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(163,230,53,0.1)]"
     >
-      <MagicBentoPanel className="relative h-full w-full rounded-[2.5rem] bg-[#0d121f] border border-white/10 overflow-hidden transition-all duration-500 hover:border-lime-400/40">
+      <BorderGlow {...glowTheme} backgroundColor="#0d121f" borderRadius={40} className="h-full w-full">
+      <MagicBentoPanel className="relative h-full w-full overflow-hidden">
           {/* 1. Full Image Background with Zoom Effect */}
           <div className="absolute inset-0 overflow-hidden">
             <img
@@ -125,7 +127,8 @@ const ProjectCard = ({ project }) => {
           
           {/* Animated Border Line */}
           <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-lime-400 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-1000" />
-        </MagicBentoPanel>
+      </MagicBentoPanel>
+      </BorderGlow>
     </motion.div>
   );
 };

@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import DecryptLabel from "./DecryptLabel";
 import SectionHeading from "./SectionHeading";
+import BorderGlow, { glowTheme } from "./BorderGlow/BorderGlow";
 
 const Education = () => {
   const { educationRef } = useContext(NavigateContext);
@@ -85,11 +86,12 @@ const Education = () => {
           </motion.div>
 
           {/* Right Side: Institution Meta Data */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            className="surface-card lg:col-span-4 p-8 rounded-3xl sticky top-24"
+            className="lg:col-span-4 sticky top-24"
           >
+            <BorderGlow {...glowTheme} backgroundColor="#0a0a0a" borderRadius={24} className="p-8">
             <div className="space-y-8">
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-lime-400 rounded-xl flex items-center justify-center text-black shadow-[0_10px_30px_rgba(163,230,53,0.2)]">
@@ -138,6 +140,7 @@ const Education = () => {
                     </div>
                 </div>
             </div>
+            </BorderGlow>
           </motion.div>
 
         </div>

@@ -17,6 +17,7 @@ import { NavigateContext } from "../context/NavigateProvider";
 import MagicBentoPanel from "./MagicBento/MagicBento";
 import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
 import SectionHeading from "./SectionHeading";
+import BorderGlow, { glowTheme } from "./BorderGlow/BorderGlow";
 
 const frontendSkills = [
   { name: "React.js", icon: FaReact, color: "text-cyan-300" },
@@ -69,59 +70,63 @@ const SkillBar = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <MagicBentoPanel className="surface-card rounded-3xl p-6">
-                <h3 className="mb-4 text-xl font-black text-white">
-                  <DecryptLabel text={cat.title} parentClassName="text-white font-black" className="text-white" />
-                </h3>
-                <div className="flex flex-wrap gap-2.5">
-                  {cat.skills.map((skill) => (
-                    <span key={skill.name} className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-200">
-                      <skill.icon className={skill.color} />
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
-              </MagicBentoPanel>
+              <BorderGlow {...glowTheme} backgroundColor="#0a0a0a" borderRadius={24} className="h-full">
+                <MagicBentoPanel className="h-full p-6">
+                  <h3 className="mb-4 text-xl font-black text-white">
+                    <DecryptLabel text={cat.title} parentClassName="text-white font-black" className="text-white" />
+                  </h3>
+                  <div className="flex flex-wrap gap-2.5">
+                    {cat.skills.map((skill) => (
+                      <span key={skill.name} className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-200">
+                        <skill.icon className={skill.color} />
+                        {skill.name}
+                      </span>
+                    ))}
+                  </div>
+                </MagicBentoPanel>
+              </BorderGlow>
             </motion.div>
           ))}
         </div>
 
-        <MagicBentoPanel className="surface-card relative rounded-[2rem] p-5 md:p-6 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-lime-400/5 via-transparent to-cyan-400/5" />
-          <div className="relative z-10 mb-5 flex items-center justify-between">
-            <h3 className="text-lg md:text-xl font-black uppercase tracking-[0.2em] text-white">
-              <DecryptSplitHeading before="Skill " highlight="Marquee" />
-            </h3>
-          </div>
+        <BorderGlow {...glowTheme} backgroundColor="#0a0a0a" borderRadius={32}>
+          <MagicBentoPanel className="relative p-5 md:p-6 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-lime-400/5 via-transparent to-cyan-400/5" />
+            <div className="relative z-10 mb-5 flex items-center justify-between">
+              <h3 className="text-lg md:text-xl font-black uppercase tracking-[0.2em] text-white">
+                <DecryptSplitHeading before="Skill " highlight="Marquee" />
+              </h3>
+            </div>
 
-          <div className="relative z-10 space-y-4">
-            <Marquee pauseOnHover speed={42} gradient={false}>
-              {allSkills.map((skill, idx) => (
-                <div
-                  key={`${skill.name}-top-${idx}`}
-                  className="group mx-2.5 flex min-w-[180px] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 transition-all duration-300 hover:border-lime-400/50 hover:bg-lime-400/10"
-                >
-                  <div className="rounded-xl bg-black/40 p-2">
-                    <skill.icon className={`text-xl ${skill.color}`} />
+            <div className="relative z-10 space-y-4">
+              <Marquee pauseOnHover speed={42} gradient={false}>
+                {allSkills.map((skill, idx) => (
+                  <div
+                    key={`${skill.name}-top-${idx}`}
+                    className="group mx-2.5 flex min-w-[180px] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 transition-all duration-300 hover:border-lime-400/50 hover:bg-lime-400/10"
+                  >
+                    <div className="rounded-xl bg-black/40 p-2">
+                      <skill.icon className={`text-xl ${skill.color}`} />
+                    </div>
+                    <p className="text-sm font-semibold text-zinc-200">{skill.name}</p>
                   </div>
-                  <p className="text-sm font-semibold text-zinc-200">{skill.name}</p>
-                </div>
-              ))}
-            </Marquee>
+                ))}
+              </Marquee>
 
-            <Marquee pauseOnHover speed={34} gradient={false} direction="right">
-              {[...allSkills].reverse().map((skill, idx) => (
-                <div
-                  key={`${skill.name}-bottom-${idx}`}
-                  className="group mx-2.5 flex min-w-[180px] items-center gap-3 rounded-2xl border border-white/10 bg-black/35 px-4 py-3 transition-all duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/10"
-                >
-                  <skill.icon className={`text-lg ${skill.color}`} />
-                  <p className="text-sm font-semibold text-zinc-200">{skill.name}</p>
-                </div>
-              ))}
-            </Marquee>
-          </div>
-        </MagicBentoPanel>
+              <Marquee pauseOnHover speed={34} gradient={false} direction="right">
+                {[...allSkills].reverse().map((skill, idx) => (
+                  <div
+                    key={`${skill.name}-bottom-${idx}`}
+                    className="group mx-2.5 flex min-w-[180px] items-center gap-3 rounded-2xl border border-white/10 bg-black/35 px-4 py-3 transition-all duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/10"
+                  >
+                    <skill.icon className={`text-lg ${skill.color}`} />
+                    <p className="text-sm font-semibold text-zinc-200">{skill.name}</p>
+                  </div>
+                ))}
+              </Marquee>
+            </div>
+          </MagicBentoPanel>
+        </BorderGlow>
       </div>
     </section>
   );

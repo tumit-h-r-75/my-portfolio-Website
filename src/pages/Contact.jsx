@@ -7,6 +7,7 @@ import { NavigateContext } from "../context/NavigateProvider";
 import MagicBentoPanel from "../components/MagicBento/MagicBento";
 import DecryptLabel from "../components/DecryptLabel";
 import SectionHeading from "../components/SectionHeading";
+import BorderGlow, { glowTheme } from "../components/BorderGlow/BorderGlow";
 
 const Contact = () => {
   const { contactRef } = useContext(NavigateContext);
@@ -98,47 +99,53 @@ const Contact = () => {
 
           <div className="space-y-3 md:space-y-4">
             {/* Email - Clickable */}
-            <MagicBentoPanel
-              as="a"
-              href="mailto:tumithasan1@gmail.com" 
-              className="surface-card flex items-center gap-4 p-4 md:p-5 rounded-xl md:rounded-2xl transition-all group"
-            >
-              <div className="text-lime-400 text-lg md:text-xl group-hover:scale-110 transition-transform shrink-0">
-                <FaEnvelope />
-              </div>
-              <div className="min-w-0"> {/* text overflow protection */}
-                <p className="text-[10px] md:text-xs uppercase font-bold text-zinc-500 tracking-widest">Mail Me</p>
-                <p className="text-zinc-200 text-sm md:text-base font-medium truncate">tumithasan1@gmail.com</p>
-              </div>
-            </MagicBentoPanel>
+            <BorderGlow {...glowTheme} backgroundColor="#0a0a0a" borderRadius={16}>
+              <MagicBentoPanel
+                as="a"
+                href="mailto:tumithasan1@gmail.com"
+                className="flex items-center gap-4 p-4 md:p-5 transition-all group"
+              >
+                <div className="text-lime-400 text-lg md:text-xl group-hover:scale-110 transition-transform shrink-0">
+                  <FaEnvelope />
+                </div>
+                <div className="min-w-0"> {/* text overflow protection */}
+                  <p className="text-[10px] md:text-xs uppercase font-bold text-zinc-500 tracking-widest">Mail Me</p>
+                  <p className="text-zinc-200 text-sm md:text-base font-medium truncate">tumithasan1@gmail.com</p>
+                </div>
+              </MagicBentoPanel>
+            </BorderGlow>
 
             {/* WhatsApp - Clickable */}
-            <MagicBentoPanel
-              as="a"
-              href="https://wa.me/8801611960330" 
-              target="_blank" 
-              rel="noreferrer"
-              className="surface-card flex items-center gap-4 p-4 md:p-5 rounded-xl md:rounded-2xl transition-all group"
-            >
-              <div className="text-lime-400 text-lg md:text-xl group-hover:scale-110 transition-transform shrink-0">
-                <FaWhatsapp />
-              </div>
-              <div>
-                <p className="text-[10px] md:text-xs uppercase font-bold text-zinc-500 tracking-widest">WhatsApp</p>
-                <p className="text-zinc-200 text-sm md:text-base font-medium">+880 1611-960330</p>
-              </div>
-            </MagicBentoPanel>
+            <BorderGlow {...glowTheme} backgroundColor="#0a0a0a" borderRadius={16}>
+              <MagicBentoPanel
+                as="a"
+                href="https://wa.me/8801611960330"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-4 p-4 md:p-5 transition-all group"
+              >
+                <div className="text-lime-400 text-lg md:text-xl group-hover:scale-110 transition-transform shrink-0">
+                  <FaWhatsapp />
+                </div>
+                <div>
+                  <p className="text-[10px] md:text-xs uppercase font-bold text-zinc-500 tracking-widest">WhatsApp</p>
+                  <p className="text-zinc-200 text-sm md:text-base font-medium">+880 1611-960330</p>
+                </div>
+              </MagicBentoPanel>
+            </BorderGlow>
 
             {/* Location */}
-            <MagicBentoPanel className="surface-card flex items-center gap-4 p-4 md:p-5 rounded-xl md:rounded-2xl">
-              <div className="text-lime-400 text-lg md:text-xl shrink-0">
-                <FaMapMarkerAlt />
-              </div>
-              <div>
-                <p className="text-[10px] md:text-xs uppercase font-bold text-zinc-500 tracking-widest">Location</p>
-                <p className="text-zinc-200 text-sm md:text-base font-medium">Satkhira, Bangladesh</p>
-              </div>
-            </MagicBentoPanel>
+            <BorderGlow {...glowTheme} backgroundColor="#0a0a0a" borderRadius={16}>
+              <MagicBentoPanel className="flex items-center gap-4 p-4 md:p-5">
+                <div className="text-lime-400 text-lg md:text-xl shrink-0">
+                  <FaMapMarkerAlt />
+                </div>
+                <div>
+                  <p className="text-[10px] md:text-xs uppercase font-bold text-zinc-500 tracking-widest">Location</p>
+                  <p className="text-zinc-200 text-sm md:text-base font-medium">Satkhira, Bangladesh</p>
+                </div>
+              </MagicBentoPanel>
+            </BorderGlow>
           </div>
 
           {/* Social Links */}
@@ -169,11 +176,12 @@ const Contact = () => {
           transition={{ duration: 0.5 }}
           className="lg:col-span-7"
         >
+          <BorderGlow {...glowTheme} backgroundColor="#0a0a0a" borderRadius={32}>
           <MagicBentoPanel
             as="form"
             ref={form}
             onSubmit={sendEmail}
-            className="surface-card p-6 md:p-10 rounded-[1.5rem] md:rounded-[2rem] space-y-5 md:space-y-6"
+            className="p-6 md:p-10 space-y-5 md:space-y-6"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
               <div className="space-y-2">
@@ -220,6 +228,7 @@ const Contact = () => {
               <FaPaperPlane className="text-xs shrink-0" />
             </motion.button>
           </MagicBentoPanel>
+          </BorderGlow>
         </motion.div>
 
       </div>
