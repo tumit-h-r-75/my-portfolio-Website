@@ -145,7 +145,7 @@ const Workflow = () => {
         const b = rects[i + 1];
         if (!a || !b) continue;
         const isLeftToRight = i % 2 === 0;
-        next.push(buildConnector(a, b, isLeftToRight, 36));
+        next.push(buildConnector(a, b, isLeftToRight, 48));
       }
       setConnectors(next);
 
@@ -226,14 +226,14 @@ const Workflow = () => {
             style={{
               left: rocket.x,
               top: rocket.y,
-              transform: "translate(-50%, -50%)",
+              transform: `translate(-50%, -50%) rotate(${rocket.angle}deg)`,
             }}
           >
             <RocketIcon className="w-[67px] h-10 drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)]" />
           </div>
         )}
 
-        <div className="grid grid-cols-[1fr_auto_1fr] gap-x-10 relative">
+        <div className="grid grid-cols-[1fr_260px_1fr] gap-x-0 relative">
           {steps.map((step, i) => {
             const isLeft = i % 2 === 0;
             return (
