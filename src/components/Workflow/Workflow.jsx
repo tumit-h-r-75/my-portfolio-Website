@@ -96,6 +96,7 @@ const Workflow = () => {
   const cardRefs = useRef([]);
   const fullPathRef = useRef(null);
   const pathLengthRef = useRef(0);
+  const lastProgressRef = useRef(0);
   const recomputeRef = useRef(() => {});
   const [connectors, setConnectors] = useState([]);
   const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
@@ -120,14 +121,21 @@ const Workflow = () => {
     return path.getPointAtLength(clamped * len);
   };
 
+  // Faces the rocket toward wherever it's actually heading: scrolling down
+  // moves it forward along the path, scrolling up reverses it, so the nose
+  // should flip 180° instead of always pointing the path's "forward" way.
   const getAngleAt = (progress) => {
     const path = fullPathRef.current;
     const len = pathLengthRef.current;
     if (!path || !len) return 0;
     const clamped = Math.min(Math.max(progress, 0), 1);
+    const direction = clamped >= lastProgressRef.current ? 1 : -1;
+    lastProgressRef.current = clamped;
+
     const l = clamped * len;
+    const neighborL = Math.min(len, Math.max(0, l + direction));
     const p1 = path.getPointAtLength(l);
-    const p2 = path.getPointAtLength(Math.min(len, l + 1));
+    const p2 = path.getPointAtLength(neighborL);
     return Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
   };
 
