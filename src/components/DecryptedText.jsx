@@ -31,6 +31,7 @@ export default function DecryptedText({
   encryptedClassName = '',
   animateOn = 'hover',
   clickMode = 'once',
+  disableAnimation = true,
   ...props
 }) {
   const [displayText, setDisplayText] = useState(text);
@@ -345,6 +346,16 @@ export default function DecryptedText({
     setRevealedIndices(new Set());
     setDirection('forward');
   }, [animateOn, text, encryptInstantly]);
+
+  // If animation is disabled, just show plain text
+  if (disableAnimation) {
+    return (
+      <motion.span className={parentClassName} style={styles.wrapper} {...props}>
+        <span style={styles.srOnly}>{text}</span>
+        <span aria-hidden="true" className={className}>{text}</span>
+      </motion.span>
+    );
+  }
 
   const animateProps =
     animateOn === 'hover' || animateOn === 'inViewHover'
