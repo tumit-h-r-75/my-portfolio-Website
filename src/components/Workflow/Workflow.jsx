@@ -1,5 +1,5 @@
 import { Fragment, useLayoutEffect, useRef, useState } from "react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   FaLightbulb,
   FaDraftingCompass,
@@ -95,11 +95,11 @@ const Workflow = () => {
   const containerRef = useRef(null);
   const cardRefs = useRef([]);
   const fullPathRef = useRef(null);
+  const pathLengthRef = useRef(0);
   const recomputeRef = useRef(() => {});
   const [connectors, setConnectors] = useState([]);
   const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
-  const [pathLength, setPathLength] = useState(0);
-  const [rocket, setRocket] = useState({ x: 0, y: 0, angle: 0 });
+  const [rocketReady, setRocketReady] = useState(false);
 
   const fullPathD = connectors.map((c) => c.d).join(" ");
 
@@ -108,18 +108,32 @@ const Workflow = () => {
     offset: ["start center", "end center"],
   });
 
-  const placeRocketAt = (progress, len) => {
+  // Reads the path directly on every scroll tick (via framer-motion's
+  // MotionValues) instead of going through React state, so the rocket's
+  // position and rotation update smoothly on every frame, not just on
+  // whichever renders happen to catch a "change" event.
+  const getPointAt = (progress) => {
     const path = fullPathRef.current;
-    if (!path || !len) return;
+    const len = pathLengthRef.current;
+    if (!path || !len) return { x: 0, y: 0 };
+    const clamped = Math.min(Math.max(progress, 0), 1);
+    return path.getPointAtLength(clamped * len);
+  };
 
+  const getAngleAt = (progress) => {
+    const path = fullPathRef.current;
+    const len = pathLengthRef.current;
+    if (!path || !len) return 0;
     const clamped = Math.min(Math.max(progress, 0), 1);
     const l = clamped * len;
-    const point = path.getPointAtLength(l);
-    const aheadPoint = path.getPointAtLength(Math.min(len, l + 1));
-    const angle = Math.atan2(aheadPoint.y - point.y, aheadPoint.x - point.x) * (180 / Math.PI);
-
-    setRocket({ x: point.x, y: point.y, angle });
+    const p1 = path.getPointAtLength(l);
+    const p2 = path.getPointAtLength(Math.min(len, l + 1));
+    return Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
   };
+
+  const rocketX = useTransform(scrollYProgress, (v) => getPointAt(v).x);
+  const rocketY = useTransform(scrollYProgress, (v) => getPointAt(v).y);
+  const rocketAngle = useTransform(scrollYProgress, getAngleAt);
 
   useLayoutEffect(() => {
     const container = containerRef.current;
@@ -150,9 +164,15 @@ const Workflow = () => {
       // Path DOM updates asynchronously after state commit; measure next frame.
       requestAnimationFrame(() => {
         if (!fullPathRef.current) return;
-        const len = fullPathRef.current.getTotalLength();
-        setPathLength(len);
-        placeRocketAt(scrollYProgress.get(), len);
+        pathLengthRef.current = fullPathRef.current.getTotalLength();
+        setRocketReady(true);
+
+        // Force an immediate refresh so the rocket doesn't wait for the next
+        // scroll event to reflect freshly measured geometry.
+        const progress = scrollYProgress.get();
+        rocketX.set(getPointAt(progress).x);
+        rocketY.set(getPointAt(progress).y);
+        rocketAngle.set(getAngleAt(progress));
       });
     };
 
@@ -172,10 +192,6 @@ const Workflow = () => {
   // The entrance slide (x transform) temporarily shifts each card's measured
   // position; re-measure once it settles so the connector stays aligned.
   const handleCardAnimationComplete = () => recomputeRef.current();
-
-  useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    placeRocketAt(progress, pathLength);
-  });
 
   return (
     <div className="mb-20 md:mb-28">
@@ -218,17 +234,19 @@ const Workflow = () => {
           <path ref={fullPathRef} d={fullPathD} fill="none" stroke="#52525b" strokeWidth="2" strokeDasharray="7 7" />
         </svg>
 
-        {pathLength > 0 && (
-          <div
+        {rocketReady && (
+          <motion.div
             className="absolute"
             style={{
-              left: rocket.x,
-              top: rocket.y,
-              transform: `translate(-50%, -50%) rotate(${rocket.angle}deg)`,
+              left: rocketX,
+              top: rocketY,
+              rotate: rocketAngle,
+              x: "-50%",
+              y: "-50%",
             }}
           >
             <RocketIcon className="w-[67px] h-10 drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)]" />
-          </div>
+          </motion.div>
         )}
 
         <div className="grid grid-cols-[1fr_260px_1fr] gap-x-0 relative">
