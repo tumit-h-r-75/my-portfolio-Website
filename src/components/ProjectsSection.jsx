@@ -4,6 +4,7 @@ import projects from "./data/projects";
 import { NavigateContext } from "../context/NavigateProvider";
 import { motion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
+import Workflow from "./Workflow";
 
 const ProjectsSection = () => {
   const { portfolioRef } = useContext(NavigateContext);
@@ -13,6 +14,8 @@ const ProjectsSection = () => {
       ref={portfolioRef}
       className="py-20 md:py-28 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto"
     >
+      <Workflow />
+
       <SectionHeading kicker="Portfolio" before="Featured " highlight="Projects" align="center" />
 
       {/* Project Cards Grid */}
