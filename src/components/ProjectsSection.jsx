@@ -4,7 +4,7 @@ import projects from "./data/projects";
 import { NavigateContext } from "../context/NavigateProvider";
 import { motion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
-import Workflow from "./Workflow";
+import Workflow from "./Workflow/Workflow";
 
 const ProjectsSection = () => {
   const { portfolioRef } = useContext(NavigateContext);

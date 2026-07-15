@@ -9,9 +9,10 @@ import {
   FaRocket,
   FaHeadset,
 } from "react-icons/fa";
-import SectionHeading from "./SectionHeading";
-import BorderGlow, { glowTheme } from "./BorderGlow/BorderGlow";
-import MagicBentoPanel from "./MagicBento/MagicBento";
+import SectionHeading from "../SectionHeading";
+import BorderGlow, { glowTheme } from "../BorderGlow/BorderGlow";
+import MagicBentoPanel from "../MagicBento/MagicBento";
+import RocketIcon from "./RocketIcon";
 
 const steps = [
   {
@@ -144,7 +145,7 @@ const Workflow = () => {
         const b = rects[i + 1];
         if (!a || !b) continue;
         const isLeftToRight = i % 2 === 0;
-        next.push(buildConnector(a, b, isLeftToRight, 28));
+        next.push(buildConnector(a, b, isLeftToRight, 36));
       }
       setConnectors(next);
 
@@ -221,14 +222,14 @@ const Workflow = () => {
 
         {pathLength > 0 && (
           <div
-            className="absolute z-10 w-11 h-11 rounded-full bg-lime-400 border-4 border-black flex items-center justify-center text-black shadow-[0_0_20px_rgba(163,230,53,0.5)]"
+            className="absolute z-10"
             style={{
               left: rocket.x,
               top: rocket.y,
-              transform: `translate(-50%, -50%) rotate(${rocket.angle - 45}deg)`,
+              transform: "translate(-50%, -50%)",
             }}
           >
-            <FaRocket className="text-lg" />
+            <RocketIcon className="w-[67px] h-10 drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)]" />
           </div>
         )}
 
