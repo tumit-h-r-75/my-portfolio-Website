@@ -67,8 +67,8 @@ const Education = () => {
                               className="text-gray-100 group-hover:text-lime-400"
                             />
                         </h3>
-                        <div className="text-lime-400 font-mono text-lg flex items-center gap-2 bg-lime-400/5 px-4 py-1 rounded-full border border-lime-400/20 w-fit">
-                            <FaCalendarAlt size={14}/> 2022 — 2025
+                        <div className="text-lime-400 font-mono text-lg flex items-center gap-2 bg-lime-400/5 px-4 py-1.5 rounded-full border border-lime-400/20 w-fit shrink-0 whitespace-nowrap">
+                            <FaCalendarAlt size={14} className="shrink-0"/> 2022 — 2025
                         </div>
                     </div>
 
