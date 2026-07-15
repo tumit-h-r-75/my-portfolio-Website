@@ -67,24 +67,26 @@ const StepCard = ({ step, index }) => (
   </BorderGlow>
 );
 
-/** Builds a rounded elbow connector path between the facing edges of two cards. */
+/**
+ * Builds a connector matching the reference site's shape: a long vertical
+ * drop down the outgoing card's rail, then one rounded turn into a single
+ * horizontal sweep across to the next card's rail (not a symmetric
+ * horizontal-vertical-horizontal elbow).
+ */
 const buildConnector = (a, b, isLeftToRight, radius) => {
   const startX = isLeftToRight ? a.right : a.left;
   const endX = isLeftToRight ? b.left : b.right;
   const startY = a.midY;
   const endY = b.midY;
-  const midX = (startX + endX) / 2;
-  const sign = endY >= startY ? 1 : -1;
-  const r = Math.min(radius, Math.abs(endY - startY) / 2, Math.abs(midX - startX) || radius);
-  const bendX1 = isLeftToRight ? midX - r : midX + r;
-  const bendX2 = isLeftToRight ? midX + r : midX - r;
+
+  const vSign = endY >= startY ? 1 : -1;
+  const hSign = endX >= startX ? 1 : -1;
+  const r = Math.max(0, Math.min(radius, Math.abs(endY - startY) - 1, Math.abs(endX - startX) - 1));
 
   const d = [
     `M ${startX} ${startY}`,
-    `L ${bendX1} ${startY}`,
-    `Q ${midX} ${startY} ${midX} ${startY + r * sign}`,
-    `L ${midX} ${endY - r * sign}`,
-    `Q ${midX} ${endY} ${bendX2} ${endY}`,
+    `L ${startX} ${endY - r * vSign}`,
+    `Q ${startX} ${endY} ${startX + r * hSign} ${endY}`,
     `L ${endX} ${endY}`,
   ].join(" ");
 
