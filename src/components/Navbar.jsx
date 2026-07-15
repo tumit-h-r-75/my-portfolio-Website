@@ -8,15 +8,19 @@ import {
   FaLaptopCode,
   FaProjectDiagram,
   FaEnvelopeOpen,
+  FaMoon,
+  FaSun,
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png";
 import { NavigateContext } from "../context/NavigateProvider";
+import { ThemeContext } from "../context/ThemeContext";
 import DecryptLabel from "./DecryptLabel";
 
 const Navbar = () => {
   const { scrollToSection, homeRef, aboutRef, skillRef, contactRef, portfolioRef } = useContext(NavigateContext);
+  const { isDark, toggleTheme } = useContext(ThemeContext);
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -97,6 +101,17 @@ const Navbar = () => {
           >
             <DecryptLabel text="Resume" animateOn="hover" sequential={false} maxIterations={6} speed={30} parentClassName="text-black" className="text-black" encryptedClassName="text-zinc-600" /> <FaDownload />
           </motion.a>
+
+          {/* Theme Toggle Button */}
+          <motion.button
+            whileHover={{ scale: 1.1, rotate: 20 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={toggleTheme}
+            className="w-10 h-10 flex items-center justify-center rounded-lg bg-zinc-800 dark:bg-zinc-700 hover:bg-zinc-700 dark:hover:bg-zinc-600 text-white transition-colors"
+            aria-label="Toggle theme"
+          >
+            {isDark ? <FaSun className="text-yellow-400" /> : <FaMoon className="text-blue-400" />}
+          </motion.button>
 
           {/* Toggle Button */}
           <button

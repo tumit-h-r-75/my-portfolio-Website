@@ -27,7 +27,7 @@ const Banner = () => {
     return (
         <section
             ref={homeRef}
-            className="relative min-h-screen flex items-center justify-center px-6 md:px-12 lg:px-24 py-20 overflow-hidden "
+            className="banner relative min-h-screen flex items-center justify-center px-6 md:px-12 lg:px-24 py-20 overflow-hidden site-text-glitch"
         >
             {/* --- Background Aesthetic Elements --- */}
             {/* <div className="absolute top-20 left-10 w-72 h-72 bg-lime-400/10 blur-[120px] rounded-full" />

@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from "react";
+import { forwardRef, useRef, useCallback } from "react";
 import "./MagicBento.css";
 
 const MagicBentoPanel = forwardRef(({
@@ -11,6 +11,7 @@ const MagicBentoPanel = forwardRef(({
   ...props
 }, externalRef) => {
   const panelRef = useRef(null);
+  const throttleRef = useRef(null);
 
   const setRefs = (node) => {
     panelRef.current = node;
@@ -21,7 +22,7 @@ const MagicBentoPanel = forwardRef(({
     }
   };
 
-  const handlePointerMove = (event) => {
+  const handlePointerMove = useCallback((event) => {
     const panel = panelRef.current;
     if (!panel) return;
 
@@ -41,7 +42,16 @@ const MagicBentoPanel = forwardRef(({
       const rotateY = ((x / rect.width) - 0.5) * 5;
       panel.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
     }
-  };
+  }, [glowColor, enableTilt]);
+
+  const throttledHandlePointerMove = useCallback((event) => {
+    if (!throttleRef.current) {
+      handlePointerMove(event);
+      throttleRef.current = setTimeout(() => {
+        throttleRef.current = null;
+      }, 8);
+    }
+  }, [handlePointerMove]);
 
   const handlePointerLeave = () => {
     const panel = panelRef.current;
@@ -77,7 +87,7 @@ const MagicBentoPanel = forwardRef(({
       {...props}
       ref={setRefs}
       className={`magic-bento-panel ${className}`}
-      onPointerMove={handlePointerMove}
+      onPointerMove={throttledHandlePointerMove}
       onPointerLeave={handlePointerLeave}
       onClick={handleClick}
     >

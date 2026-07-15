@@ -135,7 +135,7 @@ const ElectricBorder = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return undefined;
 
-    const octaves = 10;
+    const octaves = 6;
     const lacunarity = 1.6;
     const gain = 0.7;
     const amplitude = chaos;
@@ -241,7 +241,7 @@ const ElectricBorder = ({
           animationRef.current = null;
         }
       },
-      { rootMargin: '160px' },
+      { rootMargin: '50px' },
     );
 
     intersectionObserver.observe(container);

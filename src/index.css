@@ -2,9 +2,18 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
+  @apply bg-black dark:bg-black text-zinc-900 dark:text-zinc-100 transition-colors duration-300;
 }
 
 :where(button, a[href]) {
@@ -23,24 +32,25 @@ body {
   animation: clickGlow 420ms ease-out;
 }
 
-.site-text-glitch :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, li, input, textarea) {
+/* Optimized: Only apply to banner section */
+.banner .site-text-glitch :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, li, input, textarea) {
   text-shadow: 0 0 0 rgba(163, 230, 53, 0);
 }
 
-.site-text-glitch :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, li):not(.social-icon-inner) {
+.banner .site-text-glitch :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, li):not(.social-icon-inner) {
   animation: globalTextGlitch 5.5s steps(1, end) infinite;
 }
 
-.site-text-glitch :where(input, textarea):not(:focus) {
+.banner .site-text-glitch :where(input, textarea):not(:focus) {
   animation: globalTextGlitch 7s steps(1, end) infinite;
 }
 
-.site-text-glitch :where(button, a[href]):hover {
+.banner .site-text-glitch :where(button, a[href]):hover {
   animation-duration: 1.9s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-text-glitch :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, li, input, textarea) {
+  .banner .site-text-glitch :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, li, input, textarea) {
     animation: none !important;
     text-shadow: none !important;
   }
