@@ -10,7 +10,8 @@ import {
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
-import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
+import DecryptLabel from "./DecryptLabel";
+import SectionHeading from "./SectionHeading";
 
 const Education = () => {
   const { educationRef } = useContext(NavigateContext);
@@ -24,26 +25,11 @@ const Education = () => {
     <section
       ref={educationRef}
       id="education"
-      className="py-28 px-6 md:px-12 bg-transparent"
+      className="py-20 md:py-28 px-6 md:px-12 bg-transparent"
     >
       <div className="max-w-6xl mx-auto">
-        
-        {/* --- Header Section (Refined & Clean) --- */}
-        <div className="flex flex-col items-start mb-16">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2 text-lime-400 mb-4"
-          >
-            <div className="w-10 h-[1px] bg-lime-400"></div>
-            <span className="text-sm font-bold tracking-[0.3em] uppercase">
-              <DecryptLabel text="Qualifications" parentClassName="text-lime-400" className="text-lime-400" />
-            </span>
-          </motion.div>
-          <h2 className="text-4xl md:text-6xl font-extrabold text-white leading-tight">
-            <DecryptSplitHeading before="Education" highlight="." highlightClassName="text-lime-400" />
-          </h2>
-        </div>
+
+        <SectionHeading kicker="Qualifications" before="Education" highlight="." align="left" />
 
         {/* --- Education Content --- */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -102,7 +88,7 @@ const Education = () => {
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            className="lg:col-span-4 bg-[#0a0a0a] border border-zinc-800 p-8 rounded-3xl sticky top-24"
+            className="surface-card lg:col-span-4 p-8 rounded-3xl sticky top-24"
           >
             <div className="space-y-8">
                 <div className="flex items-center gap-4">

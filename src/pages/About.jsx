@@ -4,8 +4,9 @@ import { GiCricketBat } from "react-icons/gi";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import aboutImg from "../assets/myImg.png";
-import DecryptLabel, { DecryptSplitHeading } from "../components/DecryptLabel";
+import DecryptLabel from "../components/DecryptLabel";
 import MagicBentoPanel from "../components/MagicBento/MagicBento";
+import SectionHeading from "../components/SectionHeading";
 
 const About = () => {
   const { aboutRef } = useContext(NavigateContext);
@@ -51,7 +52,7 @@ const About = () => {
     <section
       ref={aboutRef}
       id="about"
-      className="relative py-16 md:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto overflow-hidden rounded-[2rem] md:rounded-[3.5rem] "
+      className="relative py-20 md:py-28 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto overflow-hidden rounded-[2rem] md:rounded-[3.5rem] "
     >
       {/* --- Interactive Spotlight --- */}
       <div 
@@ -68,18 +69,7 @@ const About = () => {
       />
 
       <div ref={containerRef} className="relative z-10">
-        {/* --- Header --- */}
-        <div className="text-center mb-12 md:mb-20">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl md:text-8xl font-black text-white uppercase tracking-tighter"
-          >
-            <DecryptSplitHeading before="ABOUT " highlight="ME" />
-          </motion.h2>
-          <div className="w-16 md:w-24 h-1 bg-lime-400 mx-auto mt-4 rounded-full shadow-[0_0_15px_#a3e635]" />
-        </div>
+        <SectionHeading kicker="Who I Am" before="ABOUT " highlight="ME" align="center" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center">
           
@@ -142,12 +132,12 @@ const About = () => {
                     href={info.link} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5 hover:border-lime-400/40 hover:bg-lime-400/5 transition-all group"
+                    className="surface-card flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl hover:bg-lime-400/5 transition-all group"
                   >
                     {Content}
                   </MagicBentoPanel>
                 ) : (
-                  <MagicBentoPanel key={idx} className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5">
+                  <MagicBentoPanel key={idx} className="surface-card flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl">
                     {Content}
                   </MagicBentoPanel>
                 );

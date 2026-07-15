@@ -5,7 +5,8 @@ import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import MagicBentoPanel from "../components/MagicBento/MagicBento";
-import DecryptLabel, { DecryptSplitHeading } from "../components/DecryptLabel";
+import DecryptLabel from "../components/DecryptLabel";
+import SectionHeading from "../components/SectionHeading";
 
 const Contact = () => {
   const { contactRef } = useContext(NavigateContext);
@@ -83,20 +84,9 @@ const Contact = () => {
     <section
       ref={contactRef}
       id="contact"
-      className="py-16 md:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto overflow-hidden"
+      className="py-20 md:py-28 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto overflow-hidden"
     >
-      {/* Section Header */}
-      <div className="mb-12 md:mb-16">
-        <motion.h2 
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="text-2xl sm:text-3xl md:text-5xl font-bold text-white uppercase tracking-tight"
-        >
-          <DecryptSplitHeading before="Let's Work " highlight="Together" highlightClassName="text-lime-400 font-light italic" />
-        </motion.h2>
-        <div className="w-16 md:w-20 h-1 bg-lime-400 mt-3 md:mt-4" />
-      </div>
+      <SectionHeading kicker="Get In Touch" before="Let's Work " highlight="Together" align="left" />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
         
@@ -111,7 +101,7 @@ const Contact = () => {
             <MagicBentoPanel
               as="a"
               href="mailto:tumithasan1@gmail.com" 
-              className="flex items-center gap-4 p-4 md:p-5 bg-zinc-900/50 border border-zinc-800 rounded-xl md:rounded-2xl hover:border-lime-400/50 transition-all group"
+              className="surface-card flex items-center gap-4 p-4 md:p-5 rounded-xl md:rounded-2xl transition-all group"
             >
               <div className="text-lime-400 text-lg md:text-xl group-hover:scale-110 transition-transform shrink-0">
                 <FaEnvelope />
@@ -128,7 +118,7 @@ const Contact = () => {
               href="https://wa.me/8801611960330" 
               target="_blank" 
               rel="noreferrer"
-              className="flex items-center gap-4 p-4 md:p-5 bg-zinc-900/50 border border-zinc-800 rounded-xl md:rounded-2xl hover:border-lime-400/50 transition-all group"
+              className="surface-card flex items-center gap-4 p-4 md:p-5 rounded-xl md:rounded-2xl transition-all group"
             >
               <div className="text-lime-400 text-lg md:text-xl group-hover:scale-110 transition-transform shrink-0">
                 <FaWhatsapp />
@@ -140,7 +130,7 @@ const Contact = () => {
             </MagicBentoPanel>
 
             {/* Location */}
-            <MagicBentoPanel className="flex items-center gap-4 p-4 md:p-5 bg-zinc-900/50 border border-zinc-800 rounded-xl md:rounded-2xl">
+            <MagicBentoPanel className="surface-card flex items-center gap-4 p-4 md:p-5 rounded-xl md:rounded-2xl">
               <div className="text-lime-400 text-lg md:text-xl shrink-0">
                 <FaMapMarkerAlt />
               </div>
@@ -183,7 +173,7 @@ const Contact = () => {
             as="form"
             ref={form}
             onSubmit={sendEmail}
-            className="bg-zinc-900/30 border border-zinc-800 p-6 md:p-10 rounded-[1.5rem] md:rounded-[2rem] space-y-5 md:space-y-6"
+            className="surface-card p-6 md:p-10 rounded-[1.5rem] md:rounded-[2rem] space-y-5 md:space-y-6"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
               <div className="space-y-2">

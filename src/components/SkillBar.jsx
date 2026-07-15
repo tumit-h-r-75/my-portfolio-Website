@@ -15,7 +15,8 @@ import Marquee from "react-fast-marquee";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import MagicBentoPanel from "./MagicBento/MagicBento";
-import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
+import DecryptLabel from "./DecryptLabel";
+import SectionHeading from "./SectionHeading";
 
 const frontendSkills = [
   { name: "React.js", icon: FaReact, color: "text-cyan-300" },
@@ -47,22 +48,13 @@ const SkillBar = () => {
   const { skillRef } = useContext(NavigateContext);
 
   return (
-    <section id="skills" ref={skillRef} className="relative overflow-hidden bg-transparent px-6 py-24 md:px-12">
+    <section id="skills" ref={skillRef} className="relative overflow-hidden bg-transparent px-6 py-20 md:py-28 md:px-12">
       <div className="pointer-events-none absolute left-1/2 top-20 h-52 w-[28rem] -translate-x-1/2 rounded-full bg-lime-400/10 blur-[130px]" />
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="mb-16 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-black text-white uppercase tracking-tight"
-          >
-            <DecryptSplitHeading before="Tech " highlight="Skills" />
-          </motion.h2>
-          <p className="mx-auto mt-5 max-w-2xl text-sm md:text-base text-zinc-400">
-            Modern frontend, backend, and CMS workflow focused on performance and clean architecture.
-          </p>
-        </div>
+        <SectionHeading kicker="What I Do" before="Tech " highlight="Skills" align="center" />
+        <p className="mx-auto -mt-8 mb-16 max-w-2xl text-center text-sm md:text-base text-zinc-400">
+          Modern frontend, backend, and CMS workflow focused on performance and clean architecture.
+        </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-14">
           {[
@@ -77,7 +69,7 @@ const SkillBar = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <MagicBentoPanel className="rounded-3xl border border-white/10 bg-black/25 p-6 backdrop-blur-xl">
+              <MagicBentoPanel className="surface-card rounded-3xl p-6">
                 <h3 className="mb-4 text-xl font-black text-white">
                   <DecryptLabel text={cat.title} parentClassName="text-white font-black" className="text-white" />
                 </h3>
@@ -94,7 +86,7 @@ const SkillBar = () => {
           ))}
         </div>
 
-        <MagicBentoPanel className="relative rounded-[2rem] border border-white/10 bg-black/25 p-5 md:p-6 backdrop-blur-xl overflow-hidden">
+        <MagicBentoPanel className="surface-card relative rounded-[2rem] p-5 md:p-6 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-lime-400/5 via-transparent to-cyan-400/5" />
           <div className="relative z-10 mb-5 flex items-center justify-between">
             <h3 className="text-lg md:text-xl font-black uppercase tracking-[0.2em] text-white">
