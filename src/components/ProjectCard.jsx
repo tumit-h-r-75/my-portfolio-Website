@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 import { FaArrowRight, FaCode, FaGithub, FaExternalLinkAlt } from "react-icons/fa";
-import ElectricBorder from "./ElectricBorder/ElectricBorder";
 import MagicBentoPanel from "./MagicBento/MagicBento";
 import DecryptLabel from "./DecryptLabel";
 
@@ -16,8 +15,7 @@ const ProjectCard = ({ project }) => {
     <div
       className="group relative h-[500px] w-full rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(163,230,53,0.1)]"
     >
-      <ElectricBorder color="#a3e635" speed={1.2} chaos={0.08} borderRadius={40} className="h-full w-full rounded-[2.5rem]">
-        <MagicBentoPanel className="relative h-full w-full rounded-[2.5rem] bg-[#0d121f] border border-white/5 overflow-hidden transition-all duration-500 group-hover:border-lime-400/30">
+      <MagicBentoPanel className="relative h-full w-full rounded-[2.5rem] bg-[#0d121f] border border-white/10 overflow-hidden transition-all duration-500 hover:border-lime-400/40">
           {/* 1. Full Image Background with Zoom Effect */}
           <div className="absolute inset-0 overflow-hidden">
             <img
@@ -122,7 +120,6 @@ const ProjectCard = ({ project }) => {
           {/* Animated Border Line */}
           <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-lime-400 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-1000" />
         </MagicBentoPanel>
-      </ElectricBorder>
     </div>
   );
 };
