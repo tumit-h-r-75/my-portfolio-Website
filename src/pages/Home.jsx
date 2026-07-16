@@ -3,6 +3,7 @@ import Banner from '../components/Banner';
 import About from './About';
 import SkillBar from '../components/SkillBar';
 import Education from '../components/Education';
+import TechJourney from '../components/TechJourney/TechJourney';
 import ProjectsSection from '../components/ProjectsSection';
 import Contact from './Contact';
 
@@ -20,6 +21,9 @@ const Home = () => {
             </section>
             <section>
                 <Education></Education>
+            </section>
+            <section>
+                <TechJourney></TechJourney>
             </section>
             <section>
                 <ProjectsSection></ProjectsSection>
