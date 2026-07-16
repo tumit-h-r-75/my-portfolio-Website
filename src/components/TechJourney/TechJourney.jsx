@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { motion, AnimatePresence, useScroll } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaCode,
   FaBolt,
@@ -88,13 +88,7 @@ const commits = [
 ];
 
 const TechJourney = () => {
-  const graphRef = useRef(null);
   const [openId, setOpenId] = useState(1);
-
-  const { scrollYProgress } = useScroll({
-    target: graphRef,
-    offset: ["start 65%", "end 55%"],
-  });
 
   const toggle = (id) => setOpenId((prev) => (prev === id ? null : id));
 
@@ -142,16 +136,7 @@ const TechJourney = () => {
           </p>
 
           {/* Graph */}
-          <div ref={graphRef} className="tj-graph">
-            {/* central spine */}
-            <div className="tj-spine">
-              <div className="tj-spine-track" />
-              <motion.div
-                className="tj-spine-fill"
-                style={{ scaleY: scrollYProgress }}
-              />
-            </div>
-
+          <div className="tj-graph">
             {commits.map((c) => {
               const Icon = c.icon;
               const open = openId === c.id;

@@ -129,42 +129,9 @@
   }
 }
 
-/* central spine — sits under the dot column */
-.tj-spine {
-  position: absolute;
-  left: calc(1.5rem + 22px);
-  top: 1.75rem;
-  bottom: 3rem;
-  width: 2px;
-  z-index: 0;
-}
-
-@media (min-width: 768px) {
-  .tj-spine {
-    left: calc(2.5rem + 22px);
-  }
-}
-
-.tj-spine-track {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
-}
-
-.tj-spine-fill {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, #a3e635, #22d3ee 60%, #4ade80);
-  border-radius: 2px;
-  transform-origin: top;
-  box-shadow: 0 0 12px rgba(163, 230, 53, 0.5);
-}
-
 /* ---------- Commit row ---------- */
 .tj-commit {
   position: relative;
-  z-index: 1;
   display: grid;
   grid-template-columns: 46px 1fr;
   gap: 1.25rem;
@@ -181,8 +148,28 @@
   }
 }
 
+/* connector — runs from below this dot down to the next dot,
+   never through a node. Anchored per-row, so it never breaks. */
+.tj-commit:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 50px;
+  bottom: -1.6rem;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(163, 230, 53, 0.55),
+    rgba(34, 211, 238, 0.2)
+  );
+  z-index: 0;
+}
+
 /* dot */
 .tj-dot-col {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
   padding-top: 0.15rem;
@@ -190,6 +177,7 @@
 
 .tj-dot {
   position: relative;
+  z-index: 1;
   width: 46px;
   height: 46px;
   border-radius: 14px;
@@ -420,6 +408,12 @@
   .tj-commit {
     grid-template-columns: 40px 1fr;
     gap: 1rem;
+  }
+
+  .tj-commit:not(:last-child)::before {
+    left: 19px;
+    top: 44px;
+    bottom: -1.5rem;
   }
 
   .tj-dot {
