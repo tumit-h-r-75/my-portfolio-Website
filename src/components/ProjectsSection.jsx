@@ -1,8 +1,10 @@
 import { useContext } from "react";
+import { Link } from "react-router";
+import { motion } from "framer-motion";
+import { FaArrowRight, FaThLarge } from "react-icons/fa";
 import ProjectCard from "./ProjectCard";
 import projects from "./data/projects";
 import { NavigateContext } from "../context/NavigateProvider";
-import { motion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 import Workflow from "./Workflow/Workflow";
 
@@ -18,19 +20,34 @@ const ProjectsSection = () => {
       <Workflow />
 
       <SectionHeading kicker="Portfolio" before="Featured " highlight="Projects" align="center" />
+      <p className="mx-auto -mt-8 mb-14 max-w-2xl text-center text-sm md:text-base text-zinc-400">
+        A selection of my recent work. Each project is crafted with passion and built with modern technologies.
+      </p>
 
       {/* Project Cards Grid */}
       <motion.div
-        initial={{ opacity: 0, y: 80 }}
+        initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
+        transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2"
+        className="grid gap-6 grid-cols-1 xl:grid-cols-2"
       >
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </motion.div>
+
+      {/* View all */}
+      <div className="mt-12 flex justify-center">
+        <Link
+          to="/projects"
+          className="group inline-flex items-center gap-3 rounded-full border border-lime-400/40 bg-lime-400/5 px-7 py-3.5 text-sm font-black uppercase tracking-[0.15em] text-lime-300 transition hover:bg-lime-400/10"
+        >
+          <FaThLarge className="text-lime-400" />
+          View All Projects
+          <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+        </Link>
+      </div>
     </section>
   );
 };
