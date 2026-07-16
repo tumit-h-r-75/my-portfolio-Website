@@ -1,185 +1,217 @@
-import { FaDownload, FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
-import banner from "../assets/myImg.webp";
-import { useContext } from "react";
-import { motion } from "framer-motion";
-import { NavigateContext } from "../context/NavigateProvider";
+import { useRef } from "react";
+import { FaGithub, FaLinkedin, FaFacebook, FaArrowRight, FaDownload } from "react-icons/fa";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
-import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
-import MagicBentoPanel from "./MagicBento/MagicBento";
-import ShinyText from "./ShinyText/ShinyText";
+import banner from "../assets/myImg.webp";
+import projects from "./data/projects";
+import "./Banner.css";
+
+const RESUME_LINK =
+  "https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing";
+
+const socials = [
+  { icon: <FaGithub />, link: "https://github.com/tumit-h-r-75", label: "GitHub" },
+  { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/tumit-hasan-rafi/", label: "LinkedIn" },
+  { icon: <FaFacebook />, link: "https://www.facebook.com/tumit.hasan.rafi.2025", label: "Facebook" },
+];
+
+const metrics = [
+  { label: "FRONTEND_SYS", value: 92 },
+  { label: "BACKEND_SYS", value: 85 },
+  { label: "DATABASE_IO", value: 80 },
+];
+
+const container = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
+};
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
+const scrollToId = (id) =>
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 
 const Banner = () => {
-    const { homeRef, contactRef, scrollToSection } = useContext(NavigateContext);
+  const panelRef = useRef(null);
 
-    // Animation Variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.2, delayChildren: 0.3 }
-        }
-    };
+  // pointer-driven 3D tilt on the HUD panel
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [7, -7]), { stiffness: 150, damping: 18 });
+  const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-7, 7]), { stiffness: 150, damping: 18 });
 
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: "easeOut" } }
-    };
+  const handleMove = (e) => {
+    const el = panelRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    mx.set((e.clientX - r.left) / r.width - 0.5);
+    my.set((e.clientY - r.top) / r.height - 0.5);
+  };
+  const handleLeave = () => {
+    mx.set(0);
+    my.set(0);
+  };
 
-    return (
-        <section
-            ref={homeRef}
-            className="banner relative min-h-screen flex items-center justify-center px-6 md:px-12 lg:px-24 py-20 overflow-hidden site-text-glitch"
+  const projectCount = projects.length;
+  const countStr = projectCount < 10 ? `0${projectCount}` : `${projectCount}`;
+
+  return (
+    <section
+      id="home"
+      className="banner site-text-glitch relative flex min-h-screen items-center overflow-hidden px-6 py-28 md:px-12 lg:px-20"
+    >
+      <div className="banner-grid" />
+      <div className="banner-glow" />
+
+      <div className="relative z-10 mx-auto grid w-full max-w-[88rem] grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        {/* ---------- LEFT ---------- */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="visible"
+          className="order-2 text-left lg:order-1"
         >
-            {/* --- Background Aesthetic Elements --- */}
-            {/* <div className="absolute top-20 left-10 w-72 h-72 bg-lime-400/10 blur-[120px] rounded-full" />
-            <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-500/5 blur-[150px] rounded-full" /> */}
-            
-            <div className="max-w-[88rem] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-                
-                {/* --- Left Content Section (Col-7) --- */}
-                <motion.div 
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    className="lg:col-span-7 text-center lg:text-left order-2 lg:order-1"
+          <motion.div variants={item} className="banner-badge">
+            <span className="banner-badge-dot" /> SYSTEM ONLINE
+            <span className="text-zinc-600">//</span> AVAILABLE FOR HIRE
+          </motion.div>
+
+          <motion.h1 variants={item} className="banner-title">
+            <span className="block text-white">FULL</span>
+            <span className="block text-white">STACK</span>
+            <span className="block text-lime-400">
+              DEV<span className="banner-caret">_</span>
+            </span>
+          </motion.h1>
+
+          <motion.div variants={item} className="banner-role">
+            <span className="text-zinc-600">$</span>{" "}
+            <span className="font-semibold text-white">Tumit Hasan</span> —{" "}
+            <span className="text-lime-400">
+              <Typewriter
+                words={["MERN Stack Developer", "React Expert", "Solution Architect", "Clean Code Enthusiast"]}
+                loop={0}
+                cursor
+                cursorStyle="_"
+                typeSpeed={55}
+                deleteSpeed={30}
+                delaySpeed={1800}
+              />
+            </span>
+          </motion.div>
+
+          <motion.p variants={item} className="banner-desc">
+            Transforming complex problems into elegant, high-performance web
+            applications with the <span className="font-semibold text-zinc-300">MERN ecosystem</span>.
+            Focused on scalable architecture and clean, user-centric design.
+          </motion.p>
+
+          <motion.div variants={item} className="banner-actions">
+            <button onClick={() => scrollToId("portfolio")} className="banner-cta">
+              VIEW PROJECTS <FaArrowRight />
+            </button>
+            <a href={RESUME_LINK} target="_blank" rel="noreferrer" className="banner-resume">
+              resume.pdf <FaDownload className="text-lime-400" />
+            </a>
+            <div className="banner-socials">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                  className="banner-social"
                 >
-                    <motion.span
-                        variants={itemVariants}
-                        className="inline-block px-4 py-1.5 rounded-full bg-lime-400/10 border border-lime-400/20 text-sm font-bold tracking-widest uppercase mb-6"
-                    >
-                        <ShinyText
-                            text="Available for Freelance"
-                            speed={2.5}
-                            color="#a3e635"
-                            shineColor="#ffffff"
-                            spread={120}
-                        />
-                    </motion.span>
-
-                    <motion.h1 
-                        variants={itemVariants}
-                        className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-6 leading-[1.1] tracking-tighter"
-                    >
-                        <DecryptSplitHeading
-                            before="I Build "
-                            highlight="Digital"
-                            highlightClassName="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-emerald-500"
-                        />
-                        <br />
-                        <DecryptLabel text="Masterpieces." parentClassName="text-white" className="text-white" />
-                    </motion.h1>
-                    
-                    <motion.div variants={itemVariants} className="text-xl md:text-2xl text-zinc-400 font-medium mb-8">
-                        I am{" "}
-                        <DecryptLabel
-                            text="Tumit Hasan"
-                            revealDirection="start"
-                            parentClassName="text-white font-bold"
-                            className="text-white"
-                        />
-                        , a{" "}
-                        <span className="text-lime-400 italic">
-                            <Typewriter
-                                words={['MERN Stack Developer', 'Solution Architect', 'React Expert', 'Clean Code Enthusiast']}
-                                loop={0}
-                                cursor
-                                cursorStyle="_"
-                                typeSpeed={50}
-                                deleteSpeed={30}
-                                delaySpeed={2000}
-                            />
-                        </span>
-                    </motion.div>
-
-                    <motion.p variants={itemVariants} className="text-zinc-500 text-lg mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                        Transforming complex problems into elegant, high-performance web applications with the 
-                        <span className="text-zinc-300 font-semibold"> MERN ecosystem</span>. 
-                        Focused on scalability and user-centric design.
-                    </motion.p>
-
-                    {/* Action Buttons */}
-                    <motion.div variants={itemVariants} className="flex flex-wrap gap-5 justify-center lg:justify-start mb-12">
-                        <MagicBentoPanel
-                            as="button"
-                            onClick={() => scrollToSection(contactRef)}
-                            className="relative group px-10 py-4 bg-lime-400 text-black font-black rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(163,230,53,0.5)]"
-                        >
-                            <span className="relative z-10">
-                                <DecryptLabel text="HIRE ME NOW" parentClassName="text-black font-black" className="text-black" encryptedClassName="text-zinc-600" />
-                            </span>
-                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                        </MagicBentoPanel>
-                        
-                        <MagicBentoPanel
-                            as="a"
-                            href="https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing"
-                            target="_blank"
-                            className="flex items-center gap-3 px-8 py-4 border border-zinc-800 text-white font-bold rounded-xl hover:bg-zinc-900 transition-all duration-300"
-                        >
-                            <DecryptLabel text="Get Resume" parentClassName="text-white font-bold" className="text-white" />{" "}
-                            <FaDownload className="text-lime-400 text-sm" />
-                        </MagicBentoPanel>
-                    </motion.div>
-
-                    {/* Socials */}
-                    <motion.div variants={itemVariants} className="flex items-center justify-center lg:justify-start gap-6">
-                        <span className="text-zinc-600 text-sm font-bold uppercase tracking-widest">Follow Me —</span>
-                        <div className="flex gap-4">
-                            {[
-                                { icon: <FaGithub />, link: "https://github.com/tumit-h-r-75" },
-                                { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/tumit-hasan-rafi/" },
-                                { icon: <FaFacebook />, link: "https://www.facebook.com/tumit.hasan.rafi.2025" }
-                            ].map((item, i) => (
-                                <a 
-                                    key={i} 
-                                    href={item.link} 
-                                    className="text-zinc-400 hover:text-lime-400 transition-colors text-xl"
-                                >
-                                    {item.icon}
-                                </a>
-                            ))}
-                        </div>
-                    </motion.div>
-                </motion.div>
-
-                {/* --- Right Image Section (Col-5) --- */}
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1 }}
-                    className="lg:col-span-5 flex justify-center lg:justify-end order-1 lg:order-2"
-                >
-                    <div className="relative">
-                        {/* Glowing Backdrop */}
-                        <div className="absolute inset-0 bg-lime-400/20 blur-[100px] rounded-full animate-pulse" />
-                        
-                        {/* Main Image Frame */}
-                        <MagicBentoPanel className="relative z-10 w-72 h-[400px] md:w-96 md:h-[500px] rounded-[3rem] overflow-hidden border-2 border-white/5 bg-zinc-900 group">
-                            <img
-                                src={banner}
-                                alt="Tumit Hasan"
-                                className="w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-110"
-                            />
-                            
-                            {/* Floating Stats or Glass Badge */}
-                            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[80%] backdrop-blur-xl bg-white/5 border border-white/10 p-4 rounded-2xl text-center">
-                                <p className="text-xs text-zinc-400 uppercase font-bold tracking-[0.2em] mb-1">Experience</p>
-                                <p className="text-white font-black text-xl">
-                                    <DecryptLabel text="1+ Year Product" parentClassName="text-white font-black" className="text-white" />
-                                </p>
-                            </div>
-                        </MagicBentoPanel>
-
-                        {/* Geometric Accents */}
-                        <div className="absolute -top-10 -left-10 w-24 h-24 border-t-4 border-l-4 border-lime-400 rounded-tl-3xl" />
-                        <div className="absolute -bottom-10 -right-10 w-24 h-24 border-b-4 border-r-4 border-zinc-800 rounded-br-3xl" />
-                    </div>
-                </motion.div>
-
+                  {s.icon}
+                </a>
+              ))}
             </div>
-        </section>
-    );
+          </motion.div>
+        </motion.div>
+
+        {/* ---------- RIGHT (HUD) ---------- */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="order-1 flex justify-center lg:order-2 lg:justify-end"
+          style={{ perspective: 1000 }}
+        >
+          <div className="banner-laser-wrap">
+            <span className="laser laser-1" />
+            <span className="laser laser-2" />
+
+            <motion.div
+              ref={panelRef}
+              onMouseMove={handleMove}
+              onMouseLeave={handleLeave}
+              style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+              className="hud-panel"
+            >
+              <span className="hud-corner hud-corner--tl" />
+              <span className="hud-corner hud-corner--tr" />
+              <span className="hud-corner hud-corner--bl" />
+              <span className="hud-corner hud-corner--br" />
+
+              <div className="hud-head">
+                <span>
+                  SYS.STATUS: <span className="text-lime-400">ONLINE</span>
+                </span>
+                <span>UPTIME: 99.9%</span>
+              </div>
+
+              {/* image feed */}
+              <div className="hud-feed">
+                <img src={banner} alt="Tumit Hasan" />
+                <div className="hud-scanlines" />
+                <span className="hud-scan" />
+                <span className="hud-rec">
+                  <span className="hud-rec-dot" /> LIVE
+                </span>
+              </div>
+
+              {/* animated metrics */}
+              <div className="hud-metrics">
+                {metrics.map((m, i) => (
+                  <div key={m.label}>
+                    <div className="hud-metric-top">
+                      <span>{m.label}</span>
+                      <span className="text-lime-400">{m.value}%</span>
+                    </div>
+                    <div className="hud-bar">
+                      <motion.span
+                        className="hud-bar-fill"
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${m.value}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.1, delay: 0.4 + i * 0.15, ease: "easeOut" }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* footer */}
+              <div className="hud-foot">
+                <div className="hud-foot-left">
+                  STACK: MERN
+                  <br />
+                  LOCATION: BD
+                </div>
+                <div>
+                  <span className="hud-count">{countStr}</span>
+                  <span className="hud-count-label">PROJECTS_SHIPPED</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 };
 
 export default Banner;
