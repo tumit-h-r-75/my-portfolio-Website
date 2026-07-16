@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll } from "framer-motion";
 import {
   FaCode,
   FaBolt,
@@ -7,98 +7,91 @@ import {
   FaLayerGroup,
   FaRocket,
   FaCheck,
-  FaArrowRight,
 } from "react-icons/fa";
 import SectionHeading from "../SectionHeading";
 import BorderGlow, { glowTheme } from "../BorderGlow/BorderGlow";
 import "./TechJourney.css";
 
-const phases = [
+const commits = [
   {
     id: 1,
     phase: "01",
+    hash: "e5f0a12",
+    branch: "main",
+    verb: "init",
+    message: "laid the foundations",
     icon: FaCode,
-    title: "Foundations",
     tagline: "Where curiosity met code",
     description:
       "It started with HTML & CSS — turning blank pages into structured, styled layouts. I learned how the web is built from the ground up, and how good structure makes everything else possible.",
-    skills: ["HTML5", "CSS3", "Responsive Design", "Flexbox & Grid"],
+    skills: ["HTML5", "CSS3", "Responsive", "Flexbox & Grid"],
     outcome: "Built my first websites from scratch.",
   },
   {
     id: 2,
     phase: "02",
+    hash: "9c4db83",
+    branch: "feat/interactivity",
+    verb: "feat",
+    message: "brought pages to life",
     icon: FaBolt,
-    title: "Bringing Pages to Life",
     tagline: "Logic, interactivity, problem-solving",
     description:
-      "I dove into JavaScript — variables, loops, functions, and the DOM. This is where I learned to think in logic, break problems apart, and make static pages respond, move, and feel alive.",
-    skills: ["JavaScript (ES6+)", "DOM", "Async / Await", "Problem Solving"],
+      "I dove into JavaScript — variables, loops, functions, the DOM. This is where I learned to think in logic, break problems apart, and make static pages respond, move, and feel alive.",
+    skills: ["JavaScript", "DOM", "Async / Await", "Problem Solving"],
     outcome: "Turned flat designs into interactive experiences.",
   },
   {
     id: 3,
     phase: "03",
+    hash: "61bea77",
+    branch: "feat/react",
+    verb: "refactor",
+    message: "adopted component thinking",
     icon: FaReact,
-    title: "Thinking in Components",
     tagline: "The React mindset",
     description:
       "React changed how I build. I adopted component-driven architecture, learned hooks and state, and started routing between views — building interfaces that scale without turning into a mess.",
-    skills: ["React.js", "Hooks", "React Router", "Tailwind CSS"],
+    skills: ["React.js", "Hooks", "Router", "Tailwind CSS"],
     outcome: "Built reusable, maintainable UI systems.",
   },
   {
     id: 4,
     phase: "04",
+    hash: "3faed09",
+    branch: "feat/mern-stack",
+    verb: "feat",
+    message: "went full stack",
     icon: FaLayerGroup,
-    title: "Going Full Stack",
     tagline: "Frontend meets backend",
     description:
       "I connected the dots with Node.js, Express, and MongoDB. Building REST APIs, handling authentication, and managing data completed the picture — the full MERN stack, end to end.",
-    skills: ["Node.js", "Express", "MongoDB", "JWT & REST APIs"],
+    skills: ["Node.js", "Express", "MongoDB", "JWT / REST"],
     outcome: "Shipped complete full-stack applications.",
   },
   {
     id: 5,
     phase: "05",
+    hash: "d0c4e75",
+    branch: "release/production",
+    verb: "release",
+    message: "shipped to production",
     icon: FaRocket,
-    title: "Production & Beyond",
     tagline: "Real products, real users",
     description:
       "Now I focus on shipping. Next.js, performance, and deployment — writing production-ready code with clean architecture, SEO, and the reliability that real-world projects demand.",
     skills: ["Next.js", "Firebase", "Deployment", "Performance"],
     outcome: "Deploying real projects people actually use.",
+    head: true,
   },
 ];
 
-const AUTOPLAY_MS = 5000;
-
 const TechJourney = () => {
-  const [activeId, setActiveId] = useState(1);
-  const [paused, setPaused] = useState(false);
-  const timerRef = useRef(null);
-
-  const activeIndex = phases.findIndex((p) => p.id === activeId);
-  const active = phases[activeIndex];
-  const ActiveIcon = active.icon;
-
-  const advance = useCallback(() => {
-    setActiveId((prev) => {
-      const idx = phases.findIndex((p) => p.id === prev);
-      return phases[(idx + 1) % phases.length].id;
-    });
-  }, []);
-
-  useEffect(() => {
-    if (paused) return;
-    timerRef.current = setInterval(advance, AUTOPLAY_MS);
-    return () => clearInterval(timerRef.current);
-  }, [paused, advance]);
-
-  const handleSelect = (id) => {
-    setActiveId(id);
-    setPaused(true);
-  };
+  const graphRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: graphRef,
+    offset: ["start 65%", "end 55%"],
+  });
 
   return (
     <section
@@ -107,7 +100,7 @@ const TechJourney = () => {
     >
       <div className="pointer-events-none absolute left-1/2 top-24 h-56 w-[30rem] -translate-x-1/2 rounded-full bg-lime-400/10 blur-[140px]" />
 
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative z-10 mx-auto max-w-5xl">
         <SectionHeading
           kicker="The Path"
           before="Developer "
@@ -115,121 +108,103 @@ const TechJourney = () => {
           align="center"
         />
 
-        <div
-          className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
+        <BorderGlow
+          {...glowTheme}
+          backgroundColor="#08090c"
+          borderRadius={24}
+          className="tj-terminal"
         >
-          {/* LEFT — Timeline spine */}
-          <div className="lg:col-span-5">
-            <div className="tj-timeline">
-              {phases.map((p, i) => {
-                const state =
-                  i < activeIndex
-                    ? "done"
-                    : i === activeIndex
-                    ? "active"
-                    : "upcoming";
-                const StepIcon = p.icon;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => handleSelect(p.id)}
-                    className={`tj-step tj-step--${state}`}
-                    aria-current={state === "active"}
-                  >
-                    <span className="tj-node">
-                      {state === "done" ? (
-                        <FaCheck className="tj-node-icon" />
-                      ) : (
-                        <StepIcon className="tj-node-icon" />
-                      )}
-                      {state === "active" && <span className="tj-node-ring" />}
-                    </span>
-
-                    <span className="tj-step-meta">
-                      <span className="tj-step-phase">Phase {p.phase}</span>
-                      <span className="tj-step-title">{p.title}</span>
-                    </span>
-                  </button>
-                );
-              })}
+          {/* Terminal title bar */}
+          <div className="tj-bar">
+            <div className="tj-lights">
+              <span className="tj-light tj-light--red" />
+              <span className="tj-light tj-light--amber" />
+              <span className="tj-light tj-light--green" />
             </div>
+            <div className="tj-bar-path">tumit-hasan — ~/journey</div>
+            <div className="tj-bar-spacer" />
           </div>
 
-          {/* RIGHT — Active phase detail */}
-          <div className="lg:col-span-7">
-            <BorderGlow
-              {...glowTheme}
-              backgroundColor="#0a0a0a"
-              borderRadius={32}
-              className="h-full"
-            >
-              <div className="tj-card">
-                <span className="tj-watermark">{active.phase}</span>
+          {/* Command line */}
+          <div className="tj-cmd">
+            <span className="tj-prompt">$</span>
+            <span className="tj-cmd-text">git log --graph --oneline --reverse</span>
+            <span className="tj-caret" />
+          </div>
 
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={active.id}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -16 }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative z-10 flex h-full flex-col"
-                  >
-                    <div className="tj-card-head">
-                      <span className="tj-icon-badge">
-                        <ActiveIcon />
+          {/* Graph */}
+          <div ref={graphRef} className="tj-graph">
+            {/* central spine */}
+            <div className="tj-spine">
+              <div className="tj-spine-track" />
+              <motion.div
+                className="tj-spine-fill"
+                style={{ scaleY: scrollYProgress }}
+              />
+            </div>
+
+            {commits.map((c) => {
+              const Icon = c.icon;
+              return (
+                <motion.article
+                  key={c.id}
+                  initial={{ opacity: 0, y: 32 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-70px" }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  className="tj-commit"
+                >
+                  {/* dot on the spine */}
+                  <div className="tj-dot-col">
+                    <motion.span
+                      className="tj-dot"
+                      initial={{ scale: 0.5 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true, margin: "-45% 0px -45% 0px" }}
+                      transition={{ duration: 0.4, ease: "backOut" }}
+                    >
+                      <Icon className="tj-dot-icon" />
+                    </motion.span>
+                  </div>
+
+                  {/* commit body */}
+                  <div className="tj-commit-body">
+                    <div className="tj-commit-head">
+                      <span className="tj-hash">{c.hash}</span>
+                      <span className="tj-branch">
+                        <span className="tj-branch-dot" />
+                        {c.branch}
                       </span>
-                      <span className="tj-tagline">{active.tagline}</span>
+                      {c.head && <span className="tj-head-tag">HEAD</span>}
+                      <span className="tj-phase-num">Phase {c.phase}</span>
                     </div>
 
-                    <h3 className="tj-title">{active.title}</h3>
-                    <p className="tj-desc">{active.description}</p>
+                    <h3 className="tj-message">
+                      <span className="tj-verb">{c.verb}:</span> {c.message}
+                    </h3>
+                    <p className="tj-tagline">{c.tagline}</p>
+                    <p className="tj-desc">{c.description}</p>
 
-                    <div className="tj-skills-block">
-                      <span className="tj-skills-label">Skills unlocked</span>
-                      <div className="tj-skills">
-                        {active.skills.map((s, i) => (
-                          <motion.span
-                            key={s}
-                            initial={{ opacity: 0, scale: 0.85 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.15 + i * 0.07 }}
-                            className="tj-chip"
-                          >
-                            {s}
-                          </motion.span>
-                        ))}
-                      </div>
+                    <div className="tj-skills">
+                      {c.skills.map((s) => (
+                        <span key={s} className="tj-chip">
+                          {s}
+                        </span>
+                      ))}
                     </div>
 
                     <div className="tj-outcome">
                       <span className="tj-outcome-icon">
-                        <FaArrowRight />
+                        <FaCheck />
                       </span>
-                      <span>{active.outcome}</span>
+                      <span>{c.outcome}</span>
                     </div>
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Autoplay progress bar */}
-                <div className="tj-progress">
-                  <motion.span
-                    key={`${active.id}-${paused}`}
-                    className="tj-progress-fill"
-                    initial={{ width: paused ? "100%" : "0%" }}
-                    animate={{ width: "100%" }}
-                    transition={{
-                      duration: paused ? 0 : AUTOPLAY_MS / 1000,
-                      ease: "linear",
-                    }}
-                  />
-                </div>
-              </div>
-            </BorderGlow>
+                  </div>
+                </motion.article>
+              );
+            })}
           </div>
-        </div>
+        </BorderGlow>
       </div>
     </section>
   );
