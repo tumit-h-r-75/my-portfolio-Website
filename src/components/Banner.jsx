@@ -1,5 +1,5 @@
 import { FaDownload, FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
-import banner from "../assets/myImg.png";
+import banner from "../assets/myImg.webp";
 import { useContext } from "react";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";

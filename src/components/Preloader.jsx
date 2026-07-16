@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import DecryptLabel from "./DecryptLabel";
-import bannerImage from "../assets/myImg.png";
+import bannerImage from "../assets/myImg.webp";
 
 const Preloader = ({ onFinish }) => {
   const [startSplit, setStartSplit] = useState(false);
