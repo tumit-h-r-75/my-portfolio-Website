@@ -22,7 +22,7 @@ const ProjectCard = ({ project }) => {
       whileHover={{ y: -8 }}
       className="group relative h-[500px] w-full overflow-hidden transition-shadow duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(163,230,53,0.1)]"
     >
-      <BorderGlow {...glowTheme} backgroundColor="#0d121f" borderRadius={40} className="h-full w-full">
+      <BorderGlow {...glowTheme} backgroundColor="#0d121f" borderRadius={40} className="h-full w-full overflow-hidden">
       <MagicBentoPanel className="relative h-full w-full overflow-hidden">
           {/* 1. Full Image Background with Zoom Effect */}
           <div className="absolute inset-0 overflow-hidden">
