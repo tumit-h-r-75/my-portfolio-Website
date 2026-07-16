@@ -18,31 +18,26 @@ const ClickSpark = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const parent = canvas.parentElement;
-    if (!parent) return;
-
-    let resizeTimeout;
-
     const resizeCanvas = () => {
-      const { width, height } = parent.getBoundingClientRect();
+      const width = window.innerWidth;
+      const height = window.innerHeight;
       if (canvas.width !== width || canvas.height !== height) {
         canvas.width = width;
         canvas.height = height;
       }
     };
 
+    let resizeTimeout;
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(resizeCanvas, 100);
     };
 
-    const ro = new ResizeObserver(handleResize);
-    ro.observe(parent);
-
     resizeCanvas();
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      ro.disconnect();
+      window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimeout);
     };
   }, []);
@@ -107,49 +102,51 @@ const ClickSpark = ({
     };
   }, []);
 
-  const handleClick = e => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  // Listen on the whole window so every click — on any component,
+  // regardless of its z-index — triggers a spark.
+  useEffect(() => {
+    const handleClick = e => {
+      // viewport coordinates, matching the fixed full-screen canvas
+      const x = e.clientX;
+      const y = e.clientY;
 
-    const now = performance.now();
-    const newSparks = Array.from({ length: sparkCount }, (_, i) => ({
-      x,
-      y,
-      angle: (2 * Math.PI * i) / sparkCount,
-      startTime: now
-    }));
+      const now = performance.now();
+      const newSparks = Array.from({ length: sparkCount }, (_, i) => ({
+        x,
+        y,
+        angle: (2 * Math.PI * i) / sparkCount,
+        startTime: now
+      }));
 
-    sparksRef.current.push(...newSparks);
-    if (!animationRef.current) {
-      animationRef.current = requestAnimationFrame(draw);
-    }
-  };
+      sparksRef.current.push(...newSparks);
+      if (!animationRef.current) {
+        animationRef.current = requestAnimationFrame(draw);
+      }
+    };
+
+    // capture phase → fires even if a component calls stopPropagation()
+    window.addEventListener('click', handleClick, true);
+    return () => window.removeEventListener('click', handleClick, true);
+  }, [draw, sparkCount]);
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%'
-      }}
-      onClick={handleClick}>
+    <>
       <canvas
         ref={canvasRef}
         style={{
-          width: '100%',
-          height: '100%',
-          display: 'block',
-          userSelect: 'none',
-          position: 'absolute',
+          position: 'fixed',
           top: 0,
           left: 0,
-          pointerEvents: 'none'
-        }} />
+          width: '100vw',
+          height: '100vh',
+          display: 'block',
+          userSelect: 'none',
+          pointerEvents: 'none',
+          zIndex: 9999
+        }}
+      />
       {children}
-    </div>
+    </>
   );
 };
 
