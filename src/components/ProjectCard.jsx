@@ -19,9 +19,9 @@ const ProjectCard = ({ project }) => {
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       whileHover={{ y: -8 }}
-      className="group relative overflow-hidden transition-shadow duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(163,230,53,0.1)]"
+      className="group relative h-[420px] md:h-[480px] overflow-hidden transition-shadow duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(163,230,53,0.1)]"
     >
-      <BorderGlow {...glowTheme} backgroundColor="#0d121f" borderRadius={40} className="overflow-hidden">
+      <BorderGlow {...glowTheme} backgroundColor="#0d121f" borderRadius={40} className="h-full w-full overflow-hidden">
         <MagicBentoPanel className="relative flex flex-col h-full overflow-hidden p-6 md:p-8">
 
           {/* Background Image Layer */}
