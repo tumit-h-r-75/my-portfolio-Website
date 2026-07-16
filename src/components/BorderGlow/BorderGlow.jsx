@@ -145,7 +145,8 @@ const BorderGlow = ({
     });
   }, [animated]);
 
-  const glowVars = buildGlowVars(glowColor, glowIntensity);
+  const glowVars = useMemo(() => buildGlowVars(glowColor, glowIntensity), [glowColor, glowIntensity]);
+  const gradientVars = useMemo(() => buildGradientVars(colors), [colors]);
 
   return (
     <div
@@ -160,7 +161,7 @@ const BorderGlow = ({
         '--cone-spread': coneSpread,
         '--fill-opacity': fillOpacity,
         ...glowVars,
-        ...buildGradientVars(colors),
+        ...gradientVars,
       }}
     >
       <span className="edge-light" />
