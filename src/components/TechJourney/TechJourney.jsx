@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { motion, useScroll } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, AnimatePresence, useScroll } from "framer-motion";
 import {
   FaCode,
   FaBolt,
@@ -7,6 +7,7 @@ import {
   FaLayerGroup,
   FaRocket,
   FaCheck,
+  FaChevronDown,
 } from "react-icons/fa";
 import SectionHeading from "../SectionHeading";
 import BorderGlow, { glowTheme } from "../BorderGlow/BorderGlow";
@@ -88,10 +89,14 @@ const commits = [
 
 const TechJourney = () => {
   const graphRef = useRef(null);
+  const [openId, setOpenId] = useState(1);
+
   const { scrollYProgress } = useScroll({
     target: graphRef,
     offset: ["start 65%", "end 55%"],
   });
+
+  const toggle = (id) => setOpenId((prev) => (prev === id ? null : id));
 
   return (
     <section
@@ -131,6 +136,10 @@ const TechJourney = () => {
             <span className="tj-cmd-text">git log --graph --oneline --reverse</span>
             <span className="tj-caret" />
           </div>
+          <p className="tj-hint">
+            <span className="tj-hint-key">click</span> a commit to{" "}
+            <span className="tj-hint-cmd">git show</span> the full story
+          </p>
 
           {/* Graph */}
           <div ref={graphRef} className="tj-graph">
@@ -145,6 +154,7 @@ const TechJourney = () => {
 
             {commits.map((c) => {
               const Icon = c.icon;
+              const open = openId === c.id;
               return (
                 <motion.article
                   key={c.id}
@@ -152,7 +162,7 @@ const TechJourney = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-70px" }}
                   transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className="tj-commit"
+                  className={`tj-commit ${open ? "tj-commit--open" : ""}`}
                 >
                   {/* dot on the spine */}
                   <div className="tj-dot-col">
@@ -169,36 +179,65 @@ const TechJourney = () => {
 
                   {/* commit body */}
                   <div className="tj-commit-body">
-                    <div className="tj-commit-head">
+                    {/* one-line header (clickable) */}
+                    <button
+                      className="tj-oneline"
+                      onClick={() => toggle(c.id)}
+                      aria-expanded={open}
+                    >
                       <span className="tj-hash">{c.hash}</span>
                       <span className="tj-branch">
                         <span className="tj-branch-dot" />
                         {c.branch}
                       </span>
                       {c.head && <span className="tj-head-tag">HEAD</span>}
-                      <span className="tj-phase-num">Phase {c.phase}</span>
-                    </div>
-
-                    <h3 className="tj-message">
-                      <span className="tj-verb">{c.verb}:</span> {c.message}
-                    </h3>
-                    <p className="tj-tagline">{c.tagline}</p>
-                    <p className="tj-desc">{c.description}</p>
-
-                    <div className="tj-skills">
-                      {c.skills.map((s) => (
-                        <span key={s} className="tj-chip">
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="tj-outcome">
-                      <span className="tj-outcome-icon">
-                        <FaCheck />
+                      <span className="tj-oneline-msg">
+                        <span className="tj-verb">{c.verb}:</span> {c.message}
                       </span>
-                      <span>{c.outcome}</span>
-                    </div>
+                      <span className="tj-toggle">
+                        <FaChevronDown />
+                      </span>
+                    </button>
+
+                    {/* expandable detail (git show) */}
+                    <AnimatePresence initial={false}>
+                      {open && (
+                        <motion.div
+                          key="detail"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                          className="tj-detail-wrap"
+                        >
+                          <div className="tj-detail">
+                            <p className="tj-tagline">{c.tagline}</p>
+                            <p className="tj-desc">{c.description}</p>
+
+                            <div className="tj-skills">
+                              {c.skills.map((s, i) => (
+                                <motion.span
+                                  key={s}
+                                  initial={{ opacity: 0, y: 6 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: 0.12 + i * 0.06 }}
+                                  className="tj-chip"
+                                >
+                                  {s}
+                                </motion.span>
+                              ))}
+                            </div>
+
+                            <div className="tj-outcome">
+                              <span className="tj-outcome-icon">
+                                <FaCheck />
+                              </span>
+                              <span>{c.outcome}</span>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </motion.article>
               );

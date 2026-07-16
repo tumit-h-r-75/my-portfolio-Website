@@ -1,6 +1,7 @@
 /* ============================================================
    Developer Journey — "git log --graph" terminal timeline
-   Robust flex/grid layout + scroll-driven spine. No pixel math.
+   Clickable commits (git show style), scroll-driven spine.
+   Robust flex/grid layout, no fragile pixel math.
    ============================================================ */
 
 :root {
@@ -64,7 +65,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 1.1rem 1.5rem 0.4rem;
+  padding: 1.1rem 1.5rem 0.35rem;
   font-family: var(--tj-mono);
   font-size: 0.86rem;
 }
@@ -97,23 +98,42 @@
   }
 }
 
+.tj-hint {
+  padding: 0 1.5rem 0.5rem;
+  font-family: var(--tj-mono);
+  font-size: 0.74rem;
+  color: #52525b;
+}
+
+.tj-hint-key {
+  color: #a3e635;
+  border: 1px solid rgba(163, 230, 53, 0.3);
+  border-radius: 5px;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.68rem;
+}
+
+.tj-hint-cmd {
+  color: #22d3ee;
+}
+
 /* ---------- Graph ---------- */
 .tj-graph {
   position: relative;
-  padding: 1.5rem 1.5rem 2rem;
+  padding: 1.25rem 1.5rem 2rem;
 }
 
 @media (min-width: 768px) {
   .tj-graph {
-    padding: 2rem 2.5rem 2.5rem;
+    padding: 1.5rem 2.5rem 2.5rem;
   }
 }
 
 /* central spine — sits under the dot column */
 .tj-spine {
   position: absolute;
-  left: calc(1.5rem + 23px);
-  top: 2rem;
+  left: calc(1.5rem + 22px);
+  top: 1.75rem;
   bottom: 3rem;
   width: 2px;
   z-index: 0;
@@ -121,7 +141,7 @@
 
 @media (min-width: 768px) {
   .tj-spine {
-    left: calc(2.5rem + 23px);
+    left: calc(2.5rem + 22px);
   }
 }
 
@@ -148,7 +168,7 @@
   display: grid;
   grid-template-columns: 46px 1fr;
   gap: 1.25rem;
-  padding-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .tj-commit:last-child {
@@ -165,7 +185,7 @@
 .tj-dot-col {
   display: flex;
   justify-content: center;
-  padding-top: 0.25rem;
+  padding-top: 0.15rem;
 }
 
 .tj-dot {
@@ -176,31 +196,58 @@
   display: grid;
   place-items: center;
   background: #0d0f13;
-  border: 1.5px solid rgba(163, 230, 53, 0.45);
+  border: 1.5px solid rgba(163, 230, 53, 0.35);
   color: #a3e635;
-  box-shadow: 0 0 22px rgba(163, 230, 53, 0.28);
+  box-shadow: 0 0 16px rgba(163, 230, 53, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tj-dot-icon {
   font-size: 1.05rem;
 }
 
-/* ---------- Commit body ---------- */
-.tj-commit-body {
-  padding-bottom: 0.5rem;
+.tj-commit--open .tj-dot {
+  border-color: #a3e635;
+  background: linear-gradient(135deg, rgba(163, 230, 53, 0.25), rgba(163, 230, 53, 0.06));
+  box-shadow: 0 0 26px rgba(163, 230, 53, 0.4);
+  transform: scale(1.06);
 }
 
-.tj-commit-head {
+/* ---------- Commit body ---------- */
+.tj-commit-body {
+  min-width: 0;
+}
+
+/* clickable one-line (git log --oneline) */
+.tj-oneline {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 0.75rem;
-  margin-bottom: 0.85rem;
+  gap: 0.5rem 0.7rem;
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  margin-top: 0.15rem;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
   font-family: var(--tj-mono);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tj-oneline:hover {
+  background: rgba(163, 230, 53, 0.05);
+  border-color: rgba(163, 230, 53, 0.25);
+}
+
+.tj-commit--open .tj-oneline {
+  background: rgba(163, 230, 53, 0.05);
+  border-color: rgba(163, 230, 53, 0.3);
 }
 
 .tj-hash {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #fbbf24;
   letter-spacing: 0.03em;
@@ -210,8 +257,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.15rem 0.6rem;
-  font-size: 0.72rem;
+  padding: 0.12rem 0.55rem;
+  font-size: 0.7rem;
   color: #22d3ee;
   background: rgba(34, 211, 238, 0.08);
   border: 1px solid rgba(34, 211, 238, 0.25);
@@ -226,8 +273,8 @@
 }
 
 .tj-head-tag {
-  padding: 0.15rem 0.55rem;
-  font-size: 0.68rem;
+  padding: 0.12rem 0.5rem;
+  font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   color: #000;
@@ -235,27 +282,17 @@
   border-radius: 999px;
 }
 
-.tj-phase-num {
-  margin-left: auto;
-  font-size: 0.7rem;
+.tj-oneline-msg {
+  font-size: 0.9rem;
   font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #52525b;
-}
-
-.tj-message {
-  font-family: var(--tj-mono);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.3;
-  margin-bottom: 0.4rem;
+  color: #e4e4e7;
+  flex: 1;
+  min-width: 60%;
 }
 
 @media (min-width: 768px) {
-  .tj-message {
-    font-size: 1.35rem;
+  .tj-oneline-msg {
+    min-width: auto;
   }
 }
 
@@ -263,21 +300,51 @@
   color: #a3e635;
 }
 
+.tj-toggle {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  color: #71717a;
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.04);
+  transition: transform 0.35s ease, color 0.3s ease, background 0.3s ease;
+  transform: rotate(-90deg);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.tj-commit--open .tj-toggle {
+  transform: rotate(0deg);
+  color: #a3e635;
+  background: rgba(163, 230, 53, 0.12);
+}
+
+/* ---------- Expandable detail (git show) ---------- */
+.tj-detail-wrap {
+  overflow: hidden;
+}
+
+.tj-detail {
+  padding: 1.25rem 0.9rem 0.5rem;
+}
+
 .tj-tagline {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #a3e635;
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.75rem;
 }
 
 .tj-desc {
-  font-size: 0.96rem;
+  font-size: 0.95rem;
   line-height: 1.7;
   color: #a1a1aa;
-  max-width: 54ch;
-  margin-bottom: 1.25rem;
+  max-width: 56ch;
+  margin-bottom: 1.15rem;
 }
 
 .tj-skills {
@@ -333,12 +400,17 @@
   }
 
   .tj-cmd {
-    font-size: 0.74rem;
+    font-size: 0.72rem;
     padding: 1rem 1.1rem 0.3rem;
   }
 
+  .tj-hint {
+    padding: 0 1.1rem 0.5rem;
+    font-size: 0.68rem;
+  }
+
   .tj-graph {
-    padding: 1.25rem 1.1rem 1.75rem;
+    padding: 1rem 1.1rem 1.75rem;
   }
 
   .tj-spine {
@@ -356,12 +428,16 @@
     border-radius: 12px;
   }
 
-  .tj-message {
-    font-size: 1.05rem;
+  .tj-oneline {
+    padding: 0.6rem 0.75rem;
   }
 
-  .tj-phase-num {
-    display: none;
+  .tj-oneline-msg {
+    font-size: 0.84rem;
+  }
+
+  .tj-detail {
+    padding: 1.1rem 0.75rem 0.5rem;
   }
 }
 
