@@ -66,7 +66,7 @@ const Navbar = () => {
           : "bg-transparent py-6"
       }`}
     >
-      <div className="max-w-[88rem] mx-auto px-6 md:px-10 lg:px-12 flex justify-between items-center">
+      <div className="max-w-[96rem] mx-auto px-6 md:px-10 lg:px-12 flex justify-between items-center">
         {/* --- Logo --- */}
         <Link
           to="/"

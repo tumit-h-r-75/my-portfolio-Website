@@ -10,7 +10,7 @@ const MainLayout = () => {
             <header>
                 <Navbar></Navbar>
             </header>
-            <main className='max-w-[88rem] mx-auto min-h-screen pt-26'>
+            <main className='max-w-[96rem] mx-auto min-h-screen pt-26'>
                 <Outlet></Outlet>
             </main>
             <footer>

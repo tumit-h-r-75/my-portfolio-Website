@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://my-protfolio-tumit.web.app/sitemap.xml

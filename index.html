@@ -3,24 +3,80 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/FavIcon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tumit Hasan</title>
+  <link rel="icon" type="image/png" href="/FavIcon.png" />
 
-  <!-- ✅ Google Analytics Tracking Code -->
+  <!-- Primary SEO -->
+  <title>Tumit Hasan — MERN Stack Developer | Full Stack Web Developer</title>
+  <meta name="description"
+    content="Tumit Hasan is a MERN Stack Web Developer from Jashore, Bangladesh, specializing in React, Node.js, Express, and MongoDB. Explore Tumit Hasan's portfolio, projects, and skills." />
+  <meta name="keywords"
+    content="Tumit, Tumit Hasan, Tumit Hasan Developer, Tumit Hasan Portfolio, MERN Stack Developer, React Developer, Full Stack Developer, Web Developer Bangladesh, Frontend Developer Jashore, JavaScript Developer, Node.js Developer" />
+  <meta name="author" content="Tumit Hasan" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="canonical" href="https://my-protfolio-tumit.web.app/" />
+
+  <!-- Open Graph (Facebook, LinkedIn) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tumit Hasan" />
+  <meta property="og:title" content="Tumit Hasan — MERN Stack Developer" />
+  <meta property="og:description"
+    content="MERN Stack Web Developer from Bangladesh building fast, responsive, full-stack web applications with React, Node.js, Express & MongoDB." />
+  <meta property="og:url" content="https://my-protfolio-tumit.web.app/" />
+  <meta property="og:image" content="https://my-protfolio-tumit.web.app/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tumit Hasan — MERN Stack Developer" />
+  <meta name="twitter:description"
+    content="MERN Stack Web Developer from Bangladesh building fast, responsive, full-stack web applications." />
+  <meta name="twitter:image" content="https://my-protfolio-tumit.web.app/og-image.jpg" />
+
+  <!-- Structured data: Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Tumit Hasan",
+    "alternateName": "Tumit",
+    "url": "https://my-protfolio-tumit.web.app/",
+    "image": "https://my-protfolio-tumit.web.app/og-image.jpg",
+    "jobTitle": "MERN Stack Developer",
+    "email": "mailto:tumithasan1@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Jashore",
+      "addressCountry": "Bangladesh"
+    },
+    "sameAs": [
+      "https://github.com/tumit-h-r-75",
+      "https://www.linkedin.com/in/tumit-hasan-rafi/",
+      "https://www.facebook.com/tumit.hasan.rafi.2025"
+    ],
+    "knowsAbout": ["React", "Node.js", "Express.js", "MongoDB", "JavaScript", "TypeScript", "Next.js", "Tailwind CSS", "Web Development"]
+  }
+  </script>
+
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9QH68429Q0"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-9QH68429Q0');
   </script>
-
 </head>
 
 <body>
   <div id="root"></div>
+  <!-- Fallback content for crawlers before JS hydration -->
+  <noscript>
+    Tumit Hasan — MERN Stack Web Developer from Jashore, Bangladesh. Portfolio of
+    React, Node.js, Express and MongoDB projects.
+  </noscript>
   <script type="module" src="/src/main.jsx"></script>
 </body>
 

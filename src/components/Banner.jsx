@@ -125,7 +125,7 @@ const Banner = () => {
       <div className="banner-grid" />
       <div className="banner-glow" />
 
-      <div className="relative z-10 mx-auto w-full max-w-[88rem]">
+      <div className="relative z-10 mx-auto w-full max-w-[96rem]">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* ---------- LEFT ---------- */}
           <motion.div

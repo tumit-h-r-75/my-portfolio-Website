@@ -37,7 +37,7 @@ const Footer = () => {
       {/* Background Subtle Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[100px] bg-lime-400/10 blur-[80px] rounded-full pointer-events-none" />
 
-      <div className="max-w-[88rem] mx-auto px-6 lg:px-12 relative z-10">
+      <div className="max-w-[96rem] mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
           
           {/* 1. Branding Section (Col-5) */}
@@ -172,7 +172,7 @@ const Footer = () => {
 
       </div>
 
-      <div className="max-w-[88rem] mx-auto px-6 lg:px-12 relative z-10">
+      <div className="max-w-[96rem] mx-auto px-6 lg:px-12 relative z-10">
         <div className="footer-bottom pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-zinc-500 text-sm text-center md:text-left">
             &copy; {new Date().getFullYear()}{" "}

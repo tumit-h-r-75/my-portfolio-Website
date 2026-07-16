@@ -80,7 +80,7 @@ const About = () => {
     <section
       ref={aboutRef}
       id="about"
-      className="relative mx-auto max-w-[88rem] overflow-hidden px-4 py-20 sm:px-6 md:px-12 md:py-28"
+      className="relative mx-auto max-w-[96rem] overflow-hidden px-4 py-20 sm:px-6 md:px-12 md:py-28"
     >
       <SectionHeading kicker="Who I Am" before="ABOUT " highlight="ME" align="center" />
 
