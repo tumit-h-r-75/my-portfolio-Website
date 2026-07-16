@@ -11,7 +11,7 @@ import {
   FaJs,
   FaCode,
   FaRocket,
-  FaUsers,
+  FaLayerGroup,
 } from "react-icons/fa";
 import { SiMongodb, SiExpress, SiTailwindcss, SiNextdotjs } from "react-icons/si";
 import { motion, useInView } from "framer-motion";
@@ -118,7 +118,7 @@ const About = () => {
 
           <div className="about-freelance">
             <div className="about-freelance-title">
-              <span className="dot" /> Available for Freelance
+              <span className="dot" /> Open to Work
             </div>
             <p className="about-freelance-sub">Let's build something amazing together!</p>
           </div>
@@ -155,18 +155,18 @@ const About = () => {
           <div className="about-stats">
             <div className="about-stat">
               <div className="about-stat-ring"><FaCode /></div>
-              <div className="about-stat-num"><CountUp end={4} /></div>
+              <div className="about-stat-num"><CountUp end={1} /></div>
               <div className="about-stat-label">Years Experience</div>
             </div>
             <div className="about-stat">
               <div className="about-stat-ring"><FaRocket /></div>
-              <div className="about-stat-num"><CountUp end={25} /></div>
-              <div className="about-stat-label">Projects Completed</div>
+              <div className="about-stat-num"><CountUp end={4} /></div>
+              <div className="about-stat-label">Projects Built</div>
             </div>
             <div className="about-stat">
-              <div className="about-stat-ring"><FaUsers /></div>
+              <div className="about-stat-ring"><FaLayerGroup /></div>
               <div className="about-stat-num"><CountUp end={15} /></div>
-              <div className="about-stat-label">Happy Clients</div>
+              <div className="about-stat-label">Technologies</div>
             </div>
             <div className="about-stat">
               <div className="about-stat-ring"><FaMapMarkerAlt /></div>

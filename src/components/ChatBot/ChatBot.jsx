@@ -37,9 +37,9 @@ const faqs = [
     actionLabel: "See education",
   },
   {
-    q: "How can I hire you?",
-    keywords: ["contact", "hire", "email", "reach", "available", "freelance", "phone", "work"],
-    a: "I'm available for freelance work! 📧 tumithasan1@gmail.com  •  📞 +8801611960330",
+    q: "How can I reach you?",
+    keywords: ["contact", "hire", "email", "reach", "available", "freelance", "phone", "work", "job", "opportunity"],
+    a: "I'm open to new job opportunities! 📧 tumithasan1@gmail.com  •  📞 +8801611960330",
     action: "contact",
     actionLabel: "Contact me",
   },

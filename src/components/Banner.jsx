@@ -153,7 +153,7 @@ const Banner = () => {
 
             <motion.div variants={item} className="banner-badge">
               <span className="banner-badge-dot" /> SYSTEM ONLINE
-              <span className="text-zinc-600">//</span> AVAILABLE FOR HIRE
+              <span className="text-zinc-600">//</span> OPEN TO WORK
             </motion.div>
 
             <motion.h1 variants={item} className="banner-title">
@@ -287,18 +287,18 @@ const Banner = () => {
                 <div className="hud-stats">
                   <div className="hud-stat">
                     <span className="hud-stat-icon"><FaCode /></span>
-                    <div className="hud-stat-num"><CountUp end={4} /></div>
+                    <div className="hud-stat-num"><CountUp end={1} /></div>
                     <span className="hud-stat-label">YEARS EXP.</span>
                   </div>
                   <div className="hud-stat">
                     <span className="hud-stat-icon"><FaRocket /></span>
-                    <div className="hud-stat-num"><CountUp end={25} /></div>
+                    <div className="hud-stat-num"><CountUp end={projects.length} /></div>
                     <span className="hud-stat-label">PROJECTS</span>
                   </div>
                   <div className="hud-stat">
-                    <span className="hud-stat-icon"><FaStar /></span>
+                    <span className="hud-stat-icon"><FaLayerGroup /></span>
                     <div className="hud-stat-num"><CountUp end={15} /></div>
-                    <span className="hud-stat-label">HAPPY CLIENTS</span>
+                    <span className="hud-stat-label">TECHNOLOGIES</span>
                   </div>
                 </div>
 
