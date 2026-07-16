@@ -34,7 +34,7 @@ const Banner = () => {
             {/* <div className="absolute top-20 left-10 w-72 h-72 bg-lime-400/10 blur-[120px] rounded-full" />
             <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-500/5 blur-[150px] rounded-full" /> */}
             
-            <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+            <div className="max-w-[88rem] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
                 
                 {/* --- Left Content Section (Col-7) --- */}
                 <motion.div 

@@ -99,7 +99,7 @@ const TechJourney = () => {
     >
       <div className="pointer-events-none absolute left-1/2 top-24 h-56 w-[30rem] -translate-x-1/2 rounded-full bg-lime-400/10 blur-[140px]" />
 
-      <div className="relative z-10 mx-auto max-w-5xl">
+      <div className="relative z-10 mx-auto max-w-6xl">
         <SectionHeading
           kicker="The Path"
           before="Developer "

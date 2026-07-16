@@ -85,7 +85,7 @@ const Contact = () => {
     <section
       ref={contactRef}
       id="contact"
-      className="py-20 md:py-28 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto overflow-hidden"
+      className="py-20 md:py-28 px-4 sm:px-6 md:px-12 max-w-[88rem] mx-auto overflow-hidden"
     >
       <SectionHeading kicker="Get In Touch" before="Let's Work " highlight="Together" align="left" />
 

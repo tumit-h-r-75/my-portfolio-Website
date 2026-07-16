@@ -51,7 +51,7 @@ const SkillBar = () => {
   return (
     <section id="skills" ref={skillRef} className="relative overflow-hidden bg-transparent px-6 py-20 md:py-28 md:px-12">
       <div className="pointer-events-none absolute left-1/2 top-20 h-52 w-[28rem] -translate-x-1/2 rounded-full bg-lime-400/10 blur-[130px]" />
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-[88rem] mx-auto relative z-10">
         <SectionHeading kicker="What I Do" before="Tech " highlight="Skills" align="center" />
         <p className="mx-auto -mt-8 mb-16 max-w-2xl text-center text-sm md:text-base text-zinc-400">
           Modern frontend, backend, and CMS workflow focused on performance and clean architecture.

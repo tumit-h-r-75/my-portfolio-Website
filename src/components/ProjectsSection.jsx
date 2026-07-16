@@ -11,8 +11,9 @@ const ProjectsSection = () => {
 
   return (
     <section
+      id="portfolio"
       ref={portfolioRef}
-      className="py-20 md:py-28 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto"
+      className="py-20 md:py-28 px-4 sm:px-6 md:px-10 max-w-[88rem] mx-auto"
     >
       <Workflow />
 

@@ -53,7 +53,7 @@ const About = () => {
     <section
       ref={aboutRef}
       id="about"
-      className="relative py-20 md:py-28 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto overflow-hidden rounded-[2rem] md:rounded-[3.5rem] "
+      className="relative py-20 md:py-28 px-4 sm:px-6 md:px-12 max-w-[88rem] mx-auto overflow-hidden rounded-[2rem] md:rounded-[3.5rem] "
     >
       {/* --- Interactive Spotlight --- */}
       <div 

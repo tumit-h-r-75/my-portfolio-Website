@@ -28,7 +28,7 @@ const Education = () => {
       id="education"
       className="py-20 md:py-28 px-6 md:px-12 bg-transparent"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-[88rem] mx-auto">
 
         <SectionHeading kicker="Qualifications" before="Education" highlight="." align="left" />
 
