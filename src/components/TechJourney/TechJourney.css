@@ -11,6 +11,8 @@
 
 .tj-terminal {
   overflow: hidden;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 /* ---------- Terminal title bar ---------- */

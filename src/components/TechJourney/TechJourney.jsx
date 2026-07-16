@@ -109,7 +109,7 @@ const TechJourney = () => {
 
         <BorderGlow
           {...glowTheme}
-          backgroundColor="#08090c"
+          backgroundColor="rgba(8, 9, 12, 0.45)"
           borderRadius={24}
           className="tj-terminal"
         >
