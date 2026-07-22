@@ -30,6 +30,51 @@ body {
   overflow: visible;
 }
 
+.contact-neon-section {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 0% 100%, rgba(163, 230, 53, 0.18), transparent 22rem),
+    radial-gradient(circle at 100% 4%, rgba(163, 230, 53, 0.08), transparent 26rem),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.98), rgba(4, 7, 5, 0.96));
+}
+
+.contact-neon-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(163, 230, 53, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(163, 230, 53, 0.04) 1px, transparent 1px),
+    radial-gradient(circle, rgba(163, 230, 53, 0.2) 1px, transparent 1.5px);
+  background-position: 0 0, 0 0, 0 0;
+  background-size: 96px 96px, 96px 96px, 44px 44px;
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  opacity: 0.45;
+}
+
+.contact-neon-section::after {
+  content: "";
+  position: absolute;
+  left: -12%;
+  bottom: 6%;
+  z-index: -1;
+  width: 34rem;
+  height: 11rem;
+  border-top: 3px solid rgba(163, 230, 53, 0.8);
+  border-radius: 50%;
+  filter: drop-shadow(0 0 18px rgba(163, 230, 53, 0.55));
+  transform: rotate(9deg);
+}
+
+@media (max-width: 640px) {
+  .contact-neon-section::after {
+    width: 22rem;
+    height: 7rem;
+  }
+}
+
 
 /* Optimized: Only apply to banner section */
 .banner .site-text-glitch :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, li, input, textarea) {
