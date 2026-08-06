@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Dashboard.css';
 
 // This would be a shared component
 const ApiClient = {
@@ -31,39 +32,33 @@ const MediaLibrary = () => {
         fetchMedia();
     }, []);
 
-    if (loading) return <p>Loading media...</p>;
-    if (error) return <p>Error: {error}</p>;
-    
-    const imageContainerStyle = {
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '10px',
-    };
-
-    const imageStyle = {
-        width: '150px',
-        height: '150px',
-        objectFit: 'cover',
-        borderRadius: '5px',
-    };
+    if (loading) return <div className="dashboard-panel dashboard-state">Loading media...</div>;
+    if (error) return <div className="dashboard-panel dashboard-state error">Error: {error}</div>;
 
     return (
         <div>
-            <h2>Media Library</h2>
+            <div className="dashboard-page-head">
+                <div>
+                    <p className="dashboard-eyebrow">Asset Vault</p>
+                    <h1 className="dashboard-page-title">Media Library</h1>
+                </div>
+            </div>
             
-            <h3>Project Images</h3>
-            <div style={imageContainerStyle}>
+            <h2 className="dashboard-section-title">Project Images</h2>
+            <div className="dashboard-media-grid">
                 {media.projects.map(image => (
-                    <img key={image.public_id} src={image.url} alt="Project" style={imageStyle} />
+                    <img key={image.public_id} src={image.url} alt="Project" className="dashboard-media-img" />
                 ))}
             </div>
+            {media.projects.length === 0 && <div className="dashboard-panel dashboard-state">No project images found.</div>}
 
-            <h3 style={{ marginTop: '30px' }}>Skill Images</h3>
-            <div style={imageContainerStyle}>
+            <h2 className="dashboard-section-title">Skill Images</h2>
+            <div className="dashboard-media-grid">
                 {media.skills.map(image => (
-                    <img key={image.public_id} src={image.url} alt="Skill" style={imageStyle} />
+                    <img key={image.public_id} src={image.url} alt="Skill" className="dashboard-media-img" />
                 ))}
             </div>
+            {media.skills.length === 0 && <div className="dashboard-panel dashboard-state">No skill images found.</div>}
         </div>
     );
 };

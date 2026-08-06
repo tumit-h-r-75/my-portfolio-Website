@@ -1,5 +1,14 @@
 import React from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { FaFolderOpen, FaImages, FaLayerGroup, FaPowerOff } from 'react-icons/fa';
+import logo from '../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png';
+import '../pages/Dashboard/Dashboard.css';
+
+const navItems = [
+    { to: '/tumit/75/projects', label: 'Projects', icon: <FaFolderOpen /> },
+    { to: '/tumit/75/skills', label: 'Skills', icon: <FaLayerGroup /> },
+    { to: '/tumit/75/media', label: 'Media', icon: <FaImages /> },
+];
 
 const DashboardLayout = () => {
     const navigate = useNavigate();
@@ -9,48 +18,43 @@ const DashboardLayout = () => {
         navigate('/login');
     };
 
-    const sidebarStyle = {
-        width: '250px',
-        background: '#2c3e50',
-        color: 'white',
-        height: '100vh',
-        padding: '20px',
-        position: 'fixed',
-    };
-
-    const contentStyle = {
-        marginLeft: '270px',
-        padding: '20px',
-    };
-
-    const linkStyle = {
-        display: 'block',
-        color: 'white',
-        padding: '10px 15px',
-        textDecoration: 'none',
-        borderRadius: '5px',
-        marginBottom: '10px',
-    };
-
     return (
-        <div>
-            <div style={sidebarStyle}>
-                <h2 style={{ borderBottom: '1px solid #444', paddingBottom: '10px' }}>Dashboard</h2>
-                <nav>
-                    <Link to="/tumit/75/projects" style={linkStyle}>Manage Projects</Link>
-                    <Link to="/tumit/75/skills" style={linkStyle}>Manage Skills</Link>
-                    <Link to="/tumit/75/media" style={linkStyle}>Media Library</Link>
-                </nav>
-                <button 
-                    onClick={handleLogout} 
-                    style={{ position: 'absolute', bottom: '20px', background: '#e74c3c', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}
-                >
-                    Logout
-                </button>
+        <div className="dashboard-shell">
+            <div className="dashboard-layout">
+                <aside className="dashboard-sidebar">
+                    <div className="dashboard-brand">
+                        <img src={logo} alt="TumitDev" className="dashboard-brand-mark" />
+                        <div>
+                            <p className="dashboard-eyebrow">Admin Studio</p>
+                            <h2 className="dashboard-title">Dashboard</h2>
+                        </div>
+                    </div>
+
+                    <nav className="dashboard-nav" aria-label="Dashboard">
+                        {navItems.map((item) => (
+                            <NavLink
+                                key={item.to}
+                                to={item.to}
+                                className={({ isActive }) =>
+                                    `dashboard-nav-link${isActive ? ' active' : ''}`
+                                }
+                            >
+                                <span className="dashboard-nav-icon">{item.icon}</span>
+                                {item.label}
+                            </NavLink>
+                        ))}
+                    </nav>
+
+                    <button onClick={handleLogout} className="dashboard-logout">
+                        <FaPowerOff />
+                        Logout
+                    </button>
+                </aside>
+
+                <main className="dashboard-main">
+                    <Outlet />
+                </main>
             </div>
-            <main style={contentStyle}>
-                <Outlet /> {/* This will render the nested child routes */}
-            </main>
         </div>
     );
 };

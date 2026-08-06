@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { FaLock, FaSignInAlt } from 'react-icons/fa';
+import logo from '../../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png';
+import './Dashboard.css';
 
 const Login = () => {
     const [password, setPassword] = useState('');
@@ -41,23 +44,28 @@ const Login = () => {
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#1a1a1a', color: 'white' }}>
-            <div style={{ padding: '40px', background: '#2a2a2a', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.5)' }}>
-                <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Dashboard Login</h1>
+        <div className="dashboard-shell dashboard-login">
+            <div className="dashboard-login-card">
+                <img src={logo} alt="TumitDev" className="dashboard-login-logo" />
+                <p className="dashboard-eyebrow" style={{ textAlign: 'center' }}>Protected Area</p>
+                <h1 className="dashboard-login-title">Dashboard Login</h1>
+                <p className="dashboard-login-subtitle">Enter your admin password to update portfolio content.</p>
+
                 <form onSubmit={handleSubmit}>
-                    <div style={{ marginBottom: '15px' }}>
-                        <label htmlFor="password" style={{ display: 'block', marginBottom: '5px' }}>Password</label>
+                    <div className="dashboard-field">
+                        <label htmlFor="password">Password</label>
                         <input
                             type="password"
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #555', background: '#333', color: 'white' }}
+                            placeholder="Enter admin password"
                         />
                     </div>
-                    {error && <p style={{ color: '#ff4d4d', marginBottom: '10px' }}>{error}</p>}
-                    <button type="submit" disabled={loading} style={{ width: '100%', padding: '10px', borderRadius: '4px', border: 'none', background: '#007BFF', color: 'white', cursor: 'pointer' }}>
+                    {error && <p className="dashboard-error">{error}</p>}
+                    <button type="submit" disabled={loading} className="dashboard-primary-btn dashboard-login-button">
+                        {loading ? <FaLock /> : <FaSignInAlt />}
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
                 </form>

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FaPlus, FaPen, FaTrash } from 'react-icons/fa';
+import './Dashboard.css';
 
 // This would be a shared component
 const ApiClient = {
@@ -31,34 +33,48 @@ const ManageProjects = () => {
         fetchProjects();
     }, []);
 
-    if (loading) return <p>Loading projects...</p>;
-    if (error) return <p>Error: {error}</p>;
+    if (loading) return <div className="dashboard-panel dashboard-state">Loading projects...</div>;
+    if (error) return <div className="dashboard-panel dashboard-state error">Error: {error}</div>;
 
     return (
         <div>
-            <h2>Manage Projects</h2>
-            <button>Add New Project</button>
-            <table style={{ width: '100%', marginTop: '20px', borderCollapse: 'collapse' }}>
-                <thead>
-                    <tr style={{ background: '#f2f2f2' }}>
-                        <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Title</th>
-                        <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Description</th>
-                        <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {projects.map(project => (
-                        <tr key={project._id}>
-                            <td style={{ padding: '8px', border: '1px solid #ddd' }}>{project.title}</td>
-                            <td style={{ padding: '8px', border: '1px solid #ddd' }}>{project.description.substring(0, 100)}...</td>
-                            <td style={{ padding: '8px', border: '1px solid #ddd' }}>
-                                <button>Edit</button>
-                                <button style={{ marginLeft: '5px' }}>Delete</button>
-                            </td>
+            <div className="dashboard-page-head">
+                <div>
+                    <p className="dashboard-eyebrow">Portfolio Work</p>
+                    <h1 className="dashboard-page-title">Manage Projects</h1>
+                </div>
+                <button className="dashboard-primary-btn">
+                    <FaPlus />
+                    Add Project
+                </button>
+            </div>
+
+            <div className="dashboard-panel dashboard-table-wrap">
+                <table className="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {projects.map(project => (
+                            <tr key={project._id}>
+                                <td>{project.title}</td>
+                                <td>{project.description?.substring(0, 100)}...</td>
+                                <td>
+                                    <div className="dashboard-action-row">
+                                        <button className="dashboard-action-btn"><FaPen /> Edit</button>
+                                        <button className="dashboard-action-btn danger"><FaTrash /> Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {projects.length === 0 && <div className="dashboard-state">No projects found.</div>}
+            </div>
         </div>
     );
 };

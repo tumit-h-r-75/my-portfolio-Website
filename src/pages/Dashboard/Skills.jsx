@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FaPen, FaPlus, FaTrash } from 'react-icons/fa';
+import './Dashboard.css';
 
 // This would be a shared component
 const ApiClient = {
@@ -32,36 +34,50 @@ const ManageSkills = () => {
         fetchSkills();
     }, []);
 
-    if (loading) return <p>Loading skills...</p>;
-    if (error) return <p>Error: {error}</p>;
+    if (loading) return <div className="dashboard-panel dashboard-state">Loading skills...</div>;
+    if (error) return <div className="dashboard-panel dashboard-state error">Error: {error}</div>;
 
     return (
         <div>
-            <h2>Manage Skills</h2>
-            <button>Add New Skill</button>
-            <table style={{ width: '100%', marginTop: '20px', borderCollapse: 'collapse' }}>
-                <thead>
-                    <tr style={{ background: '#f2f2f2' }}>
-                        <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Name</th>
-                        <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Level</th>
-                        <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Category</th>
-                        <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {skills.map(skill => (
-                        <tr key={skill._id}>
-                            <td style={{ padding: '8px', border: '1px solid #ddd' }}>{skill.name}</td>
-                            <td style={{ padding: '8px', border: '1px solid #ddd' }}>{skill.level}%</td>
-                            <td style={{ padding: '8px', border: '1px solid #ddd' }}>{skill.category}</td>
-                            <td style={{ padding: '8px', border: '1px solid #ddd' }}>
-                                <button>Edit</button>
-                                <button style={{ marginLeft: '5px' }}>Delete</button>
-                            </td>
+            <div className="dashboard-page-head">
+                <div>
+                    <p className="dashboard-eyebrow">Stack Library</p>
+                    <h1 className="dashboard-page-title">Manage Skills</h1>
+                </div>
+                <button className="dashboard-primary-btn">
+                    <FaPlus />
+                    Add Skill
+                </button>
+            </div>
+
+            <div className="dashboard-panel dashboard-table-wrap">
+                <table className="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Level</th>
+                            <th>Category</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {skills.map(skill => (
+                            <tr key={skill._id}>
+                                <td>{skill.name}</td>
+                                <td>{skill.level}%</td>
+                                <td>{skill.category}</td>
+                                <td>
+                                    <div className="dashboard-action-row">
+                                        <button className="dashboard-action-btn"><FaPen /> Edit</button>
+                                        <button className="dashboard-action-btn danger"><FaTrash /> Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {skills.length === 0 && <div className="dashboard-state">No skills found.</div>}
+            </div>
         </div>
     );
 };
