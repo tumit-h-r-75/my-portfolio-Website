@@ -5,7 +5,11 @@ import './Dashboard.css';
 
 const Login = () => {
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState(() => {
+        const message = sessionStorage.getItem('dashboardAuthMessage') || '';
+        sessionStorage.removeItem('dashboardAuthMessage');
+        return message;
+    });
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {

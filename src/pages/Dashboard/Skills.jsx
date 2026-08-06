@@ -1,18 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaPen, FaPlus, FaTrash } from 'react-icons/fa';
 import './Dashboard.css';
-
-// This would be a shared component
-const ApiClient = {
-    get: async (url) => {
-        const response = await fetch(`https://protfolio-back-alpha.vercel.app${url}`, {
-            headers: { 'x-auth-token': localStorage.getItem('token') }
-        });
-        if (!response.ok) throw new Error('Failed to fetch');
-        return response.json();
-    },
-    // You'd add post, put, delete methods here
-};
+import { ApiClient } from './apiClient';
 
 
 const ManageSkills = () => {

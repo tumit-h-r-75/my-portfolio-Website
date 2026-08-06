@@ -2,8 +2,9 @@
   min-height: 100vh;
   color: #f8fafc;
   background:
-    radial-gradient(circle at top left, rgba(163, 230, 53, 0.16), transparent 24rem),
-    radial-gradient(circle at bottom right, rgba(34, 211, 238, 0.1), transparent 26rem),
+    radial-gradient(circle at 18% 8%, rgba(163, 230, 53, 0.2), transparent 22rem),
+    radial-gradient(circle at 88% 22%, rgba(34, 211, 238, 0.1), transparent 28rem),
+    linear-gradient(135deg, rgba(4, 7, 5, 0.98), rgba(0, 0, 0, 0.96) 48%, rgba(7, 10, 8, 0.98)),
     #020202;
 }
 
@@ -23,7 +24,7 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: 292px minmax(0, 1fr);
   min-height: 100vh;
 }
 
@@ -32,9 +33,11 @@
   top: 0;
   height: 100vh;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(5, 5, 5, 0.76);
+  background:
+    linear-gradient(180deg, rgba(8, 12, 10, 0.96), rgba(2, 2, 2, 0.9)),
+    rgba(5, 5, 5, 0.92);
   backdrop-filter: blur(22px);
-  padding: 24px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
 }
@@ -43,8 +46,10 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px;
+  border: 1px solid rgba(163, 230, 53, 0.14);
+  border-radius: 8px;
+  background: rgba(163, 230, 53, 0.055);
 }
 
 .dashboard-brand-mark {
@@ -92,12 +97,13 @@
 
 .dashboard-nav-link {
   justify-content: flex-start;
-  min-height: 48px;
-  padding: 0 14px;
+  min-height: 52px;
+  padding: 0 16px;
   border-radius: 8px;
   color: #a1a1aa;
   text-decoration: none;
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.025);
 }
 
 .dashboard-nav-link:hover,
@@ -105,7 +111,7 @@
   color: #fff;
   background: rgba(163, 230, 53, 0.1);
   border-color: rgba(163, 230, 53, 0.22);
-  box-shadow: inset 0 0 24px rgba(163, 230, 53, 0.05);
+  box-shadow: inset 0 0 24px rgba(163, 230, 53, 0.05), 0 12px 30px rgba(0, 0, 0, 0.24);
 }
 
 .dashboard-nav-icon {
@@ -125,7 +131,7 @@
 
 .dashboard-main {
   min-width: 0;
-  padding: 26px;
+  padding: 28px clamp(18px, 3vw, 42px);
 }
 
 .dashboard-topbar {
@@ -133,11 +139,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  margin-bottom: 24px;
-  padding: 18px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 22px;
+  padding: 24px;
+  border: 1px solid rgba(163, 230, 53, 0.12);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.035);
+  background:
+    linear-gradient(135deg, rgba(163, 230, 53, 0.09), rgba(255, 255, 255, 0.03) 42%, rgba(34, 211, 238, 0.05)),
+    rgba(255, 255, 255, 0.035);
   backdrop-filter: blur(18px);
 }
 
@@ -172,9 +180,11 @@
 .dashboard-card,
 .dashboard-panel,
 .dashboard-login-card {
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.11);
   border-radius: 8px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.028));
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.082), rgba(255, 255, 255, 0.032)),
+    rgba(5, 5, 5, 0.54);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(18px);
 }
@@ -186,7 +196,10 @@
 }
 
 .dashboard-card {
-  padding: 20px;
+  padding: 22px;
+  color: inherit;
+  text-decoration: none;
+  min-height: 172px;
 }
 
 .dashboard-card-icon {
@@ -216,7 +229,11 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid rgba(163, 230, 53, 0.12);
+  background: linear-gradient(135deg, rgba(163, 230, 53, 0.08), rgba(255, 255, 255, 0.025));
 }
 
 .dashboard-primary-btn {
@@ -229,6 +246,7 @@
 
 .dashboard-table-wrap {
   overflow-x: auto;
+  padding: 8px;
 }
 
 .dashboard-table {
@@ -288,8 +306,8 @@
 
 .dashboard-media-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
 }
 
 .dashboard-media-img {
@@ -301,9 +319,16 @@
 }
 
 .dashboard-section-title {
-  margin: 26px 0 12px;
+  margin: 24px 0 12px;
   color: #fff;
   font-size: 18px;
+}
+
+.dashboard-empty-media {
+  min-height: 142px;
+  display: grid;
+  place-items: center;
+  text-align: center;
 }
 
 .dashboard-login {

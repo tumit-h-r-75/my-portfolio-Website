@@ -128,7 +128,14 @@ const SiteBackground = () => {
         }}
       />
 
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div
+        className="absolute inset-0 opacity-[0.035] pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 20% 30%, #ffffff 0 0.5px, transparent 0.8px), radial-gradient(circle at 70% 65%, #ffffff 0 0.45px, transparent 0.75px)",
+          backgroundSize: "18px 18px, 23px 23px",
+        }}
+      />
     </div>
   );
 };

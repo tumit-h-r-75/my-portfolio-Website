@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
-
-// This would be a shared component
-const ApiClient = {
-    get: async (url) => {
-        const response = await fetch(`https://protfolio-back-alpha.vercel.app${url}`, {
-            headers: { 'x-auth-token': localStorage.getItem('token') }
-        });
-        if (!response.ok) throw new Error('Failed to fetch');
-        return response.json();
-    },
-    // You'd add post, put, delete methods here
-};
+import { ApiClient } from './apiClient';
 
 const MediaLibrary = () => {
     const [media, setMedia] = useState({ projects: [], skills: [] });
@@ -50,7 +39,7 @@ const MediaLibrary = () => {
                     <img key={image.public_id} src={image.url} alt="Project" className="dashboard-media-img" />
                 ))}
             </div>
-            {media.projects.length === 0 && <div className="dashboard-panel dashboard-state">No project images found.</div>}
+            {media.projects.length === 0 && <div className="dashboard-panel dashboard-state dashboard-empty-media">No project images found.</div>}
 
             <h2 className="dashboard-section-title">Skill Images</h2>
             <div className="dashboard-media-grid">
@@ -58,7 +47,7 @@ const MediaLibrary = () => {
                     <img key={image.public_id} src={image.url} alt="Skill" className="dashboard-media-img" />
                 ))}
             </div>
-            {media.skills.length === 0 && <div className="dashboard-panel dashboard-state">No skill images found.</div>}
+            {media.skills.length === 0 && <div className="dashboard-panel dashboard-state dashboard-empty-media">No skill images found.</div>}
         </div>
     );
 };
