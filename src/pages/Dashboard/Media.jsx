@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 // This would be a shared component
 const ApiClient = {
     get: async (url) => {
-        const response = await fetch(`http://localhost:5000${url}`, {
+        const response = await fetch(`https://protfolio-back-alpha.vercel.app${url}`, {
             headers: { 'x-auth-token': localStorage.getItem('token') }
         });
         if (!response.ok) throw new Error('Failed to fetch');
