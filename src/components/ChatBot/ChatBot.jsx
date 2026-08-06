@@ -158,7 +158,7 @@ const ChatBot = () => {
                 <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0a0b0e] bg-green-400" />
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-bold text-white">Tumit's Assistant</p>
+                <p className="text-sm font-bold text-white">Tumit&apos;s Assistant</p>
                 <p className="text-[11px] font-medium text-lime-400">● Online — usually instant</p>
               </div>
             </div>

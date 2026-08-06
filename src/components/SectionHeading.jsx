@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
+import DecryptLabel from "./DecryptLabel";
+import { DecryptSplitHeading } from "./DecryptSplitHeading";
 
 const SectionHeading = ({ kicker, before = "", highlight = "", highlightClassName = "text-lime-400", align = "left" }) => {
   const isCenter = align === "center";

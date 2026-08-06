@@ -15,9 +15,11 @@ import Marquee from "react-fast-marquee";
 import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import MagicBentoPanel from "./MagicBento/MagicBento";
-import DecryptLabel, { DecryptSplitHeading } from "./DecryptLabel";
+import DecryptLabel from "./DecryptLabel";
+import { DecryptSplitHeading } from "./DecryptSplitHeading";
 import SectionHeading from "./SectionHeading";
-import BorderGlow, { glowTheme } from "./BorderGlow/BorderGlow";
+import BorderGlow from "./BorderGlow/BorderGlow";
+import { glowTheme } from "./BorderGlow/glowTheme";
 
 const frontendSkills = [
   { name: "React.js", icon: FaReact, color: "text-cyan-300" },

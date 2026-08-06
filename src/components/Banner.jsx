@@ -13,7 +13,6 @@ import {
   FaCloud,
   FaCode,
   FaRocket,
-  FaStar,
   FaLayerGroup,
   FaMapMarkerAlt,
 } from "react-icons/fa";
@@ -127,7 +126,6 @@ const Banner = () => {
 
       <div className="relative z-10 mx-auto w-full max-w-[96rem]">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-          {/* ---------- LEFT ---------- */}
           <motion.div
             variants={container}
             initial="hidden"
@@ -153,7 +151,7 @@ const Banner = () => {
 
             <motion.div variants={item} className="banner-badge">
               <span className="banner-badge-dot" /> SYSTEM ONLINE
-              <span className="text-zinc-600">//</span> OPEN TO WORK
+              <span className="text-zinc-600">{/* // */}</span> OPEN TO WORK
             </motion.div>
 
             <motion.h1 variants={item} className="banner-title">

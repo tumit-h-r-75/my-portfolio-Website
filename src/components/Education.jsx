@@ -4,7 +4,6 @@ import {
   FaMapMarkerAlt,
   FaBookOpen,
   FaCheckCircle,
-  FaGraduationCap,
   FaCalendarAlt,
   FaCogs
 } from "react-icons/fa";
@@ -12,7 +11,8 @@ import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import DecryptLabel from "./DecryptLabel";
 import SectionHeading from "./SectionHeading";
-import BorderGlow, { glowTheme } from "./BorderGlow/BorderGlow";
+import BorderGlow from "./BorderGlow/BorderGlow";
+import { glowTheme } from "./BorderGlow/glowTheme";
 
 const Education = () => {
   const { educationRef } = useContext(NavigateContext);

@@ -10,7 +10,8 @@ import {
   FaHeadset,
 } from "react-icons/fa";
 import SectionHeading from "../SectionHeading";
-import BorderGlow, { glowTheme } from "../BorderGlow/BorderGlow";
+import BorderGlow from "../BorderGlow/BorderGlow";
+import { glowTheme } from "../BorderGlow/glowTheme";
 import MagicBentoPanel from "../MagicBento/MagicBento";
 import RocketIcon from "./RocketIcon";
 

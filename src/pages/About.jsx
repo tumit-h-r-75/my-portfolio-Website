@@ -120,7 +120,7 @@ const About = () => {
             <div className="about-freelance-title">
               <span className="dot" /> Open to Work
             </div>
-            <p className="about-freelance-sub">Let's build something amazing together!</p>
+            <p className="about-freelance-sub">Let&apos;s build something amazing together!</p>
           </div>
         </motion.div>
 
@@ -139,7 +139,7 @@ const About = () => {
             </h3>
             <div className="about-bio-body">
               <p>
-                Hello! I'm <span className="name">Tumit Hasan</span>, a dedicated and
+                Hello! I&apos;m <span className="name">Tumit Hasan</span>, a dedicated and
                 results-driven MERN Stack Developer. I specialize in{" "}
                 <b>React.js</b>, <b>Node.js</b>, <b>MongoDB</b>, <b>Express.js</b>, and{" "}
                 <b>Tailwind CSS</b>.

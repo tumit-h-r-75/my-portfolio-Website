@@ -21,7 +21,8 @@ import { motion } from "framer-motion";
 import { NavigateContext } from "../context/NavigateProvider";
 import MagicBentoPanel from "../components/MagicBento/MagicBento";
 import DecryptLabel from "../components/DecryptLabel";
-import BorderGlow, { glowTheme } from "../components/BorderGlow/BorderGlow";
+import BorderGlow from "../components/BorderGlow/BorderGlow";
+import { glowTheme } from "../components/BorderGlow/glowTheme";
 
 const Contact = () => {
   const { contactRef } = useContext(NavigateContext);
@@ -178,7 +179,7 @@ const Contact = () => {
             </div>
 
             <p className="mt-7 max-w-xl text-base leading-8 text-zinc-400 md:text-lg">
-              I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you.
+              I&apos;m currently looking for new opportunities. Whether you have a question or just want to say hi, I&apos;ll try my best to get back to you.
             </p>
 
             <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -219,7 +220,7 @@ const Contact = () => {
 
             <div className="mt-7 flex items-center gap-4">
               <span className="h-px flex-1 border-t border-dashed border-lime-400/20" />
-              <span className="text-xs font-bold uppercase tracking-[0.35em] text-lime-400">Let's Connect</span>
+              <span className="text-xs font-bold uppercase tracking-[0.35em] text-lime-400">Let&apos;s Connect</span>
               <span className="h-px flex-1 border-t border-dashed border-lime-400/20" />
             </div>
 

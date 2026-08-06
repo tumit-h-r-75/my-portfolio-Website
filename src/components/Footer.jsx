@@ -1,4 +1,3 @@
-import { NavLink } from "react-router";
 import logo from "../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
@@ -48,7 +47,7 @@ const Footer = () => {
           >
             <img className="w-48 lg:w-56" src={logo} alt="Tumit Dev Logo" />
             <p className="text-zinc-400 text-base max-w-sm leading-relaxed">
-              Building high-performance MERN Stack applications with a focus on clean code and exceptional user experience. Let's create something extraordinary together.
+              Building high-performance MERN Stack applications with a focus on clean code and exceptional user experience. Let&apos;s create something extraordinary together.
             </p>
             <motion.div
               variants={socialContainerVariants}
