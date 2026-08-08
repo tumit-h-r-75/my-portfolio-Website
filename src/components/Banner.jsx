@@ -19,8 +19,8 @@ import {
 import { SiMongodb, SiExpress, SiTypescript, SiTailwindcss } from "react-icons/si";
 import { motion, useMotionValue, useSpring, useTransform, useInView } from "framer-motion";
 import banner from "../assets/myImg.webp";
-import projects from "./data/projects";
 import "./Banner.css";
+import { publicApi } from "../lib/publicApi";
 
 const RESUME_LINK =
   "https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing";
@@ -98,6 +98,22 @@ const CountUp = ({ end, suffix = "+" }) => {
 
 const Banner = () => {
   const panelRef = useRef(null);
+  const [projectCount, setProjectCount] = useState(4);
+
+  useEffect(() => {
+    let mounted = true;
+
+    publicApi
+      .getProjects()
+      .then((data) => {
+        if (mounted) setProjectCount(data.length);
+      })
+      .catch(() => {});
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -290,7 +306,7 @@ const Banner = () => {
                   </div>
                   <div className="hud-stat">
                     <span className="hud-stat-icon"><FaRocket /></span>
-                    <div className="hud-stat-num"><CountUp end={projects.length} /></div>
+                    <div className="hud-stat-num"><CountUp end={projectCount} /></div>
                     <span className="hud-stat-label">PROJECTS</span>
                   </div>
                   <div className="hud-stat">

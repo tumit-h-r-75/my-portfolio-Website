@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import {
@@ -12,13 +12,19 @@ import {
   FaArrowRight,
   FaLayerGroup,
 } from "react-icons/fa";
-import projects from "../components/data/projects";
 import DecryptLabel from "../components/DecryptLabel";
+import { publicApi } from "../lib/publicApi";
 
 const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const project = projects.find((p) => p.id === parseInt(id));
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const project = useMemo(
+    () => projects.find((p) => String(p.id) === String(id)),
+    [projects, id]
+  );
 
   const goToPortfolio = () => {
     navigate("/");
@@ -32,20 +38,48 @@ const ProjectDetails = () => {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [id]);
 
-  const currentIndex = projects.findIndex((p) => p.id === parseInt(id));
+  useEffect(() => {
+    let mounted = true;
+
+    publicApi
+      .getProjects()
+      .then((data) => {
+        if (mounted) setProjects(data);
+      })
+      .catch((err) => {
+        if (mounted) setError(err.message);
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const currentIndex = projects.findIndex((p) => String(p.id) === String(id));
   const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : null;
   const nextProject =
     currentIndex >= 0 && currentIndex < projects.length - 1
       ? projects[currentIndex + 1]
       : null;
 
-  if (!project) {
+  if (loading) {
+    return (
+      <section className="px-6 py-24 text-center">
+        <p className="text-zinc-400">Loading project...</p>
+      </section>
+    );
+  }
+
+  if (error || !project) {
     return (
       <section className="px-6 py-24 text-center">
         <h2 className="mb-4 text-3xl font-black text-white">
           <DecryptLabel text="Project not found" parentClassName="text-white font-black" className="text-white" />
         </h2>
-        <p className="mb-8 text-zinc-400">The project you are looking for does not exist.</p>
+        <p className="mb-8 text-zinc-400">{error || "The project you are looking for does not exist."}</p>
         <Link
           to="/"
           className="inline-flex items-center gap-2 rounded-xl border border-lime-400/40 bg-lime-400/10 px-5 py-3 font-semibold text-lime-300 transition hover:bg-lime-400 hover:text-black"
@@ -86,7 +120,7 @@ const ProjectDetails = () => {
           </Link>
 
           <span className="rounded-full border border-lime-400/30 bg-lime-400/10 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] text-lime-300">
-            Project 0{project.id}
+            Project 0{project.serial || project.id}
           </span>
         </div>
 

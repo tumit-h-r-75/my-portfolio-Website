@@ -9,6 +9,9 @@ const initialForm = {
     liveLink: '',
     githubLink: '',
     tags: '',
+    features: '',
+    challenges: '',
+    futurePlans: '',
     image: null,
 };
 
@@ -51,6 +54,9 @@ const ManageProjects = () => {
             liveLink: project.liveLink || '',
             githubLink: project.githubLink || '',
             tags: Array.isArray(project.tags) ? project.tags.join(', ') : '',
+            features: Array.isArray(project.features) ? project.features.join(', ') : '',
+            challenges: project.challenges || '',
+            futurePlans: project.futurePlans || '',
             image: null,
         });
         setFormError('');
@@ -80,6 +86,9 @@ const ManageProjects = () => {
         formData.append('liveLink', form.liveLink.trim());
         formData.append('githubLink', form.githubLink.trim());
         formData.append('tags', form.tags.trim());
+        formData.append('features', form.features.trim());
+        formData.append('challenges', form.challenges.trim());
+        formData.append('futurePlans', form.futurePlans.trim());
         if (form.image) formData.append('image', form.image);
         return formData;
     };
@@ -206,6 +215,18 @@ const ManageProjects = () => {
                             <label className="dashboard-field dashboard-field-full">
                                 <span>Description</span>
                                 <textarea name="description" value={form.description} onChange={handleChange} rows="5" required />
+                            </label>
+                            <label className="dashboard-field dashboard-field-full">
+                                <span>Features</span>
+                                <input name="features" value={form.features} onChange={handleChange} placeholder="Smart search, Authentication, Dashboard" />
+                            </label>
+                            <label className="dashboard-field dashboard-field-full">
+                                <span>Challenges</span>
+                                <textarea name="challenges" value={form.challenges} onChange={handleChange} rows="3" />
+                            </label>
+                            <label className="dashboard-field dashboard-field-full">
+                                <span>Future Plans</span>
+                                <textarea name="futurePlans" value={form.futurePlans} onChange={handleChange} rows="3" />
                             </label>
                             <label className="dashboard-field dashboard-field-full">
                                 <span>{editingProject ? 'Replace Image' : 'Project Image'}</span>

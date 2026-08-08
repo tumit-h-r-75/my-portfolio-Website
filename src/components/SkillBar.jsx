@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import {
   FaReact,
   FaNodeJs,
@@ -20,6 +20,7 @@ import { DecryptSplitHeading } from "./DecryptSplitHeading";
 import SectionHeading from "./SectionHeading";
 import BorderGlow from "./BorderGlow/BorderGlow";
 import { glowTheme } from "./BorderGlow/glowTheme";
+import { publicApi } from "../lib/publicApi";
 
 const frontendSkills = [
   { name: "React.js", icon: FaReact, color: "text-cyan-300" },
@@ -47,24 +48,97 @@ const cmsSkills = [
 
 const allSkills = [...frontendSkills, ...backendSkills, ...cmsSkills];
 
+const formatCategory = (category = "") => {
+  const normalized = category.toLowerCase().trim();
+  if (normalized === "frontend") return "Frontend";
+  if (normalized === "backend") return "Backend";
+  if (normalized === "database" || normalized === "data") return "Database";
+  if (normalized === "cms" || normalized === "cms & data") return "CMS";
+  if (normalized === "devops") return "DevOps";
+  return "Other";
+};
+
+const iconForSkill = (name = "") => {
+  const lower = name.toLowerCase();
+  if (lower.includes("react")) return { icon: FaReact, color: "text-cyan-300" };
+  if (lower.includes("next")) return { icon: SiNextdotjs, color: "text-white" };
+  if (lower.includes("type")) return { icon: SiTypescript, color: "text-blue-400" };
+  if (lower.includes("java")) return { icon: FaJs, color: "text-yellow-300" };
+  if (lower.includes("tailwind")) return { icon: SiTailwindcss, color: "text-teal-300" };
+  if (lower.includes("html")) return { icon: FaHtml5, color: "text-orange-400" };
+  if (lower.includes("node")) return { icon: FaNodeJs, color: "text-green-400" };
+  if (lower.includes("express")) return { icon: SiExpress, color: "text-zinc-200" };
+  if (lower.includes("mongo")) return { icon: SiMongodb, color: "text-emerald-400" };
+  if (lower.includes("firebase")) return { icon: FaFireAlt, color: "text-amber-300" };
+  if (lower.includes("wordpress")) return { icon: FaWordpress, color: "text-blue-300" };
+  if (lower.includes("sql") || lower.includes("database")) return { icon: FaDatabase, color: "text-indigo-300" };
+  return { icon: FaCloudDownloadAlt, color: "text-lime-300" };
+};
+
+const normalizeSkill = (skill) => {
+  const iconMeta = iconForSkill(skill.name);
+  return {
+    name: skill.name,
+    level: skill.level,
+    category: formatCategory(skill.category),
+    ...iconMeta,
+  };
+};
+
 const SkillBar = () => {
   const { skillRef } = useContext(NavigateContext);
+  const [dbSkills, setDbSkills] = useState([]);
+  const [loadedFromDb, setLoadedFromDb] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    publicApi
+      .getSkills()
+      .then((data) => {
+        if (!mounted) return;
+        setDbSkills(data.map(normalizeSkill));
+        setLoadedFromDb(true);
+      })
+      .catch(() => {
+        if (mounted) setLoadedFromDb(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const categories = useMemo(() => {
+    if (!loadedFromDb) {
+      return [
+        { title: "Frontend", skills: frontendSkills },
+        { title: "Backend", skills: backendSkills },
+        { title: "CMS & Data", skills: cmsSkills },
+      ];
+    }
+
+    return ["Frontend", "Backend", "CMS", "Database", "DevOps", "Other"]
+      .map((category) => ({
+        title: category === "Database" ? "Database & Data" : category === "CMS" ? "CMS & Data" : category,
+        skills: dbSkills.filter((skill) => skill.category === category),
+      }))
+      .filter((category) => category.skills.length > 0);
+  }, [dbSkills, loadedFromDb]);
+
+  const marqueeSkills = loadedFromDb ? dbSkills : allSkills;
 
   return (
     <section id="skills" ref={skillRef} className="relative overflow-hidden bg-transparent px-6 py-20 md:py-28 md:px-12">
       <div className="pointer-events-none absolute left-1/2 top-20 h-52 w-[28rem] -translate-x-1/2 rounded-full bg-lime-400/10 blur-[130px]" />
       <div className="max-w-[96rem] mx-auto relative z-10">
         <SectionHeading kicker="What I Do" before="Tech " highlight="Skills" align="center" />
-        <p className="mx-auto -mt-8 mb-16 max-w-2xl text-center text-sm md:text-base text-zinc-400">
+        <p className="mx-auto -mt-8 mb-10 max-w-2xl text-center text-sm md:text-base text-zinc-400">
           Modern frontend, backend, and CMS workflow focused on performance and clean architecture.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-14">
-          {[
-            { title: "Frontend", skills: frontendSkills },
-            { title: "Backend", skills: backendSkills },
-            { title: "CMS & Data", skills: cmsSkills },
-          ].map((cat, i) => (
+          {categories.map((cat, i) => (
             <motion.div
               key={cat.title}
               initial={{ opacity: 0, y: 20 }}
@@ -82,6 +156,7 @@ const SkillBar = () => {
                       <span key={skill.name} className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-200">
                         <skill.icon className={skill.color} />
                         {skill.name}
+                        {skill.level ? <span className="text-zinc-500">{skill.level}%</span> : null}
                       </span>
                     ))}
                   </div>
@@ -102,7 +177,7 @@ const SkillBar = () => {
 
             <div className="relative z-10 space-y-4">
               <Marquee pauseOnHover speed={42} gradient={false}>
-                {allSkills.map((skill, idx) => (
+                {marqueeSkills.map((skill, idx) => (
                   <div
                     key={`${skill.name}-top-${idx}`}
                     className="group mx-2.5 flex min-w-[180px] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 transition-all duration-300 hover:border-lime-400/50 hover:bg-lime-400/10"
@@ -116,7 +191,7 @@ const SkillBar = () => {
               </Marquee>
 
               <Marquee pauseOnHover speed={34} gradient={false} direction="right">
-                {[...allSkills].reverse().map((skill, idx) => (
+                {[...marqueeSkills].reverse().map((skill, idx) => (
                   <div
                     key={`${skill.name}-bottom-${idx}`}
                     className="group mx-2.5 flex min-w-[180px] items-center gap-3 rounded-2xl border border-white/10 bg-black/35 px-4 py-3 transition-all duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/10"

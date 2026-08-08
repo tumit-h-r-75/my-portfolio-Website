@@ -60,7 +60,7 @@ const ProjectCard = ({ project }) => {
       <div className="pc-card">
         {/* head */}
         <div className="pc-head">
-          <span className="pc-num">0{project.id}</span>
+          <span className="pc-num">0{project.serial || project.id}</span>
           {chips.map((tech, i) => (
             <span key={i} className="pc-chip">
               {techIcon(tech)}

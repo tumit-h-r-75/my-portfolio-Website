@@ -1,15 +1,38 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import { FaArrowRight, FaThLarge } from "react-icons/fa";
 import ProjectCard from "./ProjectCard";
-import projects from "./data/projects";
 import { NavigateContext } from "../context/NavigateProvider";
 import SectionHeading from "./SectionHeading";
 import Workflow from "./Workflow/Workflow";
+import { publicApi } from "../lib/publicApi";
 
 const ProjectsSection = () => {
   const { portfolioRef } = useContext(NavigateContext);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let mounted = true;
+
+    publicApi
+      .getProjects()
+      .then((data) => {
+        if (mounted) setProjects(data);
+      })
+      .catch((err) => {
+        if (mounted) setError(err.message);
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <section
@@ -32,7 +55,12 @@ const ProjectsSection = () => {
         viewport={{ once: true }}
         className="grid gap-6 grid-cols-1 xl:grid-cols-2"
       >
-        {projects.map((project) => (
+        {loading && <p className="col-span-full text-center text-zinc-400">Loading projects...</p>}
+        {!loading && error && <p className="col-span-full text-center text-red-300">{error}</p>}
+        {!loading && !error && projects.length === 0 && (
+          <p className="col-span-full text-center text-zinc-400">No projects found in database.</p>
+        )}
+        {!loading && !error && projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </motion.div>
