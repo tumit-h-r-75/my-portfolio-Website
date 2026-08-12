@@ -10,7 +10,6 @@ import {
   FaNodeJs,
   FaJs,
   FaCode,
-  FaRocket,
   FaLayerGroup,
 } from "react-icons/fa";
 import { SiMongodb, SiExpress, SiTailwindcss, SiNextdotjs } from "react-icons/si";
@@ -140,7 +139,8 @@ const About = () => {
             <div className="about-bio-body">
               <p>
                 Hello! I&apos;m <span className="name">Tumit Hasan</span>, a dedicated and
-                results-driven MERN Stack Developer. I specialize in{" "}
+                results-driven MERN Stack Developer with 1+ years of hands-on experience.
+                I specialize in{" "}
                 <b>React.js</b>, <b>Node.js</b>, <b>MongoDB</b>, <b>Express.js</b>, and{" "}
                 <b>Tailwind CSS</b>.
               </p>
@@ -159,18 +159,18 @@ const About = () => {
               <div className="about-stat-label">Years Experience</div>
             </div>
             <div className="about-stat">
-              <div className="about-stat-ring"><FaRocket /></div>
-              <div className="about-stat-num"><CountUp end={4} /></div>
-              <div className="about-stat-label">Projects Built</div>
+              <div className="about-stat-ring"><FaLayerGroup /></div>
+              <div className="about-stat-num about-stat-text">MERN</div>
+              <div className="about-stat-label">Stack</div>
             </div>
             <div className="about-stat">
-              <div className="about-stat-ring"><FaLayerGroup /></div>
-              <div className="about-stat-num"><CountUp end={15} /></div>
-              <div className="about-stat-label">Technologies</div>
+              <div className="about-stat-ring"><FaUser /></div>
+              <div className="about-stat-num about-stat-text">Frontend</div>
+              <div className="about-stat-label">Focus</div>
             </div>
             <div className="about-stat">
               <div className="about-stat-ring"><FaMapMarkerAlt /></div>
-              <div className="about-stat-num" style={{ fontSize: "1.15rem" }}>Bangladesh</div>
+              <div className="about-stat-num about-stat-text">Bangladesh</div>
               <div className="about-stat-label">From</div>
             </div>
           </div>

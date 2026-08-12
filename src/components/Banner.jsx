@@ -12,7 +12,6 @@ import {
   FaUserAlt,
   FaCloud,
   FaCode,
-  FaRocket,
   FaLayerGroup,
   FaMapMarkerAlt,
 } from "react-icons/fa";
@@ -20,7 +19,6 @@ import { SiMongodb, SiExpress, SiTypescript, SiTailwindcss } from "react-icons/s
 import { motion, useMotionValue, useSpring, useTransform, useInView } from "framer-motion";
 import banner from "../assets/myImg.webp";
 import "./Banner.css";
-import { publicApi } from "../lib/publicApi";
 
 const RESUME_LINK =
   "https://drive.google.com/file/d/1P61zXG4Ryuh2Z445UwzTpP0Uljt0SvjY/view?usp=sharing";
@@ -98,22 +96,6 @@ const CountUp = ({ end, suffix = "+" }) => {
 
 const Banner = () => {
   const panelRef = useRef(null);
-  const [projectCount, setProjectCount] = useState(4);
-
-  useEffect(() => {
-    let mounted = true;
-
-    publicApi
-      .getProjects()
-      .then((data) => {
-        if (mounted) setProjectCount(data.length);
-      })
-      .catch(() => {});
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -186,8 +168,8 @@ const Banner = () => {
             </motion.div>
 
             <motion.p variants={item} className="banner-desc">
-              Transforming complex problems into elegant, high-performance web
-              applications with the{" "}
+              1+ years of hands-on experience transforming complex problems into
+              elegant, high-performance web applications with the{" "}
               <span className="font-semibold text-lime-400">MERN ecosystem</span>.
               Focused on scalable architecture and clean, user-centric design.
             </motion.p>
@@ -302,17 +284,17 @@ const Banner = () => {
                   <div className="hud-stat">
                     <span className="hud-stat-icon"><FaCode /></span>
                     <div className="hud-stat-num"><CountUp end={1} /></div>
-                    <span className="hud-stat-label">YEARS EXP.</span>
-                  </div>
-                  <div className="hud-stat">
-                    <span className="hud-stat-icon"><FaRocket /></span>
-                    <div className="hud-stat-num"><CountUp end={projectCount} /></div>
-                    <span className="hud-stat-label">PROJECTS</span>
+                    <span className="hud-stat-label">YEARS EXPERIENCE</span>
                   </div>
                   <div className="hud-stat">
                     <span className="hud-stat-icon"><FaLayerGroup /></span>
-                    <div className="hud-stat-num"><CountUp end={15} /></div>
-                    <span className="hud-stat-label">TECHNOLOGIES</span>
+                    <div className="hud-stat-num hud-stat-text">MERN</div>
+                    <span className="hud-stat-label">STACK</span>
+                  </div>
+                  <div className="hud-stat">
+                    <span className="hud-stat-icon"><FaMapMarkerAlt /></span>
+                    <div className="hud-stat-num hud-stat-text">Bangladesh</div>
+                    <span className="hud-stat-label">FROM</span>
                   </div>
                 </div>
 

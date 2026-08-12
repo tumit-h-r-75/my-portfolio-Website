@@ -47,7 +47,7 @@ const ProjectCard = ({ project }) => {
     : [];
 
   const chips = techStack.slice(0, 3);
-  const features = project.features || [];
+  const features = (project.features || []).slice(0, 3);
 
   return (
     <motion.div

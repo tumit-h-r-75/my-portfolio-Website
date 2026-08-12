@@ -13,7 +13,7 @@ const faqs = [
   {
     q: "Who is Tumit?",
     keywords: ["who", "about", "yourself", "tumit", "introduce", "you"],
-    a: "I'm Tumit Hasan — a MERN Stack Developer from Jashore, Bangladesh. I turn ideas into fast, responsive web apps with React, Node.js, Express & MongoDB.",
+    a: "I'm Tumit Hasan - a MERN Stack Developer from Jashore, Bangladesh with 1+ years of hands-on experience. I turn ideas into fast, responsive web apps with React, Node.js, Express & MongoDB.",
   },
   {
     q: "What are your skills?",
@@ -25,7 +25,7 @@ const faqs = [
   {
     q: "Show me projects",
     keywords: ["project", "portfolio", "work", "built", "made", "app"],
-    a: "I've built several full-stack projects — each with a live demo & GitHub link. Take a look 👇",
+    a: "My portfolio highlights selected full-stack work with live demos and GitHub links. Take a look.",
     action: "portfolio",
     actionLabel: "View projects",
   },

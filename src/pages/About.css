@@ -211,6 +211,10 @@
   color: #fff;
   line-height: 1;
 }
+.about-stat-text {
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  white-space: nowrap;
+}
 .about-stat-label {
   font-size: 0.72rem;
   color: #71717a;

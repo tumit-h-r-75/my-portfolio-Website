@@ -53,7 +53,7 @@ const ProjectsSection = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="grid gap-6 grid-cols-1 xl:grid-cols-2"
+        className="grid items-start gap-6 grid-cols-1 xl:grid-cols-2"
       >
         {loading && <p className="col-span-full text-center text-zinc-400">Loading projects...</p>}
         {!loading && error && <p className="col-span-full text-center text-red-300">{error}</p>}
