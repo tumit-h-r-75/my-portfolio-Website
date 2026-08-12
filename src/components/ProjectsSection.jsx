@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowRight, FaThLarge } from "react-icons/fa";
 import ProjectCard from "./ProjectCard";
-import { NavigateContext } from "../context/NavigateProvider";
+import { NavigateContext } from "../context/NavigateContext";
 import SectionHeading from "./SectionHeading";
 import Workflow from "./Workflow/Workflow";
 import { publicApi } from "../lib/publicApi";

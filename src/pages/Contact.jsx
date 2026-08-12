@@ -18,7 +18,7 @@ import {
 import emailjs from "@emailjs/browser";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
-import { NavigateContext } from "../context/NavigateProvider";
+import { NavigateContext } from "../context/NavigateContext";
 import MagicBentoPanel from "../components/MagicBento/MagicBento";
 import DecryptLabel from "../components/DecryptLabel";
 import BorderGlow from "../components/BorderGlow/BorderGlow";
@@ -160,7 +160,7 @@ const Contact = () => {
             </div>
 
             <h2 className="max-w-3xl text-4xl font-black uppercase leading-[0.95] text-white sm:text-5xl md:text-6xl xl:text-7xl">
-              Let's build <span className="text-lime-400">something great</span> together.
+              Let&apos;s build <span className="text-lime-400">something great</span> together.
             </h2>
 
             <div className="mt-7 flex flex-wrap gap-3">

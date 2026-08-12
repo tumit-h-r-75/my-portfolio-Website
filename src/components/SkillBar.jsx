@@ -13,7 +13,7 @@ import {
 import { SiTailwindcss, SiExpress, SiMongodb, SiTypescript, SiNextdotjs, SiAirtable } from "react-icons/si";
 import Marquee from "react-fast-marquee";
 import { motion } from "framer-motion";
-import { NavigateContext } from "../context/NavigateProvider";
+import { NavigateContext } from "../context/NavigateContext";
 import MagicBentoPanel from "./MagicBento/MagicBento";
 import DecryptLabel from "./DecryptLabel";
 import { DecryptSplitHeading } from "./DecryptSplitHeading";

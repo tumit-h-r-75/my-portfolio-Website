@@ -8,7 +8,7 @@ import {
   FaCogs
 } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { NavigateContext } from "../context/NavigateProvider";
+import { NavigateContext } from "../context/NavigateContext";
 import DecryptLabel from "./DecryptLabel";
 import SectionHeading from "./SectionHeading";
 import BorderGlow from "./BorderGlow/BorderGlow";

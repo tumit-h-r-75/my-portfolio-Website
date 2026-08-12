@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import { SiMongodb, SiExpress, SiTailwindcss, SiNextdotjs } from "react-icons/si";
 import { motion, useInView } from "framer-motion";
-import { NavigateContext } from "../context/NavigateProvider";
+import { NavigateContext } from "../context/NavigateContext";
 import aboutImg from "../assets/myImg.webp";
 import SectionHeading from "../components/SectionHeading";
 import "./About.css";

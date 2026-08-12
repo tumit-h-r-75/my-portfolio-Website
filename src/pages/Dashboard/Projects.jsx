@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaPen, FaTimes, FaTrash } from 'react-icons/fa';
+import { FaImage, FaPlus, FaPen, FaTimes, FaTrash } from 'react-icons/fa';
 import './Dashboard.css';
 import { ApiClient } from './apiClient';
 
@@ -15,6 +15,8 @@ const initialForm = {
     image: null,
 };
 
+const getProjectImage = (project) => project?.imageUrl || project?.image || '';
+
 const ManageProjects = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -24,6 +26,8 @@ const ManageProjects = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
     const [form, setForm] = useState(initialForm);
+    const [selectedImagePreview, setSelectedImagePreview] = useState('');
+    const [fileInputKey, setFileInputKey] = useState(0);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -68,8 +72,22 @@ const ManageProjects = () => {
         setIsFormOpen(false);
         setEditingProject(null);
         setForm(initialForm);
+        setSelectedImagePreview('');
+        setFileInputKey((key) => key + 1);
         setFormError('');
     };
+
+    useEffect(() => {
+        if (!form.image) {
+            setSelectedImagePreview('');
+            return undefined;
+        }
+
+        const previewUrl = URL.createObjectURL(form.image);
+        setSelectedImagePreview(previewUrl);
+
+        return () => URL.revokeObjectURL(previewUrl);
+    }, [form.image]);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -77,6 +95,11 @@ const ManageProjects = () => {
             ...current,
             [name]: files ? files[0] : value,
         }));
+    };
+
+    const clearSelectedImage = () => {
+        setForm((current) => ({ ...current, image: null }));
+        setFileInputKey((key) => key + 1);
     };
 
     const buildFormData = () => {
@@ -143,7 +166,7 @@ const ManageProjects = () => {
     if (error) return <div className="dashboard-panel dashboard-state error">Error: {error}</div>;
 
     return (
-        <div>
+        <div className="dashboard-page">
             <div className="dashboard-page-head">
                 <div>
                     <p className="dashboard-eyebrow">Portfolio Work</p>
@@ -159,6 +182,7 @@ const ManageProjects = () => {
                 <table className="dashboard-table">
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Title</th>
                             <th>Description</th>
                             <th>Actions</th>
@@ -167,6 +191,13 @@ const ManageProjects = () => {
                     <tbody>
                         {projects.map(project => (
                             <tr key={project._id}>
+                                <td>
+                                    {getProjectImage(project) ? (
+                                        <img src={getProjectImage(project)} alt={project.title} className="dashboard-thumb" />
+                                    ) : (
+                                        <span className="dashboard-thumb-placeholder"><FaImage /></span>
+                                    )}
+                                </td>
                                 <td>{project.title}</td>
                                 <td>{project.description?.substring(0, 100)}...</td>
                                 <td>
@@ -230,8 +261,27 @@ const ManageProjects = () => {
                             </label>
                             <label className="dashboard-field dashboard-field-full">
                                 <span>{editingProject ? 'Replace Image' : 'Project Image'}</span>
-                                <input name="image" type="file" accept="image/*" onChange={handleChange} required={!editingProject} />
+                                <input key={fileInputKey} name="image" type="file" accept="image/*" onChange={handleChange} required={!editingProject} />
                             </label>
+                            {(editingProject || selectedImagePreview) && (
+                                <div className="dashboard-image-preview dashboard-field-full">
+                                    {editingProject && getProjectImage(editingProject) && (
+                                        <div>
+                                            <span>Current Primary Image</span>
+                                            <img src={getProjectImage(editingProject)} alt={editingProject.title} />
+                                        </div>
+                                    )}
+                                    {selectedImagePreview && (
+                                        <div>
+                                            <span>New Selected Image</span>
+                                            <img src={selectedImagePreview} alt="Selected replacement" />
+                                            <button type="button" className="dashboard-action-btn" onClick={clearSelectedImage}>
+                                                Clear
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
                         {formError && <p className="dashboard-error">{formError}</p>}

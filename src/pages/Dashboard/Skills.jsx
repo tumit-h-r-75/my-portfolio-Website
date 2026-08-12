@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { FaPen, FaPlus, FaTimes, FaTrash } from 'react-icons/fa';
+import { FaImage, FaPen, FaPlus, FaTimes, FaTrash } from 'react-icons/fa';
 import './Dashboard.css';
 import { ApiClient } from './apiClient';
 
-const categories = ['Frontend', 'Backend', 'Database', 'DevOps', 'Other'];
+const categories = ['Frontend', 'Backend', 'CMS', 'Database', 'DevOps', 'Other'];
 
 const initialForm = {
     name: '',
     level: '',
     category: 'Frontend',
     image: null,
+};
+
+const getSkillImage = (skill) => skill?.imageUrl || skill?.image || '';
+
+const normalizeCategory = (category = '') => {
+    const normalized = category.toLowerCase().trim();
+    if (normalized === 'frontend') return 'Frontend';
+    if (normalized === 'backend') return 'Backend';
+    if (normalized === 'cms' || normalized === 'cms & data') return 'CMS';
+    if (normalized === 'database' || normalized === 'data') return 'Database';
+    if (normalized === 'devops') return 'DevOps';
+    return 'Other';
 };
 
 const ManageSkills = () => {
@@ -21,6 +33,8 @@ const ManageSkills = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingSkill, setEditingSkill] = useState(null);
     const [form, setForm] = useState(initialForm);
+    const [selectedImagePreview, setSelectedImagePreview] = useState('');
+    const [fileInputKey, setFileInputKey] = useState(0);
 
     useEffect(() => {
         const fetchSkills = async () => {
@@ -48,7 +62,7 @@ const ManageSkills = () => {
         setForm({
             name: skill.name || '',
             level: skill.level || '',
-            category: skill.category || 'Frontend',
+            category: normalizeCategory(skill.category || 'Frontend'),
             image: null,
         });
         setFormError('');
@@ -60,8 +74,22 @@ const ManageSkills = () => {
         setIsFormOpen(false);
         setEditingSkill(null);
         setForm(initialForm);
+        setSelectedImagePreview('');
+        setFileInputKey((key) => key + 1);
         setFormError('');
     };
+
+    useEffect(() => {
+        if (!form.image) {
+            setSelectedImagePreview('');
+            return undefined;
+        }
+
+        const previewUrl = URL.createObjectURL(form.image);
+        setSelectedImagePreview(previewUrl);
+
+        return () => URL.revokeObjectURL(previewUrl);
+    }, [form.image]);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -69,6 +97,11 @@ const ManageSkills = () => {
             ...current,
             [name]: files ? files[0] : value,
         }));
+    };
+
+    const clearSelectedImage = () => {
+        setForm((current) => ({ ...current, image: null }));
+        setFileInputKey((key) => key + 1);
     };
 
     const buildFormData = () => {
@@ -130,7 +163,7 @@ const ManageSkills = () => {
     if (error) return <div className="dashboard-panel dashboard-state error">Error: {error}</div>;
 
     return (
-        <div>
+        <div className="dashboard-page">
             <div className="dashboard-page-head">
                 <div>
                     <p className="dashboard-eyebrow">Stack Library</p>
@@ -146,6 +179,7 @@ const ManageSkills = () => {
                 <table className="dashboard-table">
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>Level</th>
                             <th>Category</th>
@@ -155,6 +189,13 @@ const ManageSkills = () => {
                     <tbody>
                         {skills.map(skill => (
                             <tr key={skill._id}>
+                                <td>
+                                    {getSkillImage(skill) ? (
+                                        <img src={getSkillImage(skill)} alt={skill.name} className="dashboard-thumb" />
+                                    ) : (
+                                        <span className="dashboard-thumb-placeholder"><FaImage /></span>
+                                    )}
+                                </td>
                                 <td>{skill.name}</td>
                                 <td>{skill.level}%</td>
                                 <td>{skill.category}</td>
@@ -203,8 +244,27 @@ const ManageSkills = () => {
                             </label>
                             <label className="dashboard-field">
                                 <span>{editingSkill ? 'Replace Image' : 'Skill Image'}</span>
-                                <input name="image" type="file" accept="image/*" onChange={handleChange} />
+                                <input key={fileInputKey} name="image" type="file" accept="image/*" onChange={handleChange} />
                             </label>
+                            {(editingSkill || selectedImagePreview) && (
+                                <div className="dashboard-image-preview dashboard-field-full">
+                                    {editingSkill && getSkillImage(editingSkill) && (
+                                        <div>
+                                            <span>Current Image</span>
+                                            <img src={getSkillImage(editingSkill)} alt={editingSkill.name} />
+                                        </div>
+                                    )}
+                                    {selectedImagePreview && (
+                                        <div>
+                                            <span>New Selected Image</span>
+                                            <img src={selectedImagePreview} alt="Selected replacement" />
+                                            <button type="button" className="dashboard-action-btn" onClick={clearSelectedImage}>
+                                                Clear
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
                         {formError && <p className="dashboard-error">{formError}</p>}

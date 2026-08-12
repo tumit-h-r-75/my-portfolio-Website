@@ -4,7 +4,7 @@ import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt, FaHome, FaUserAlt, FaCode, FaEnvelope, FaGithub, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 import { useContext } from "react";
 import { motion } from "framer-motion";
-import { NavigateContext } from "../context/NavigateProvider";
+import { NavigateContext } from "../context/NavigateContext";
 import DecryptLabel from "./DecryptLabel";
 
 const Footer = () => {

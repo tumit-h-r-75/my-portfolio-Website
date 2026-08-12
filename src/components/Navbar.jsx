@@ -11,7 +11,7 @@ import {
   FaProjectDiagram,
   FaEnvelopeOpen,
 } from "react-icons/fa";
-import { Link, useNavigate, useLocation } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png";
 import DecryptLabel from "./DecryptLabel";

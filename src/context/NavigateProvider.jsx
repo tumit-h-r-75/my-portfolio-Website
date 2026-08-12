@@ -1,6 +1,5 @@
-import { createContext, useRef } from "react";
-
-export const NavigateContext = createContext();
+import { useRef } from "react";
+import { NavigateContext } from "./NavigateContext";
 
 const NavigateProvider = ({ children }) => {
   const homeRef = useRef(null);

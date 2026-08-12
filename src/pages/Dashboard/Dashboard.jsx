@@ -26,7 +26,7 @@ const Dashboard = () => {
     ];
 
     return (
-        <div>
+        <div className="dashboard-page">
             <section className="dashboard-topbar">
                 <div>
                     <p className="dashboard-eyebrow">Portfolio Control</p>

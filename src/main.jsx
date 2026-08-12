@@ -44,6 +44,8 @@ const RootApp = () => {
   );
 };
 
+export default RootApp;
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RootApp />
