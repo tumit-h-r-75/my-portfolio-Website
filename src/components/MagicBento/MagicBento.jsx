@@ -1,4 +1,4 @@
-gitimport { forwardRef, useRef, useCallback } from "react";
+import { forwardRef, useRef, useCallback } from "react";
 import "./MagicBento.css";
 
 const MagicBentoPanel = forwardRef(({
