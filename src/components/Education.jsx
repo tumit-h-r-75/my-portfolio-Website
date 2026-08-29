@@ -89,7 +89,7 @@ const Education = () => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            className="lg:col-span-4 sticky top-24"
+            className="lg:col-span-4 lg:sticky lg:top-24"
           >
             <BorderGlow {...glowTheme} backgroundColor="#0a0a0a" borderRadius={24} className="p-8">
             <div className="space-y-8">

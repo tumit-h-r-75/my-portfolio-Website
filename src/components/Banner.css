@@ -504,9 +504,16 @@
   line-height: 1;
 }
 .hud-stat-text {
-  font-size: clamp(0.88rem, 2.3vw, 1.15rem);
+  font-size: clamp(0.62rem, 4vw, 1.15rem);
   letter-spacing: 0;
   white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .hud-stat-text {
+    white-space: normal;
+    line-height: 1.1;
+  }
 }
 .hud-stat-label {
   display: block;
@@ -595,6 +602,12 @@
 @media (max-width: 767px) {
   .hud-hex-col { display: none; }
   .hud-photo { height: 240px; }
+}
+
+@media (max-width: 420px) {
+  .hud-photo { height: 200px; }
+  .hud-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .hud-stat { padding: 0.8rem 0.35rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
