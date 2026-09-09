@@ -154,9 +154,9 @@ body {
   animation: preloaderRingPulse 1.5s ease-in-out infinite;
 }
 
-.preloader-banner-progress {
-  transform-origin: left;
-  animation: preloaderProgress 1.7s cubic-bezier(0.16, 0.8, 0.26, 1) forwards;
+.preloader-counter {
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 12px rgba(163, 230, 53, 0.5);
 }
 
 .preloader-shimmer {
@@ -171,18 +171,6 @@ body {
 
 .preloader-subtext-pop {
   animation: preloaderTextPop 1s ease-out;
-}
-
-@keyframes preloaderProgress {
-  0% {
-    transform: scaleX(0.05);
-  }
-  70% {
-    transform: scaleX(0.82);
-  }
-  100% {
-    transform: scaleX(1);
-  }
 }
 
 @keyframes preloaderShimmer {

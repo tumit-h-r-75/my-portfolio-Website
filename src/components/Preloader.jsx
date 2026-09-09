@@ -1,10 +1,21 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import DecryptLabel from "./DecryptLabel";
 import bannerImage from "../assets/myImg.webp";
 
+const LOAD_DURATION = 1650;
+
+const statusMessages = [
+  "Booting portfolio...",
+  "Loading projects & skills...",
+  "Polishing pixels...",
+  "Almost ready...",
+];
+
 const Preloader = ({ onFinish }) => {
   const [startSplit, setStartSplit] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [statusIndex, setStatusIndex] = useState(0);
 
   useEffect(() => {
     const splitTimer = setTimeout(() => {
@@ -20,6 +31,31 @@ const Preloader = ({ onFinish }) => {
       clearTimeout(finishTimer);
     };
   }, [onFinish]);
+
+  // Drives the numeric counter off real elapsed time (instead of a fixed CSS
+  // duration) so it always lands on 100% right as the split animation starts.
+  useEffect(() => {
+    const startTime = performance.now();
+    let frameId;
+
+    const tick = (now) => {
+      const elapsed = now - startTime;
+      const pct = Math.min(100, Math.round((elapsed / LOAD_DURATION) * 100));
+      setProgress(pct);
+      if (pct < 100) frameId = requestAnimationFrame(tick);
+    };
+
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, []);
+
+  useEffect(() => {
+    const stepDuration = LOAD_DURATION / statusMessages.length;
+    const interval = setInterval(() => {
+      setStatusIndex((current) => Math.min(current + 1, statusMessages.length - 1));
+    }, stepDuration);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="fixed inset-0 z-[250] overflow-hidden" aria-label="Loading portfolio">
@@ -90,8 +126,33 @@ const Preloader = ({ onFinish }) => {
                 />
               </p>
 
-              <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-zinc-800/90">
-                <div className="preloader-banner-progress h-full rounded-full bg-gradient-to-r from-lime-400 to-emerald-400" />
+              <div className="mt-4 flex items-center justify-between gap-3">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={statusIndex}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.25 }}
+                    className="text-[11px] font-semibold uppercase tracking-[0.14em] text-lime-300/90"
+                    aria-live="polite"
+                  >
+                    {statusMessages[statusIndex]}
+                  </motion.p>
+                </AnimatePresence>
+                <span className="preloader-counter shrink-0 font-mono text-sm font-black tabular-nums text-white">
+                  {progress}%
+                </span>
+              </div>
+
+              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-800/90">
+                <motion.div
+                  className="h-full rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 shadow-[0_0_12px_rgba(163,230,53,0.6)]"
+                  style={{ transformOrigin: "left" }}
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: progress / 100 }}
+                  transition={{ duration: 0.15, ease: "linear" }}
+                />
               </div>
             </div>
           </div>
