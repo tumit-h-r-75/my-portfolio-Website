@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { FaImage, FaPlus, FaPen, FaTimes, FaTrash } from 'react-icons/fa';
+import React, { useState, useEffect, useMemo } from 'react';
+import { FaImage, FaPlus, FaPen, FaTimes, FaTrash, FaSearch } from 'react-icons/fa';
 import './Dashboard.css';
 import { ApiClient } from './apiClient';
+import { getTechIcon } from '../../lib/techIcons';
 
 const initialForm = {
     title: '',
@@ -28,6 +29,22 @@ const ManageProjects = () => {
     const [form, setForm] = useState(initialForm);
     const [selectedImagePreview, setSelectedImagePreview] = useState('');
     const [fileInputKey, setFileInputKey] = useState(0);
+    const [search, setSearch] = useState('');
+
+    const tagPreview = form.tags
+        .split(',')
+        .map((tag) => tag.trim())
+        .filter(Boolean);
+
+    const filteredProjects = useMemo(() => {
+        const term = search.trim().toLowerCase();
+        if (!term) return projects;
+        return projects.filter((project) =>
+            project.title?.toLowerCase().includes(term) ||
+            project.description?.toLowerCase().includes(term) ||
+            (Array.isArray(project.tags) ? project.tags.join(' ').toLowerCase().includes(term) : false)
+        );
+    }, [projects, search]);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -178,18 +195,31 @@ const ManageProjects = () => {
                 </button>
             </div>
 
+            <div className="dashboard-toolbar">
+                <div className="dashboard-search">
+                    <FaSearch />
+                    <input
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Search projects by title, tag, or description..."
+                    />
+                </div>
+                <span className="dashboard-muted">{filteredProjects.length} of {projects.length} projects</span>
+            </div>
+
             <div className="dashboard-panel dashboard-table-wrap">
                 <table className="dashboard-table">
                     <thead>
                         <tr>
                             <th>Image</th>
                             <th>Title</th>
+                            <th>Tech Stack</th>
                             <th>Description</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {projects.map(project => (
+                        {filteredProjects.map(project => (
                             <tr key={project._id}>
                                 <td>
                                     {getProjectImage(project) ? (
@@ -199,6 +229,18 @@ const ManageProjects = () => {
                                     )}
                                 </td>
                                 <td>{project.title}</td>
+                                <td>
+                                    <div className="dashboard-tag-row">
+                                        {(project.tags || []).map((tag, i) => {
+                                            const { Icon, color, label } = getTechIcon(tag);
+                                            return (
+                                                <span key={i} className="dashboard-tag-chip" title={label}>
+                                                    <Icon style={{ color }} /> {label}
+                                                </span>
+                                            );
+                                        })}
+                                    </div>
+                                </td>
                                 <td>{project.description?.substring(0, 100)}...</td>
                                 <td>
                                     <div className="dashboard-action-row">
@@ -210,7 +252,9 @@ const ManageProjects = () => {
                         ))}
                     </tbody>
                 </table>
-                {projects.length === 0 && <div className="dashboard-state">No projects found.</div>}
+                {filteredProjects.length === 0 && (
+                    <div className="dashboard-state">{projects.length === 0 ? 'No projects found.' : 'No projects match your search.'}</div>
+                )}
             </div>
 
             {isFormOpen && (
@@ -234,6 +278,18 @@ const ManageProjects = () => {
                             <label className="dashboard-field">
                                 <span>Tags</span>
                                 <input name="tags" value={form.tags} onChange={handleChange} placeholder="React, Node, MongoDB" />
+                                {tagPreview.length > 0 && (
+                                    <div className="dashboard-tag-row dashboard-tag-preview">
+                                        {tagPreview.map((tag, i) => {
+                                            const { Icon, color, label } = getTechIcon(tag);
+                                            return (
+                                                <span key={i} className="dashboard-tag-chip" title={label}>
+                                                    <Icon style={{ color }} /> {label}
+                                                </span>
+                                            );
+                                        })}
+                                    </div>
+                                )}
                             </label>
                             <label className="dashboard-field">
                                 <span>Live Link</span>

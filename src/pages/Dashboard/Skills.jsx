@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { FaImage, FaPen, FaPlus, FaTimes, FaTrash } from 'react-icons/fa';
+import React, { useState, useEffect, useMemo } from 'react';
+import { FaPen, FaPlus, FaTimes, FaTrash, FaSearch } from 'react-icons/fa';
 import './Dashboard.css';
 import { ApiClient } from './apiClient';
+import { getTechIcon } from '../../lib/techIcons';
 
 const categories = ['Frontend', 'Backend', 'CMS', 'Database', 'DevOps', 'Other'];
 
@@ -35,6 +36,17 @@ const ManageSkills = () => {
     const [form, setForm] = useState(initialForm);
     const [selectedImagePreview, setSelectedImagePreview] = useState('');
     const [fileInputKey, setFileInputKey] = useState(0);
+    const [search, setSearch] = useState('');
+
+    const namePreview = form.name.trim() ? getTechIcon(form.name.trim()) : null;
+
+    const filteredSkills = useMemo(() => {
+        const term = search.trim().toLowerCase();
+        if (!term) return skills;
+        return skills.filter((skill) =>
+            skill.name?.toLowerCase().includes(term) || skill.category?.toLowerCase().includes(term)
+        );
+    }, [skills, search]);
 
     useEffect(() => {
         const fetchSkills = async () => {
@@ -175,6 +187,18 @@ const ManageSkills = () => {
                 </button>
             </div>
 
+            <div className="dashboard-toolbar">
+                <div className="dashboard-search">
+                    <FaSearch />
+                    <input
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Search skills by name or category..."
+                    />
+                </div>
+                <span className="dashboard-muted">{filteredSkills.length} of {skills.length} skills</span>
+            </div>
+
             <div className="dashboard-panel dashboard-table-wrap">
                 <table className="dashboard-table">
                     <thead>
@@ -187,13 +211,18 @@ const ManageSkills = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {skills.map(skill => (
+                        {filteredSkills.map(skill => (
                             <tr key={skill._id}>
                                 <td>
                                     {getSkillImage(skill) ? (
                                         <img src={getSkillImage(skill)} alt={skill.name} className="dashboard-thumb" />
                                     ) : (
-                                        <span className="dashboard-thumb-placeholder"><FaImage /></span>
+                                        <span className="dashboard-thumb-placeholder">
+                                            {(() => {
+                                                const { Icon, color } = getTechIcon(skill.name);
+                                                return <Icon style={{ color }} size={20} />;
+                                            })()}
+                                        </span>
                                     )}
                                 </td>
                                 <td>{skill.name}</td>
@@ -209,7 +238,9 @@ const ManageSkills = () => {
                         ))}
                     </tbody>
                 </table>
-                {skills.length === 0 && <div className="dashboard-state">No skills found.</div>}
+                {filteredSkills.length === 0 && (
+                    <div className="dashboard-state">{skills.length === 0 ? 'No skills found.' : 'No skills match your search.'}</div>
+                )}
             </div>
 
             {isFormOpen && (
@@ -229,6 +260,12 @@ const ManageSkills = () => {
                             <label className="dashboard-field">
                                 <span>Name</span>
                                 <input name="name" value={form.name} onChange={handleChange} required />
+                                {namePreview && (
+                                    <span className="dashboard-tag-chip dashboard-tag-preview" title={namePreview.label}>
+                                        <namePreview.Icon style={{ color: namePreview.color }} />
+                                        {namePreview.known ? 'Icon matched' : 'No brand icon — will use a generic icon'}
+                                    </span>
+                                )}
                             </label>
                             <label className="dashboard-field">
                                 <span>Level</span>

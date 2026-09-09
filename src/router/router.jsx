@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import ProjectDetails from "../pages/ProjectDetails";
-import ProjectsSection from "../components/ProjectsSection";
+import Projects from "../pages/Projects";
 import Login from "../pages/Dashboard/Login";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/projects",
-        element: <ProjectsSection />,
+        element: <Projects />,
       },
       {
         path: "/projects/:id",

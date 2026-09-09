@@ -5,8 +5,9 @@ import { FaArrowRight, FaThLarge } from "react-icons/fa";
 import ProjectCard from "./ProjectCard";
 import { NavigateContext } from "../context/NavigateContext";
 import SectionHeading from "./SectionHeading";
-import Workflow from "./Workflow/Workflow";
 import { publicApi } from "../lib/publicApi";
+
+const HOME_PREVIEW_COUNT = 4;
 
 const ProjectsSection = () => {
   const { portfolioRef } = useContext(NavigateContext);
@@ -34,14 +35,15 @@ const ProjectsSection = () => {
     };
   }, []);
 
+  const previewProjects = projects.slice(0, HOME_PREVIEW_COUNT);
+  const remaining = Math.max(projects.length - HOME_PREVIEW_COUNT, 0);
+
   return (
     <section
       id="portfolio"
       ref={portfolioRef}
       className="py-20 md:py-28 px-4 sm:px-6 md:px-10 max-w-[96rem] mx-auto"
     >
-      <Workflow />
-
       <SectionHeading kicker="Portfolio" before="Featured " highlight="Projects" align="center" />
       <p className="mx-auto -mt-8 mb-14 max-w-2xl text-center text-sm md:text-base text-zinc-400">
         A selection of my recent work. Each project is crafted with passion and built with modern technologies.
@@ -57,16 +59,16 @@ const ProjectsSection = () => {
       >
         {loading && <p className="col-span-full text-center text-zinc-400">Loading projects...</p>}
         {!loading && error && <p className="col-span-full text-center text-red-300">{error}</p>}
-        {!loading && !error && projects.length === 0 && (
+        {!loading && !error && previewProjects.length === 0 && (
           <p className="col-span-full text-center text-zinc-400">No projects found in database.</p>
         )}
-        {!loading && !error && projects.map((project) => (
+        {!loading && !error && previewProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </motion.div>
 
       {/* View all */}
-      <div className="mt-12 flex justify-center">
+      <div className="mt-12 flex flex-col items-center gap-3">
         <Link
           to="/projects"
           className="group inline-flex items-center gap-3 rounded-full border border-lime-400/40 bg-lime-400/5 px-7 py-3.5 text-sm font-black uppercase tracking-[0.15em] text-lime-300 transition hover:bg-lime-400/10"
@@ -75,6 +77,11 @@ const ProjectsSection = () => {
           View All Projects
           <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
         </Link>
+        {!loading && !error && remaining > 0 && (
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-zinc-500">
+            +{remaining} more project{remaining > 1 ? "s" : ""} in the full portfolio
+          </p>
+        )}
       </div>
     </section>
   );

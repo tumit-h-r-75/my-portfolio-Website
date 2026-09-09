@@ -21,6 +21,7 @@ import SectionHeading from "./SectionHeading";
 import BorderGlow from "./BorderGlow/BorderGlow";
 import { glowTheme } from "./BorderGlow/glowTheme";
 import { publicApi } from "../lib/publicApi";
+import { getTechIcon } from "../lib/techIcons";
 
 const frontendSkills = [
   { name: "React.js", icon: FaReact, color: "text-cyan-300" },
@@ -58,21 +59,11 @@ const formatCategory = (category = "") => {
   return "Other";
 };
 
+// Every skill typed in the admin dashboard is resolved against the shared
+// tech-icon registry, so a skill never renders without a matching brand icon.
 const iconForSkill = (name = "") => {
-  const lower = name.toLowerCase();
-  if (lower.includes("react")) return { icon: FaReact, color: "text-cyan-300" };
-  if (lower.includes("next")) return { icon: SiNextdotjs, color: "text-white" };
-  if (lower.includes("type")) return { icon: SiTypescript, color: "text-blue-400" };
-  if (lower.includes("java")) return { icon: FaJs, color: "text-yellow-300" };
-  if (lower.includes("tailwind")) return { icon: SiTailwindcss, color: "text-teal-300" };
-  if (lower.includes("html")) return { icon: FaHtml5, color: "text-orange-400" };
-  if (lower.includes("node")) return { icon: FaNodeJs, color: "text-green-400" };
-  if (lower.includes("express")) return { icon: SiExpress, color: "text-zinc-200" };
-  if (lower.includes("mongo")) return { icon: SiMongodb, color: "text-emerald-400" };
-  if (lower.includes("firebase")) return { icon: FaFireAlt, color: "text-amber-300" };
-  if (lower.includes("wordpress")) return { icon: FaWordpress, color: "text-blue-300" };
-  if (lower.includes("sql") || lower.includes("database")) return { icon: FaDatabase, color: "text-indigo-300" };
-  return { icon: FaCloudDownloadAlt, color: "text-lime-300" };
+  const { Icon, color } = getTechIcon(name);
+  return { icon: Icon, color: "", style: { color } };
 };
 
 const normalizeSkill = (skill) => {
@@ -81,6 +72,7 @@ const normalizeSkill = (skill) => {
     name: skill.name,
     level: skill.level,
     category: formatCategory(skill.category),
+    imageUrl: skill.imageUrl || skill.image || "",
     ...iconMeta,
   };
 };
@@ -154,7 +146,11 @@ const SkillBar = () => {
                   <div className="flex flex-wrap gap-2.5">
                     {cat.skills.map((skill) => (
                       <span key={skill.name} className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-200">
-                        <skill.icon className={skill.color} />
+                        {skill.imageUrl ? (
+                          <img src={skill.imageUrl} alt={skill.name} className="h-4 w-4 rounded object-contain" />
+                        ) : (
+                          <skill.icon className={skill.color} style={skill.style} />
+                        )}
                         {skill.name}
                         {skill.level ? <span className="text-zinc-500">{skill.level}%</span> : null}
                       </span>
@@ -183,7 +179,11 @@ const SkillBar = () => {
                     className="group mx-2.5 flex min-w-[180px] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 transition-all duration-300 hover:border-lime-400/50 hover:bg-lime-400/10"
                   >
                     <div className="rounded-xl bg-black/40 p-2">
-                      <skill.icon className={`text-xl ${skill.color}`} />
+                      {skill.imageUrl ? (
+                        <img src={skill.imageUrl} alt={skill.name} className="h-5 w-5 rounded object-contain" />
+                      ) : (
+                        <skill.icon className={`text-xl ${skill.color}`} style={skill.style} />
+                      )}
                     </div>
                     <p className="text-sm font-semibold text-zinc-200">{skill.name}</p>
                   </div>
@@ -196,7 +196,11 @@ const SkillBar = () => {
                     key={`${skill.name}-bottom-${idx}`}
                     className="group mx-2.5 flex min-w-[180px] items-center gap-3 rounded-2xl border border-white/10 bg-black/35 px-4 py-3 transition-all duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/10"
                   >
-                    <skill.icon className={`text-lg ${skill.color}`} />
+                    {skill.imageUrl ? (
+                      <img src={skill.imageUrl} alt={skill.name} className="h-4 w-4 rounded object-contain" />
+                    ) : (
+                      <skill.icon className={`text-lg ${skill.color}`} style={skill.style} />
+                    )}
                     <p className="text-sm font-semibold text-zinc-200">{skill.name}</p>
                   </div>
                 ))}
