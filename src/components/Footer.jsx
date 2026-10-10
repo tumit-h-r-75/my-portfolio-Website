@@ -37,13 +37,13 @@ const Footer = () => {
       <div className="glow-blob -top-20 left-1/2 -translate-x-1/2 w-[460px] max-w-full h-[260px]" />
 
       <div className="max-w-[96rem] mx-auto px-6 lg:px-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
           
           {/* 1. Branding Section (Col-5) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="md:col-span-5 space-y-6"
+            className="md:col-span-2 lg:col-span-5 space-y-6"
           >
             <img className="w-48 lg:w-56" src={logo} alt="Tumit Dev Logo" />
             <p className="text-zinc-400 text-base max-w-sm leading-relaxed">
@@ -82,7 +82,7 @@ const Footer = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="md:col-span-3"
+            className="min-w-0 lg:col-span-3"
           >
             <h3 className="text-white font-bold text-lg mb-6 uppercase tracking-widest italic border-l-4 border-lime-400 pl-3">
               <DecryptLabel text="Navigation" parentClassName="text-white font-bold" className="text-white" />
@@ -122,7 +122,7 @@ const Footer = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="md:col-span-4"
+            className="min-w-0 lg:col-span-4"
           >
             <h3 className="text-white font-bold text-lg mb-6 uppercase tracking-widest italic border-l-4 border-lime-400 pl-3">
               <DecryptLabel text="Connect Directly" parentClassName="text-white font-bold" className="text-white" />
