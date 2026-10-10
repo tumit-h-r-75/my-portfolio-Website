@@ -1,4 +1,5 @@
-import { forwardRef, useRef, useCallback } from "react";
+import { forwardRef, useRef } from "react";
+import { isLiteMode } from "../../lib/perf";
 import "./MagicBento.css";
 
 const MagicBentoPanel = forwardRef(({
@@ -11,7 +12,8 @@ const MagicBentoPanel = forwardRef(({
   ...props
 }, externalRef) => {
   const panelRef = useRef(null);
-  const throttleRef = useRef(null);
+  const frameRef = useRef(0);
+  const pointRef = useRef(null);
 
   const setRefs = (node) => {
     panelRef.current = node;
@@ -22,13 +24,16 @@ const MagicBentoPanel = forwardRef(({
     }
   };
 
-  const handlePointerMove = useCallback((event) => {
+  // Writes glow position / tilt at most once per animation frame.
+  const applyPointer = () => {
+    frameRef.current = 0;
     const panel = panelRef.current;
-    if (!panel) return;
+    const point = pointRef.current;
+    if (!panel || !point) return;
 
     const rect = panel.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const x = point.x - rect.left;
+    const y = point.y - rect.top;
     const xPercent = (x / rect.width) * 100;
     const yPercent = (y / rect.height) * 100;
 
@@ -37,24 +42,24 @@ const MagicBentoPanel = forwardRef(({
     panel.style.setProperty("--magic-glow-intensity", "1");
     panel.style.setProperty("--magic-glow-color", glowColor);
 
-    if (enableTilt && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (enableTilt) {
       const rotateX = ((y / rect.height) - 0.5) * -5;
       const rotateY = ((x / rect.width) - 0.5) * 5;
       panel.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
     }
-  }, [glowColor, enableTilt]);
+  };
 
-  const throttledHandlePointerMove = useCallback((event) => {
-    if (!throttleRef.current) {
-      handlePointerMove(event);
-      throttleRef.current = setTimeout(() => {
-        throttleRef.current = null;
-      }, 8);
-    }
-  }, [handlePointerMove]);
+  const handlePointerMove = (event) => {
+    pointRef.current = { x: event.clientX, y: event.clientY };
+    if (!frameRef.current) frameRef.current = requestAnimationFrame(applyPointer);
+  };
 
   const handlePointerLeave = () => {
     const panel = panelRef.current;
+    if (frameRef.current) {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = 0;
+    }
     if (!panel) return;
 
     panel.style.setProperty("--magic-glow-intensity", "0");
@@ -82,13 +87,17 @@ const MagicBentoPanel = forwardRef(({
     window.setTimeout(() => ripple.remove(), 700);
   };
 
+  // Pointer glow + tilt only with a real mouse on capable hardware
+  const pointerHandlers = isLiteMode
+    ? {}
+    : { onPointerMove: handlePointerMove, onPointerLeave: handlePointerLeave };
+
   return (
     <Component
       {...props}
       ref={setRefs}
       className={`magic-bento-panel ${className}`}
-      onPointerMove={throttledHandlePointerMove}
-      onPointerLeave={handlePointerLeave}
+      {...pointerHandlers}
       onClick={handleClick}
     >
       {children}
