@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaLock, FaSignInAlt } from 'react-icons/fa';
 import logo from '../../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png';
 import './Dashboard.css';
+import { API_BASE_URL } from './apiClient';
 
 const Login = () => {
     const [password, setPassword] = useState('');
@@ -18,7 +19,7 @@ const Login = () => {
         setError('');
 
         try {
-            const response = await fetch('https://protfolio-back-alpha.vercel.app/api/auth/login', {
+            const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

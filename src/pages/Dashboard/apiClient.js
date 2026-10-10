@@ -1,4 +1,6 @@
-export const API_BASE_URL = 'https://protfolio-back-alpha.vercel.app';
+import { API_BASE_URL } from '../../lib/publicApi';
+
+export { API_BASE_URL };
 
 const request = async (url, options = {}) => {
   const token = localStorage.getItem('token');
