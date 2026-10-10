@@ -14,6 +14,7 @@ import BorderGlow from "../BorderGlow/BorderGlow";
 import { glowTheme } from "../BorderGlow/glowTheme";
 import MagicBentoPanel from "../MagicBento/MagicBento";
 import RocketIcon from "./RocketIcon";
+import useMediaQuery from "../../lib/useMediaQuery";
 
 const steps = [
   {
@@ -92,7 +93,34 @@ const buildConnector = (aX, aY, bX, bY, radius) => {
   return { d };
 };
 
-const Workflow = () => {
+const MobileTimeline = () => (
+  <div className="space-y-6">
+    {steps.map((step, i) => (
+      <motion.div
+        key={step.title}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: i * 0.05 }}
+        className="flex gap-4"
+      >
+        <div className="flex flex-col items-center shrink-0">
+          <div className="w-9 h-9 rounded-full bg-lime-400 text-black font-black flex items-center justify-center text-sm">
+            {i + 1}
+          </div>
+          {i < steps.length - 1 && (
+            <div className="flex-1 w-px border-l-2 border-dashed border-zinc-700 my-2" />
+          )}
+        </div>
+        <div className="flex-1 pb-2">
+          <StepCard step={step} index={i} />
+        </div>
+      </motion.div>
+    ))}
+  </div>
+);
+
+const DesktopTimeline = () => {
   const containerRef = useRef(null);
   const cardRefs = useRef([]);
   const fullPathRef = useRef(null);
@@ -203,104 +231,83 @@ const Workflow = () => {
   const handleCardAnimationComplete = () => recomputeRef.current();
 
   return (
+    <div ref={containerRef} className="relative">
+      <svg
+        className="absolute top-0 left-0 pointer-events-none"
+        width={svgSize.width}
+        height={svgSize.height}
+        style={{ overflow: "visible" }}
+      >
+        <path ref={fullPathRef} d={fullPathD} fill="none" stroke="#52525b" strokeWidth="2" strokeDasharray="7 7" />
+      </svg>
+
+      {rocketReady && (
+        // Moved with transform (x/y) instead of left/top, so scrolling
+        // never triggers a layout pass — only GPU compositing.
+        <motion.div className="absolute left-0 top-0" style={{ x: rocketX, y: rocketY }}>
+          <motion.div style={{ x: "-50%", y: "-50%", rotate: rocketAngle }}>
+            <RocketIcon className="w-[67px] h-10 drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)]" />
+          </motion.div>
+        </motion.div>
+      )}
+
+      <div className="grid grid-cols-[1fr_260px_1fr] gap-x-0 relative">
+        {steps.map((step, i) => {
+          const isLeft = i % 2 === 0;
+          return (
+            <Fragment key={step.title}>
+              <div className="py-6 flex items-center justify-end">
+                {isLeft && (
+                  <motion.div
+                    ref={(el) => (cardRefs.current[i] = el)}
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    onAnimationComplete={handleCardAnimationComplete}
+                    className="w-full max-w-md"
+                  >
+                    <StepCard step={step} index={i} />
+                  </motion.div>
+                )}
+              </div>
+
+              <div />
+
+              <div className="py-6 flex items-center justify-start">
+                {!isLeft && (
+                  <motion.div
+                    ref={(el) => (cardRefs.current[i] = el)}
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    onAnimationComplete={handleCardAnimationComplete}
+                    className="w-full max-w-md"
+                  >
+                    <StepCard step={step} index={i} />
+                  </motion.div>
+                )}
+              </div>
+            </Fragment>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+const Workflow = () => {
+  // Render only the layout that is actually visible (mobile list OR desktop
+  // zigzag) instead of mounting both and hiding one with CSS.
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  return (
     <div className="mb-20 md:mb-28">
       <SectionHeading kicker="My Process" before="How I Build " highlight="Projects" align="center" />
 
-      {/* Mobile: simple stacked timeline */}
-      <div className="md:hidden space-y-6">
-        {steps.map((step, i) => (
-          <motion.div
-            key={step.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.05 }}
-            className="flex gap-4"
-          >
-            <div className="flex flex-col items-center shrink-0">
-              <div className="w-9 h-9 rounded-full bg-lime-400 text-black font-black flex items-center justify-center text-sm">
-                {i + 1}
-              </div>
-              {i < steps.length - 1 && (
-                <div className="flex-1 w-px border-l-2 border-dashed border-zinc-700 my-2" />
-              )}
-            </div>
-            <div className="flex-1 pb-2">
-              <StepCard step={step} index={i} />
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Desktop: zigzag timeline with a measured, rounded connector path */}
-      <div ref={containerRef} className="hidden md:block relative">
-        <svg
-          className="absolute top-0 left-0 pointer-events-none"
-          width={svgSize.width}
-          height={svgSize.height}
-          style={{ overflow: "visible" }}
-        >
-          <path ref={fullPathRef} d={fullPathD} fill="none" stroke="#52525b" strokeWidth="2" strokeDasharray="7 7" />
-        </svg>
-
-        {rocketReady && (
-          <motion.div
-            className="absolute"
-            style={{
-              left: rocketX,
-              top: rocketY,
-              rotate: rocketAngle,
-              x: "-50%",
-              y: "-50%",
-            }}
-          >
-            <RocketIcon className="w-[67px] h-10 drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)]" />
-          </motion.div>
-        )}
-
-        <div className="grid grid-cols-[1fr_260px_1fr] gap-x-0 relative">
-          {steps.map((step, i) => {
-            const isLeft = i % 2 === 0;
-            return (
-              <Fragment key={step.title}>
-                <div className="py-6 flex items-center justify-end">
-                  {isLeft && (
-                    <motion.div
-                      ref={(el) => (cardRefs.current[i] = el)}
-                      initial={{ opacity: 0, x: -30 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5 }}
-                      onAnimationComplete={handleCardAnimationComplete}
-                      className="w-full max-w-md"
-                    >
-                      <StepCard step={step} index={i} />
-                    </motion.div>
-                  )}
-                </div>
-
-                <div />
-
-                <div className="py-6 flex items-center justify-start">
-                  {!isLeft && (
-                    <motion.div
-                      ref={(el) => (cardRefs.current[i] = el)}
-                      initial={{ opacity: 0, x: 30 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5 }}
-                      onAnimationComplete={handleCardAnimationComplete}
-                      className="w-full max-w-md"
-                    >
-                      <StepCard step={step} index={i} />
-                    </motion.div>
-                  )}
-                </div>
-              </Fragment>
-            );
-          })}
-        </div>
-      </div>
+      {/* Mobile: simple stacked timeline · Desktop: zigzag timeline with a measured, rounded connector path */}
+      {isDesktop ? <DesktopTimeline /> : <MobileTimeline />}
     </div>
   );
 };
