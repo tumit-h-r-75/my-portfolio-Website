@@ -99,9 +99,9 @@ const ProjectDetails = () => {
 
   return (
     <section className="relative mx-auto my-8 max-w-[80rem] px-4 pb-6 pt-24 sm:px-6 md:pt-28">
-      <div className="pointer-events-none absolute left-1/2 top-20 h-52 w-[28rem] -translate-x-1/2 rounded-full bg-lime-400/15 blur-[130px]" />
-      <div className="pointer-events-none absolute -left-8 top-52 h-44 w-44 rounded-full bg-cyan-400/10 blur-[110px]" />
-      <div className="pointer-events-none absolute -right-6 bottom-16 h-52 w-52 rounded-full bg-emerald-400/10 blur-[120px]" />
+      <div className="glow-blob left-1/2 top-0 h-[30rem] w-[44rem] max-w-full -translate-x-1/2 [--glow-blob-color:rgba(163,230,53,0.15)]" />
+      <div className="glow-blob -left-40 top-32 h-96 w-96 [--glow-blob-color:rgba(34,211,238,0.1)]" />
+      <div className="glow-blob -right-40 bottom-0 h-[26rem] w-[26rem] [--glow-blob-color:rgba(52,211,153,0.1)]" />
 
       {/* --- top bar --- */}
       <div className="relative mb-6 flex flex-wrap items-center justify-between gap-4">
