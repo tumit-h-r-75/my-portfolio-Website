@@ -1,0 +1,385 @@
+/* ============================================================
+   Stacking project cards — on desktop each card sticks under the
+   navbar and the next one slides over it (deck of case files).
+   Change --psc-accent / --psc-accent-rgb to re-theme.
+   ============================================================ */
+
+.psc-section,
+.psc-stack {
+  --psc-accent: #a3e635;
+  --psc-accent-rgb: 163, 230, 53;
+  --psc-accent-deep: #4d7c0f;
+  --psc-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ---------- section heading ---------- */
+.psc-head {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+@media (min-width: 1024px) {
+  .psc-head {
+    grid-template-columns: 1fr minmax(0, 24rem);
+    align-items: end;
+    margin-bottom: 4.5rem;
+  }
+}
+
+.psc-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--psc-accent);
+  margin-bottom: 1.1rem;
+}
+
+.psc-kicker::after {
+  content: "";
+  width: 3rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--psc-accent), transparent);
+}
+
+.psc-heading {
+  font-family: "Bebas Neue", "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 6.4rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.psc-heading span {
+  display: block;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.psc-heading .light {
+  background-image: linear-gradient(180deg, #ffffff 10%, #a9ada4 100%);
+}
+
+.psc-heading .accent {
+  background-image: linear-gradient(180deg, #f7fee7 0%, var(--psc-accent) 50%, var(--psc-accent-deep) 120%);
+}
+
+.psc-head-copy {
+  font-size: 0.98rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: #9a9d95;
+}
+
+/* ---------- stack ---------- */
+.psc-stack {
+  --psc-top: 6.5rem;
+  --psc-step: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.psc-stack.is-stacked {
+  gap: 10vh;
+  padding-bottom: 4vh;
+}
+
+.psc-stack.is-stacked .psc-card {
+  position: sticky;
+}
+
+/* ---------- card ---------- */
+.psc-card {
+  position: relative;
+  border-radius: 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, #0f110d 0%, #090a08 100%);
+  overflow: hidden;
+  transform-origin: 50% 0;
+  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* glowing top edge */
+.psc-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 3%;
+  right: 3%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--psc-accent-rgb), 0.75), transparent);
+  z-index: 2;
+}
+
+.psc-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.psc-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-areas:
+    "shot"
+    "info"
+    "specs";
+  gap: 1.6rem;
+  padding: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .psc-grid { padding: 2rem; }
+}
+
+@media (min-width: 1024px) {
+  .psc-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "info shot"
+      "info specs";
+    column-gap: 3rem;
+    row-gap: 1.4rem;
+    padding: 2.6rem 3rem;
+  }
+
+  .psc-info {
+    padding-right: 3rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+  }
+}
+
+.psc-info { grid-area: info; display: flex; flex-direction: column; min-width: 0; }
+.psc-shot { grid-area: shot; }
+.psc-specs { grid-area: specs; min-width: 0; }
+
+.psc-meta {
+  font-family: var(--psc-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #8b8e86;
+  line-height: 1.6;
+}
+
+.psc-num {
+  color: var(--psc-accent);
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+.psc-title {
+  font-family: "Bebas Neue", "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  line-height: 0.95;
+  color: #fff;
+  margin: 0.8rem 0 1rem;
+  text-transform: uppercase;
+}
+
+.psc-desc {
+  font-size: 0.97rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: #9a9d95;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.psc-rule {
+  height: 1px;
+  margin: 1.6rem 0 1.4rem;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.psc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.psc-tag {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0.42rem 0.75rem;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #d4d6cf;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.psc-details {
+  margin-top: auto;
+  padding-top: 1.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--psc-accent);
+}
+
+.psc-details .arrow { transition: transform 0.3s ease; }
+.psc-details:hover .arrow { transform: translateX(4px); }
+
+/* screenshot */
+.psc-shot {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 8.5;
+  overflow: hidden;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111;
+}
+
+.psc-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.psc-shot:hover img { transform: scale(1.04); }
+
+.psc-shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+}
+
+/* specs */
+.psc-label {
+  font-family: var(--psc-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #6b6e66;
+  margin-bottom: 0.7rem;
+}
+
+.psc-metrics {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.psc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.psc-row dt {
+  flex-shrink: 0;
+  font-family: var(--psc-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #7d8078;
+}
+
+.psc-row dd {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--psc-mono);
+  font-size: 0.72rem;
+  color: #f1f2ee;
+  text-align: right;
+}
+
+.psc-actions {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.6rem;
+}
+
+.psc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #e7e9e3;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.psc-btn:hover {
+  border-color: var(--psc-accent);
+  color: var(--psc-accent);
+}
+
+.psc-btn--primary {
+  border-color: rgba(var(--psc-accent-rgb), 0.55);
+  background: rgba(var(--psc-accent-rgb), 0.06);
+}
+
+.psc-btn--primary:hover {
+  background: var(--psc-accent);
+  color: #050505;
+}
+
+/* big faded index number */
+.psc-ghost {
+  position: absolute;
+  right: 1.4rem;
+  bottom: -1.6rem;
+  z-index: 0;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 9rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.035);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 1023px) {
+  .psc-ghost { font-size: 6rem; bottom: -1rem; }
+}
+
+/* shorter laptop screens: a more compact card so the whole stuck card fits */
+@media (min-width: 1024px) and (max-height: 900px) {
+  .psc-stack { --psc-top: 6rem; --psc-step: 1.2rem; }
+  .psc-grid { padding: 2rem 2.5rem; row-gap: 1rem; }
+  .psc-title { font-size: clamp(2.4rem, 4vw, 3.6rem); margin: 0.6rem 0 0.8rem; }
+  .psc-desc { -webkit-line-clamp: 3; }
+  .psc-rule { margin: 1.2rem 0 1rem; }
+  .psc-shot { aspect-ratio: 16 / 7.5; }
+  .psc-row { padding: 0.6rem 1rem; }
+  .psc-actions { margin-top: 0.8rem; }
+  .psc-btn { padding: 0.75rem 1rem; }
+}
