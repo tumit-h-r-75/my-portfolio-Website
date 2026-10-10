@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
   FaReact,
   FaNodeJs,
@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 import { SiTailwindcss, SiExpress, SiMongodb, SiTypescript, SiNextdotjs, SiAirtable } from "react-icons/si";
 import Marquee from "react-fast-marquee";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { NavigateContext } from "../context/NavigateContext";
 import MagicBentoPanel from "./MagicBento/MagicBento";
 import DecryptLabel from "./DecryptLabel";
@@ -79,6 +79,9 @@ const normalizeSkill = (skill) => {
 
 const SkillBar = () => {
   const { skillRef } = useContext(NavigateContext);
+  const marqueeRef = useRef(null);
+  // Marquees only animate while visible on screen
+  const marqueeInView = useInView(marqueeRef, { margin: "150px 0px" });
   const [dbSkills, setDbSkills] = useState([]);
   const [loadedFromDb, setLoadedFromDb] = useState(false);
 
@@ -122,7 +125,7 @@ const SkillBar = () => {
 
   return (
     <section id="skills" ref={skillRef} className="relative overflow-hidden bg-transparent px-6 py-20 md:py-28 md:px-12">
-      <div className="pointer-events-none absolute left-1/2 top-20 h-52 w-[28rem] -translate-x-1/2 rounded-full bg-lime-400/10 blur-[130px]" />
+      <div className="glow-blob left-1/2 top-0 h-[30rem] w-[44rem] max-w-full -translate-x-1/2" />
       <div className="max-w-[96rem] mx-auto relative z-10">
         <SectionHeading kicker="What I Do" before="Tech " highlight="Skills" align="center" />
         <p className="mx-auto -mt-8 mb-10 max-w-2xl text-center text-sm md:text-base text-zinc-400">
@@ -147,7 +150,7 @@ const SkillBar = () => {
                     {cat.skills.map((skill) => (
                       <span key={skill.name} className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-200">
                         {skill.imageUrl ? (
-                          <img src={skill.imageUrl} alt={skill.name} className="h-4 w-4 rounded object-contain" />
+                          <img src={skill.imageUrl} alt={skill.name} loading="lazy" decoding="async" className="h-4 w-4 rounded object-contain" />
                         ) : (
                           <skill.icon className={skill.color} style={skill.style} />
                         )}
@@ -171,8 +174,8 @@ const SkillBar = () => {
               </h3>
             </div>
 
-            <div className="relative z-10 space-y-4">
-              <Marquee pauseOnHover speed={42} gradient={false}>
+            <div ref={marqueeRef} className="relative z-10 space-y-4">
+              <Marquee play={marqueeInView} pauseOnHover speed={42} gradient={false}>
                 {marqueeSkills.map((skill, idx) => (
                   <div
                     key={`${skill.name}-top-${idx}`}
@@ -180,7 +183,7 @@ const SkillBar = () => {
                   >
                     <div className="rounded-xl bg-black/40 p-2">
                       {skill.imageUrl ? (
-                        <img src={skill.imageUrl} alt={skill.name} className="h-5 w-5 rounded object-contain" />
+                        <img src={skill.imageUrl} alt={skill.name} loading="lazy" decoding="async" className="h-5 w-5 rounded object-contain" />
                       ) : (
                         <skill.icon className={`text-xl ${skill.color}`} style={skill.style} />
                       )}
@@ -190,14 +193,14 @@ const SkillBar = () => {
                 ))}
               </Marquee>
 
-              <Marquee pauseOnHover speed={34} gradient={false} direction="right">
+              <Marquee play={marqueeInView} pauseOnHover speed={34} gradient={false} direction="right">
                 {[...marqueeSkills].reverse().map((skill, idx) => (
                   <div
                     key={`${skill.name}-bottom-${idx}`}
                     className="group mx-2.5 flex min-w-[180px] items-center gap-3 rounded-2xl border border-white/10 bg-black/35 px-4 py-3 transition-all duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/10"
                   >
                     {skill.imageUrl ? (
-                      <img src={skill.imageUrl} alt={skill.name} className="h-4 w-4 rounded object-contain" />
+                      <img src={skill.imageUrl} alt={skill.name} loading="lazy" decoding="async" className="h-4 w-4 rounded object-contain" />
                     ) : (
                       <skill.icon className={`text-lg ${skill.color}`} style={skill.style} />
                     )}
