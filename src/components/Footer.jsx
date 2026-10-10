@@ -34,7 +34,7 @@ const Footer = () => {
   return (
     <footer className="relative bg-[#050505] pt-20 pb-10 overflow-hidden border-t border-white/5">
       {/* Background Subtle Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[100px] bg-lime-400/10 blur-[80px] rounded-full pointer-events-none" />
+      <div className="glow-blob -top-20 left-1/2 -translate-x-1/2 w-[460px] max-w-full h-[260px]" />
 
       <div className="max-w-[96rem] mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
