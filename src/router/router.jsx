@@ -4,6 +4,7 @@ import MainLayout from "../Layouts/MainLayout";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
+import SiteLoader from "../components/SiteLoader/SiteLoader";
 
 // Pages that are not on the home screen load on demand (separate JS chunks),
 // so visitors only download the code for the page they actually open.
@@ -17,11 +18,7 @@ const ManageProjects = lazy(() => import("../pages/Dashboard/Projects"));
 const ManageSkills = lazy(() => import("../pages/Dashboard/Skills"));
 const MediaLibrary = lazy(() => import("../pages/Dashboard/Media"));
 
-const PageFallback = () => (
-  <div className="flex min-h-[60vh] items-center justify-center">
-    <span className="h-10 w-10 animate-spin rounded-full border-2 border-lime-400/20 border-t-lime-400" />
-  </div>
-);
+const PageFallback = () => <SiteLoader size="lg" messages={["Loading page", "Preparing layout"]} />;
 
 const withSuspense = (element) => <Suspense fallback={<PageFallback />}>{element}</Suspense>;
 
