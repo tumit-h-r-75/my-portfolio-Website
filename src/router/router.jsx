@@ -1,17 +1,29 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../Layouts/MainLayout";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
-import ProjectDetails from "../pages/ProjectDetails";
-import Projects from "../pages/Projects";
-import Login from "../pages/Dashboard/Login";
-import Dashboard from "../pages/Dashboard/Dashboard";
-import PrivateRoute from "./PrivateRoute";
-import DashboardLayout from "../Layouts/DashboardLayout";
-import ManageProjects from "../pages/Dashboard/Projects";
-import ManageSkills from "../pages/Dashboard/Skills";
-import MediaLibrary from "../pages/Dashboard/Media";
+
+// Pages that are not on the home screen load on demand (separate JS chunks),
+// so visitors only download the code for the page they actually open.
+const Projects = lazy(() => import("../pages/Projects"));
+const ProjectDetails = lazy(() => import("../pages/ProjectDetails"));
+const Login = lazy(() => import("../pages/Dashboard/Login"));
+const PrivateRoute = lazy(() => import("./PrivateRoute"));
+const DashboardLayout = lazy(() => import("../Layouts/DashboardLayout"));
+const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard"));
+const ManageProjects = lazy(() => import("../pages/Dashboard/Projects"));
+const ManageSkills = lazy(() => import("../pages/Dashboard/Skills"));
+const MediaLibrary = lazy(() => import("../pages/Dashboard/Media"));
+
+const PageFallback = () => (
+  <div className="flex min-h-[60vh] items-center justify-center">
+    <span className="h-10 w-10 animate-spin rounded-full border-2 border-lime-400/20 border-t-lime-400" />
+  </div>
+);
+
+const withSuspense = (element) => <Suspense fallback={<PageFallback />}>{element}</Suspense>;
 
 const router = createBrowserRouter([
   {
@@ -28,11 +40,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/projects",
-        element: <Projects />,
+        element: withSuspense(<Projects />),
       },
       {
         path: "/projects/:id",
-        element: <ProjectDetails />,
+        element: withSuspense(<ProjectDetails />),
       },
       {
         path: "/contact",
@@ -42,11 +54,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: withSuspense(<Login />),
   },
   {
     path: "/tumit/75",
-    element: (
+    element: withSuspense(
       <PrivateRoute>
         <DashboardLayout />
       </PrivateRoute>
@@ -54,19 +66,19 @@ const router = createBrowserRouter([
     children: [
       {
         index: true, // This makes it the default child route
-        element: <Dashboard />,
+        element: withSuspense(<Dashboard />),
       },
       {
         path: "projects",
-        element: <ManageProjects />,
+        element: withSuspense(<ManageProjects />),
       },
       {
         path: "skills",
-        element: <ManageSkills />,
+        element: withSuspense(<ManageSkills />),
       },
       {
         path: "media",
-        element: <MediaLibrary />,
+        element: withSuspense(<MediaLibrary />),
       },
     ]
   },
