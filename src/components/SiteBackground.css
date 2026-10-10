@@ -1,0 +1,104 @@
+/* ============================================================
+   Site background — pure CSS animations (transform/opacity only,
+   so they run on the GPU compositor without repainting).
+   No blur() filters: soft glows are radial gradients.
+   ============================================================ */
+
+.site-bg-glow {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+.site-bg-glow--lime {
+  top: -140px;
+  left: -140px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(closest-side, rgba(132, 204, 22, 0.1), transparent);
+  opacity: 0.12;
+  animation: siteBgBreathe 10s ease-in-out infinite;
+}
+
+.site-bg-glow--emerald {
+  bottom: -260px;
+  right: -260px;
+  width: 860px;
+  height: 860px;
+  background: radial-gradient(closest-side, rgba(16, 185, 129, 0.1), transparent);
+  opacity: 0.08;
+  animation: siteBgBreatheAlt 12s ease-in-out infinite;
+}
+
+@media (min-width: 768px) {
+  .site-bg-glow--lime {
+    top: -230px;
+    left: -230px;
+    width: 700px;
+    height: 700px;
+  }
+}
+
+@keyframes siteBgBreathe {
+  0%, 100% { opacity: 0.12; transform: scale(1); }
+  50% { opacity: 0.24; transform: scale(1.1); }
+}
+
+@keyframes siteBgBreatheAlt {
+  0%, 100% { opacity: 0.08; transform: scale(1.2); }
+  50% { opacity: 0.18; transform: scale(1); }
+}
+
+/* thin scan band sweeping near the top (desktop only) */
+.site-bg-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 8rem;
+  background: linear-gradient(to bottom, transparent, rgba(190, 242, 100, 0.1), transparent);
+  opacity: 0;
+  animation: siteBgScan 7s linear infinite;
+}
+
+@keyframes siteBgScan {
+  0% { transform: translateY(-20%); opacity: 0; }
+  50% { opacity: 0.28; }
+  100% { transform: translateY(120%); opacity: 0; }
+}
+
+/* rising light particles */
+.site-bg-particle {
+  position: absolute;
+  bottom: -5vh;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(190, 242, 100, 0.7);
+  box-shadow: 0 0 8px #a3e635;
+  opacity: 0;
+  animation: siteBgRise var(--dur, 10s) linear var(--delay, 0s) infinite;
+}
+
+@keyframes siteBgRise {
+  0% { transform: translateY(0); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+/* slow drifting outline squares */
+.site-bg-square {
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  border: 1px solid rgba(163, 230, 53, 0.05);
+  border-radius: 0.75rem;
+  opacity: 0;
+  animation: siteBgDrift 28s linear infinite;
+}
+
+@keyframes siteBgDrift {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  50% { opacity: 0.1; }
+  100% { transform: translateY(-40vh) rotate(360deg); opacity: 0; }
+}
