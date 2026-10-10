@@ -7,6 +7,14 @@ body {
   overflow-x: hidden;
 }
 
+/* never let a wide element stretch the page on phones (sticky still works with clip) */
+@supports (overflow: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+}
+
 /* ============================================================
    Performance modes (classes set on <html> by src/lib/perf.js)
    .perf-lite → touch or weak device: no backdrop blur, lighter cards
