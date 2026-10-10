@@ -82,7 +82,7 @@
   50.01%, 100% { opacity: 0; }
 }
 
-/* floating tech tag near heading */
+/* floating tech tag near heading (desktop only — see media query below) */
 .banner-float-tag {
   position: absolute;
   top: 2.4rem;
@@ -945,4 +945,17 @@
   .banner *::after {
     animation: none !important;
   }
+}
+
+/* ---------- responsive fixes ---------- */
+/* floating tag is a desktop decoration: the plain CSS display:flex above
+   would otherwise override Tailwind's "hidden" on phones and tablets */
+@media (max-width: 1023px) {
+  .banner-float-tag { display: none; }
+}
+
+/* very small phones (320px): keep "Bangladesh" inside its stat box */
+@media (max-width: 360px) {
+  .hud-stat { padding: 0.8rem 0.2rem; }
+  .hud-stat-text { font-size: 0.62rem; }
 }
