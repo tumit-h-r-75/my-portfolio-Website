@@ -13,6 +13,7 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 import DecryptLabel from "../components/DecryptLabel";
+import SiteLoader from "../components/SiteLoader/SiteLoader";
 import { publicApi } from "../lib/publicApi";
 import { getTechIcon, cleanTechName } from "../lib/techIcons";
 
@@ -68,8 +69,8 @@ const ProjectDetails = () => {
 
   if (loading) {
     return (
-      <section className="px-6 py-24 text-center">
-        <p className="text-zinc-400">Loading project...</p>
+      <section className="px-6 py-24">
+        <SiteLoader size="lg" messages={["Opening case file", "Loading screenshots", "Almost there"]} />
       </section>
     );
   }
