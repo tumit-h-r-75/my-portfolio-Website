@@ -57,7 +57,8 @@ const CursorGrid = ({
     if (!container || !canvas) return;
 
     const ctx = canvas.getContext('2d');
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Soft glow effect — 1.5x is visually identical to 2x but far fewer pixels to clear/paint
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
     // Grid state: one alpha + timestamp pair per cell, indexed row-major.
     let cols = 0;
@@ -72,9 +73,19 @@ const CursorGrid = ({
     let raf = 0;
     let running = false;
     let lastFrame = 0;
+    // Canvas position is cached (it only changes on resize) so pointer moves
+    // never force a layout via getBoundingClientRect.
+    let rectLeft = 0;
+    let rectTop = 0;
+    // Latest pointer position, applied once per animation frame (not per event)
+    let pendingX = null;
+    let pendingY = null;
 
     const rebuild = () => {
       const p = propsRef.current;
+      const rect = canvas.getBoundingClientRect();
+      rectLeft = rect.left;
+      rectTop = rect.top;
       w = container.offsetWidth;
       h = container.offsetHeight;
       canvas.width = Math.max(1, Math.round(w * dpr));
@@ -130,6 +141,10 @@ const CursorGrid = ({
       const p = propsRef.current;
       const dt = Math.min(now - lastFrame, 50);
       lastFrame = now;
+      if (pendingX !== null) {
+        energize(pendingX, pendingY);
+        pendingX = pendingY = null;
+      }
       ctx.clearRect(0, 0, w, h);
       const [cr, cg, cb] = hexToRgb(p.color);
 
@@ -234,15 +249,13 @@ const CursorGrid = ({
 
     // Background sits behind page content (z-index), so we track the
     // cursor at the window level rather than on this element directly.
-    const toLocal = e => {
-      const rect = canvas.getBoundingClientRect();
-      return [e.clientX - rect.left, e.clientY - rect.top];
-    };
+    const toLocal = e => [e.clientX - rectLeft, e.clientY - rectTop];
 
     const onPointerMove = e => {
       const [x, y] = toLocal(e);
       if (x < 0 || y < 0 || x > w || y > h) return;
-      energize(x, y);
+      pendingX = x;
+      pendingY = y;
       wake();
     };
 
