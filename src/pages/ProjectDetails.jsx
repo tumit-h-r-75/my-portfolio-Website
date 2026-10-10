@@ -99,7 +99,7 @@ const ProjectDetails = () => {
     : [];
 
   return (
-    <section className="relative mx-auto my-8 max-w-[80rem] px-4 pb-6 pt-24 sm:px-6 md:pt-28">
+    <section className="relative mx-auto my-8 max-w-[80rem] overflow-x-clip px-4 pb-6 pt-24 sm:px-6 md:pt-28">
       <div className="glow-blob left-1/2 top-0 h-[30rem] w-[44rem] max-w-full -translate-x-1/2 [--glow-blob-color:rgba(163,230,53,0.15)]" />
       <div className="glow-blob -left-40 top-32 h-96 w-96 [--glow-blob-color:rgba(34,211,238,0.1)]" />
       <div className="glow-blob -right-40 bottom-0 h-[26rem] w-[26rem] [--glow-blob-color:rgba(52,211,153,0.1)]" />
@@ -139,7 +139,7 @@ const ProjectDetails = () => {
       </motion.div>
 
       {/* --- main grid: content + sticky sidebar --- */}
-      <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
         <div className="space-y-6 lg:col-span-8">
           <div className="rounded-2xl border border-white/15 bg-white/[0.04] p-5 backdrop-blur-xl md:p-6">
             <h2 className="mb-3 text-lg font-bold text-lime-300">
@@ -153,7 +153,7 @@ const ProjectDetails = () => {
               <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-lime-300">
                 <FaLayerGroup /> <DecryptLabel text="Key Features" parentClassName="text-lime-300 font-bold" className="text-lime-300" />
               </h2>
-              <ul className="grid gap-3 sm:grid-cols-2">
+              <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {project.features.map((f, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-zinc-300">
                     <FaCheckCircle className="mt-0.5 shrink-0 text-lime-400" />
@@ -164,7 +164,7 @@ const ProjectDetails = () => {
             </div>
           )}
 
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             <div className="rounded-2xl border border-white/15 bg-white/[0.04] p-5 backdrop-blur-xl">
               <h2 className="mb-3 flex items-center gap-2 text-lg font-bold text-lime-300">
                 <FaBug /> <DecryptLabel text="Challenges Faced" parentClassName="text-lime-300 font-bold" className="text-lime-300" />
@@ -235,12 +235,12 @@ const ProjectDetails = () => {
         </div>
       </div>
 
-      {/* --- Prev / Next project navigation --- */}
-      <div className="relative mt-6 grid gap-4 sm:grid-cols-2">
+      {/* --- Prev / Next project navigation (grid-cols-1 keeps long names truncating instead of widening the page) --- */}
+      <div className="relative mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {prevProject ? (
           <Link
             to={`/projects/${prevProject.id}`}
-            className="group flex items-center gap-4 rounded-2xl border border-white/12 bg-white/[0.03] p-4 backdrop-blur-xl transition hover:border-lime-400/50 hover:bg-lime-400/[0.06]"
+            className="group flex min-w-0 items-center gap-4 rounded-2xl border border-white/12 bg-white/[0.03] p-4 backdrop-blur-xl transition hover:border-lime-400/50 hover:bg-lime-400/[0.06]"
           >
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/12 bg-white/5 text-lime-400 transition group-hover:-translate-x-1">
               <FaArrowLeft />
@@ -261,7 +261,7 @@ const ProjectDetails = () => {
         {nextProject ? (
           <Link
             to={`/projects/${nextProject.id}`}
-            className="group flex items-center justify-end gap-4 rounded-2xl border border-white/12 bg-white/[0.03] p-4 text-right backdrop-blur-xl transition hover:border-lime-400/50 hover:bg-lime-400/[0.06]"
+            className="group flex min-w-0 items-center justify-end gap-4 rounded-2xl border border-white/12 bg-white/[0.03] p-4 text-right backdrop-blur-xl transition hover:border-lime-400/50 hover:bg-lime-400/[0.06]"
           >
             <span className="min-w-0">
               <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
