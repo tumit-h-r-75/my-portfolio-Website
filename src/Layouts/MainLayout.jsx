@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import Navbar from '../components/Navbar';
 import { Outlet } from 'react-router-dom';
 import Footer from '../components/Footer';
-import ChatBot from '../components/ChatBot/ChatBot';
+
+// Chat widget is not needed for first paint — load it as a separate chunk
+const ChatBot = lazy(() => import('../components/ChatBot/ChatBot'));
 
 const MainLayout = () => {
     return (
@@ -16,7 +18,9 @@ const MainLayout = () => {
             <footer>
                 <Footer></Footer>
             </footer>
-            <ChatBot />
+            <Suspense fallback={null}>
+                <ChatBot />
+            </Suspense>
         </div>
     );
 };
