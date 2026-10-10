@@ -1,27 +1,27 @@
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import CursorGrid from "./CursorGrid/CursorGrid";
+import { isLiteMode } from "../lib/perf";
+import "./SiteBackground.css";
+
+// Fixed positions (instead of Math.random on every render) — stable layout,
+// no re-randomizing when the component re-renders.
+const PARTICLES = [
+  { x: 8, delay: 0.4 },
+  { x: 47, delay: 2.1 },
+  { x: 83, delay: 3.6 },
+  { x: 26, delay: 1.2 },
+  { x: 64, delay: 4.4 },
+  { x: 92, delay: 0.9 },
+  { x: 36, delay: 2.9 },
+];
+
+const SQUARES = [
+  { x: 14, y: 62 },
+  { x: 71, y: 38 },
+  { x: 52, y: 84 },
+];
 
 const SiteBackground = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  // Device detect korar jonno (performance optimize)
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const checkMotion = () => setPrefersReducedMotion(motionQuery.matches);
-
-    checkMobile();
-    checkMotion();
-    window.addEventListener("resize", checkMobile);
-    motionQuery.addEventListener("change", checkMotion);
-
-    return () => {
-      window.removeEventListener("resize", checkMobile);
-      motionQuery.removeEventListener("change", checkMotion);
-    };
-  }, []);
+  const particles = isLiteMode ? PARTICLES.slice(0, 3) : PARTICLES;
 
   return (
     <div className="fixed inset-0 -z-50 overflow-hidden bg-[#020202]">
@@ -29,78 +29,37 @@ const SiteBackground = () => {
       <div className="absolute inset-0 bg-black/55" />
 
       {/* Brand glow */}
-      <div className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(163,230,53,${isMobile ? '0.1' : '0.14'}),transparent_62%)]`} />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(163,230,53,0.1),transparent_62%)] md:bg-[radial-gradient(circle_at_50%_45%,rgba(163,230,53,0.14),transparent_62%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.78))]" />
 
-      {!prefersReducedMotion && !isMobile && (
-        <motion.div
-          animate={{ y: ["-20%", "120%"], opacity: [0, 0.28, 0] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
-          className="absolute left-0 right-0 h-32 bg-gradient-to-b from-transparent via-lime-300/10 to-transparent blur-sm"
-        />
-      )}
+      {!isLiteMode && <div className="site-bg-scan site-bg-anim" />}
 
-      <motion.div
-        animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.12, 0.24, 0.12],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className={`absolute -top-20 -left-20 bg-lime-500/10 rounded-full 
-          ${isMobile ? "w-[250px] h-[250px] blur-[60px]" : "w-[400px] h-[400px] blur-[100px]"}`}
-      />
+      <div className="site-bg-glow site-bg-glow--lime site-bg-anim" />
+      <div className="site-bg-glow site-bg-glow--emerald site-bg-anim hidden md:block" />
 
-      {!isMobile && (
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.08, 0.18, 0.08],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-emerald-500/10 blur-[120px] rounded-full"
-        />
-      )}
+      {!isLiteMode &&
+        SQUARES.map((s, i) => (
+          <div
+            key={i}
+            className="site-bg-square site-bg-anim"
+            style={{ left: `${s.x}vw`, top: `${s.y}vh`, animationDelay: `${i * -9}s` }}
+          />
+        ))}
 
-      {!prefersReducedMotion && [...Array(isMobile ? 1 : 3)].map((_, i) => (
-        <motion.div
+      {particles.map((p, i) => (
+        <div
           key={i}
-          initial={{ 
-            opacity: 0, 
-            x: Math.random() * 100 + "vw",
-            y: Math.random() * 100 + "vh" 
+          className="site-bg-particle site-bg-anim"
+          style={{
+            left: `${p.x}vw`,
+            "--dur": isLiteMode ? "14s" : "10s",
+            "--delay": `${p.delay}s`,
           }}
-          animate={{ 
-            opacity: [0, 0.1, 0],
-            rotate: 360,
-            y: [null, "-10vh"]
-          }}
-          transition={{
-            duration: 28,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute w-16 h-16 border border-lime-400/5 rounded-xl"
         />
       ))}
 
-      {!prefersReducedMotion && [...Array(isMobile ? 3 : 7)].map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{ x: Math.random() * 100 + "vw", y: "105vh", opacity: 0 }}
-          animate={{ 
-            y: "-5vh",
-            opacity: [0, 0.5, 0],
-          }}
-          transition={{
-            duration: isMobile ? 14 : 10,
-            repeat: Infinity,
-            delay: Math.random() * 5,
-          }}
-          className="absolute w-1 h-1 bg-lime-300/70 rounded-full shadow-[0_0_8px_#a3e635] will-change-transform"
-        />
-      ))}
-
-      {!prefersReducedMotion && !isMobile && (
+      {/* Mouse-reactive grid: only on real mouse + capable hardware */}
+      {!isLiteMode && (
         <div className="absolute inset-0">
           <CursorGrid
             cellSize={64}
@@ -121,10 +80,9 @@ const SiteBackground = () => {
       )}
 
       <div
-        className="absolute inset-0 opacity-[0.045] pointer-events-none"
+        className="absolute inset-0 opacity-[0.045] pointer-events-none bg-[length:30px_30px] md:bg-[length:40px_40px]"
         style={{
           backgroundImage: `linear-gradient(#ffffff10 1px, transparent 1px), linear-gradient(90deg, #ffffff10 1px, transparent 1px)`,
-          backgroundSize: isMobile ? '30px 30px' : '40px 40px'
         }}
       />
 
