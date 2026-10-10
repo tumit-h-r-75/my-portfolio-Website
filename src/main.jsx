@@ -4,18 +4,22 @@ import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import router from './router/router';
 import NavigateProvider from './context/NavigateProvider';
-import ReactGA from 'react-ga4';
 import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import SiteBackground from './components/SiteBackground'; // Import koro
 import Preloader from './components/Preloader';
 import ClickSpark from './components/ClickSpark';
+import { applyPerfClasses } from './lib/perf';
+import { IntroContext } from './context/IntroContext';
 
-ReactGA.initialize("G-9QH68429Q0");
-ReactGA.send("pageview"); 
+// Google Analytics is loaded once from index.html (gtag) — no second tracker here.
+
+// Low-end / touch device hole heavy effects off kore dey (CSS hooks: .perf-lite, .perf-low)
+applyPerfClasses();
 
 const RootApp = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [introReady, setIntroReady] = useState(false);
 
   return (
     <NavigateProvider>
@@ -32,11 +36,17 @@ const RootApp = () => {
           {/* Background Section */}
           <SiteBackground />
 
-          <AnimatePresence>{isLoading && <Preloader onFinish={() => setIsLoading(false)} />}</AnimatePresence>
+          <AnimatePresence>
+            {isLoading && (
+              <Preloader onReveal={() => setIntroReady(true)} onFinish={() => setIsLoading(false)} />
+            )}
+          </AnimatePresence>
 
           {/* Main App Content - Transparent background rakte hobe */}
           <div className='site-text-glitch relative z-10 selection:bg-lime-400 selection:text-black'>
-            <RouterProvider router={router} />
+            <IntroContext.Provider value={introReady}>
+              <RouterProvider router={router} />
+            </IntroContext.Provider>
           </div>
         </div>
       </ClickSpark>
