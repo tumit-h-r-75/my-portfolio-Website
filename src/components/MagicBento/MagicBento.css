@@ -6,7 +6,20 @@
   position: relative;
   isolation: isolate;
   transform-style: preserve-3d;
+}
+
+/* promote to a GPU layer only while it is actually tilting — a permanent
+   will-change on every card wastes a lot of memory on weak phones */
+.magic-bento-panel:hover {
   will-change: transform;
+}
+
+.perf-lite .magic-bento-panel {
+  transform-style: flat;
+}
+
+.perf-lite .magic-bento-panel:hover {
+  will-change: auto;
 }
 
 .magic-bento-panel::before {
