@@ -60,10 +60,10 @@ const Education = () => {
                     </div>
 
                     <div className="space-y-4">
-                        <p className="text-gray-400 text-lg leading-relaxed text-justify">
+                        <p className="text-gray-400 text-lg leading-relaxed md:text-justify">
                             My education focuses on developing a strong foundation in <span className="text-white border-b border-lime-400/30 font-medium">computer science</span>, covering subjects like programming, data structures, algorithms, networking, and software development. 
                         </p>
-                        <p className="text-gray-400 text-lg leading-relaxed text-justify">
+                        <p className="text-gray-400 text-lg leading-relaxed md:text-justify">
                             Throughout my studies, I have gained both theoretical knowledge and practical experience in various technologies, working on projects that enhance my problem-solving and critical thinking skills. This program has helped me understand the fundamentals of system design, database management, and modern web technologies.
                         </p>
                     </div>
