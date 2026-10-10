@@ -10,8 +10,6 @@ import {
   FaChevronDown,
 } from "react-icons/fa";
 import SectionHeading from "../SectionHeading";
-import BorderGlow from "../BorderGlow/BorderGlow";
-import { glowTheme } from "../BorderGlow/glowTheme";
 import "./TechJourney.css";
 
 const commits = [
@@ -98,7 +96,7 @@ const TechJourney = () => {
       id="journey"
       className="relative overflow-hidden bg-transparent px-6 py-20 md:py-28 md:px-12"
     >
-      <div className="pointer-events-none absolute left-1/2 top-24 h-56 w-[30rem] -translate-x-1/2 rounded-full bg-lime-400/10 blur-[140px]" />
+      <div className="glow-blob left-1/2 top-0 h-[32rem] w-[48rem] max-w-full -translate-x-1/2" />
 
       <div className="relative z-10 mx-auto max-w-6xl">
         <SectionHeading
@@ -108,12 +106,8 @@ const TechJourney = () => {
           align="center"
         />
 
-        <BorderGlow
-          {...glowTheme}
-          backgroundColor="rgba(8, 9, 12, 0.45)"
-          borderRadius={24}
-          className="tj-terminal"
-        >
+        {/* plain terminal card (no cursor-following glow — calmer on the eyes) */}
+        <div className="tj-terminal">
           {/* Terminal title bar */}
           <div className="tj-bar">
             <div className="tj-lights">
@@ -229,7 +223,7 @@ const TechJourney = () => {
               );
             })}
           </div>
-        </BorderGlow>
+        </div>
       </div>
     </section>
   );
