@@ -1,0 +1,276 @@
+/* ============================================================
+   SiteLoader — branded, interactive loading state
+   (all loops are transform/opacity only)
+   ============================================================ */
+
+.site-loader {
+  --sl-accent: #a3e635;
+  --sl-accent-rgb: 163, 230, 53;
+  --sl-w: 240px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  width: 100%;
+  min-height: 320px;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.site-loader--lg { min-height: 62vh; --sl-w: 270px; }
+.site-loader--sm { min-height: 220px; --sl-w: 190px; gap: 0.9rem; }
+
+/* soft breathing glow behind the emblem */
+.sl-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--sl-w) * 2.2);
+  height: calc(var(--sl-w) * 1.4);
+  transform: translate(-50%, -62%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(var(--sl-accent-rgb), 0.14), transparent);
+  pointer-events: none;
+  animation: slBreath 2.6s ease-in-out infinite;
+}
+
+@keyframes slBreath {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* HUD frame holding the logo */
+.sl-emblem {
+  position: relative;
+  width: var(--sl-w);
+  padding: 4px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: transform 0.25s ease-out;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sl-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: calc(var(--sl-w) * 0.1) calc(var(--sl-w) * 0.11);
+  background:
+    radial-gradient(ellipse at 50% 120%, rgba(var(--sl-accent-rgb), 0.12), transparent 70%),
+    rgba(10, 12, 9, 0.9);
+  border: 1px solid rgba(var(--sl-accent-rgb), 0.16);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sl-emblem:hover .sl-screen {
+  border-color: rgba(var(--sl-accent-rgb), 0.45);
+  box-shadow: 0 0 34px rgba(var(--sl-accent-rgb), 0.18);
+}
+
+.sl-logo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  animation: slPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes slPulse {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50% { transform: scale(1.035); opacity: 1; }
+}
+
+/* scanning beam sweeping across the logo */
+.sl-scan {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(var(--sl-accent-rgb), 0.28), transparent);
+  transform: translateX(-110%) skewX(-12deg);
+  animation: slScan 1.7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.sl-emblem:hover .sl-scan {
+  animation-duration: 0.9s;
+}
+
+@keyframes slScan {
+  from { transform: translateX(-110%) skewX(-12deg); }
+  to { transform: translateX(300%) skewX(-12deg); }
+}
+
+/* light running round the frame */
+.sl-trace {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 1.5px;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.sl-trace-spin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200%;
+  aspect-ratio: 1;
+  margin: -100% 0 0 -100%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 230deg,
+    rgba(var(--sl-accent-rgb), 0.2) 290deg,
+    rgba(217, 249, 157, 1) 350deg,
+    transparent 360deg
+  );
+  animation: slSpin 2.2s linear infinite;
+}
+
+@keyframes slSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* HUD corner brackets */
+.sl-corner {
+  position: absolute;
+  z-index: 3;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--sl-accent);
+  pointer-events: none;
+}
+
+.sl-corner--tl { left: -5px; top: -5px; border-top-width: 2px; border-left-width: 2px; border-top-left-radius: 5px; }
+.sl-corner--tr { right: -5px; top: -5px; border-top-width: 2px; border-right-width: 2px; border-top-right-radius: 5px; }
+.sl-corner--bl { left: -5px; bottom: -5px; border-bottom-width: 2px; border-left-width: 2px; border-bottom-left-radius: 5px; }
+.sl-corner--br { right: -5px; bottom: -5px; border-bottom-width: 2px; border-right-width: 2px; border-bottom-right-radius: 5px; }
+
+.sl-emblem:hover .sl-corner {
+  animation: slCorner 0.9s ease-in-out infinite;
+}
+
+@keyframes slCorner {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* click ripple */
+.sl-ripple {
+  position: absolute;
+  z-index: 3;
+  width: 220px;
+  height: 220px;
+  margin: -110px 0 0 -110px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--sl-accent-rgb), 0.7);
+  pointer-events: none;
+  transform: scale(0.05);
+  animation: slRipple 0.65s ease-out forwards;
+}
+
+@keyframes slRipple {
+  to { transform: scale(1); opacity: 0; }
+}
+
+/* click glitch on the logo */
+.sl-emblem.is-glitch .sl-logo {
+  animation: slGlitch 0.42s steps(2, end);
+  filter: drop-shadow(-3px 0 rgba(34, 211, 238, 0.85)) drop-shadow(3px 0 rgba(244, 114, 182, 0.85));
+}
+
+@keyframes slGlitch {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3px, 1px); }
+  50% { transform: translate(3px, -1px); }
+  75% { transform: translate(-1px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+/* typing terminal status */
+.sl-term {
+  position: relative;
+  min-height: 1.4em;
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: #d4d4d8;
+}
+
+.site-loader--sm .sl-term { font-size: 0.75rem; }
+
+.sl-prompt { color: var(--sl-accent); }
+
+.sl-caret {
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 3px;
+  vertical-align: -0.12em;
+  background: var(--sl-accent);
+  animation: slBlink 1s steps(1) infinite;
+}
+
+@keyframes slBlink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+/* indeterminate progress bar */
+.sl-bar {
+  position: relative;
+  width: calc(var(--sl-w) * 0.9);
+  height: 3px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.sl-bar span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, var(--sl-accent), #4ade80);
+  box-shadow: 0 0 10px rgba(var(--sl-accent-rgb), 0.6);
+  animation: slBar 1.3s ease-in-out infinite;
+}
+
+@keyframes slBar {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(260%); }
+}
+
+/* weak devices / reduced motion: keep it calm */
+.perf-low .sl-trace,
+.perf-low .sl-scan,
+.perf-low .sl-glow {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-loader *,
+  .site-loader *::before,
+  .site-loader *::after {
+    animation: none !important;
+  }
+}
