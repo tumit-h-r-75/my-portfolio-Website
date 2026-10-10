@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FaArrowLeft, FaSearch, FaSlidersH, FaTimes } from "react-icons/fa";
 import ProjectStack from "../components/ProjectStack/ProjectStack";
 import SectionHeading from "../components/SectionHeading";
+import SiteLoader from "../components/SiteLoader/SiteLoader";
 import { publicApi } from "../lib/publicApi";
 import { cleanTechName } from "../lib/techIcons";
 
@@ -263,7 +264,7 @@ const Projects = () => {
         transition={{ duration: 0.6 }}
         className="relative z-10"
       >
-        {loading && <p className="text-center text-zinc-400">Loading projects...</p>}
+        {loading && <SiteLoader messages={["Connecting to server", "Fetching all projects", "Building case files"]} />}
         {!loading && error && <p className="text-center text-red-300">{error}</p>}
         {!loading && !error && filteredProjects.length === 0 && (
           <p className="text-center text-zinc-400">No projects match your search.</p>

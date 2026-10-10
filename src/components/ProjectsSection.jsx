@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowRight, FaThLarge } from "react-icons/fa";
 import ProjectStack from "./ProjectStack/ProjectStack";
+import SiteLoader from "./SiteLoader/SiteLoader";
 import { NavigateContext } from "../context/NavigateContext";
 import { publicApi } from "../lib/publicApi";
 
@@ -64,7 +65,7 @@ const ProjectsSection = () => {
         </p>
       </motion.div>
 
-      {loading && <p className="text-center text-zinc-400">Loading projects...</p>}
+      {loading && <SiteLoader messages={["Connecting to server", "Fetching projects", "Building case files"]} />}
       {!loading && error && <p className="text-center text-red-300">{error}</p>}
       {!loading && !error && previewProjects.length === 0 && (
         <p className="text-center text-zinc-400">No projects found in database.</p>
