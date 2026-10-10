@@ -1,4 +1,5 @@
 import { useRef, useCallback, useEffect, useMemo } from 'react';
+import { isLiteMode } from '../../lib/perf';
 import './BorderGlow.css';
 
 function parseHSL(hslStr) {
@@ -116,24 +117,38 @@ const BorderGlow = ({
   }, [handlePointerMove]);
 
   useEffect(() => {
-    if (!animated || !cardRef.current) return;
+    if (!animated || isLiteMode || !cardRef.current) return;
     const card = cardRef.current;
     const angleStart = 110;
     const angleEnd = 465;
-    card.classList.add('sweep-active');
-    card.style.setProperty('--cursor-angle', `${angleStart}deg`);
 
-    animateValue({ duration: 500, onUpdate: v => card.style.setProperty('--edge-proximity', v) });
-    animateValue({ ease: easeInCubic, duration: 1500, end: 50, onUpdate: v => {
-      card.style.setProperty('--cursor-angle', `${(angleEnd - angleStart) * (v / 100) + angleStart}deg`);
-    }});
-    animateValue({ ease: easeOutCubic, delay: 1500, duration: 2250, start: 50, end: 100, onUpdate: v => {
-      card.style.setProperty('--cursor-angle', `${(angleEnd - angleStart) * (v / 100) + angleStart}deg`);
-    }});
-    animateValue({ ease: easeInCubic, delay: 2500, duration: 1500, start: 100, end: 0,
-      onUpdate: v => card.style.setProperty('--edge-proximity', v),
-      onEnd: () => card.classList.remove('sweep-active'),
-    });
+    const runSweep = () => {
+      card.classList.add('sweep-active');
+      card.style.setProperty('--cursor-angle', `${angleStart}deg`);
+
+      animateValue({ duration: 500, onUpdate: v => card.style.setProperty('--edge-proximity', v) });
+      animateValue({ ease: easeInCubic, duration: 1500, end: 50, onUpdate: v => {
+        card.style.setProperty('--cursor-angle', `${(angleEnd - angleStart) * (v / 100) + angleStart}deg`);
+      }});
+      animateValue({ ease: easeOutCubic, delay: 1500, duration: 2250, start: 50, end: 100, onUpdate: v => {
+        card.style.setProperty('--cursor-angle', `${(angleEnd - angleStart) * (v / 100) + angleStart}deg`);
+      }});
+      animateValue({ ease: easeInCubic, delay: 2500, duration: 1500, start: 100, end: 0,
+        onUpdate: v => card.style.setProperty('--edge-proximity', v),
+        onEnd: () => card.classList.remove('sweep-active'),
+      });
+    };
+
+    // Play the sweep when the card scrolls into view (not at page load,
+    // while it is still off-screen and the page is busy booting).
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        observer.disconnect();
+        runSweep();
+      }
+    }, { threshold: 0.3 });
+    observer.observe(card);
+    return () => observer.disconnect();
   }, [animated]);
 
   const glowVars = useMemo(() => buildGlowVars(glowColor, glowIntensity), [glowColor, glowIntensity]);
@@ -142,7 +157,7 @@ const BorderGlow = ({
   return (
     <div
       ref={cardRef}
-      onPointerMove={throttledPointerMove}
+      onPointerMove={isLiteMode ? undefined : throttledPointerMove}
       className={`border-glow-card ${className}`}
       style={{
         '--card-bg': backgroundColor,
