@@ -15,6 +15,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/Purple and White Modern Computer Service and Repair Logo -Photoroom.png";
 import DecryptLabel from "./DecryptLabel";
+import { RESUME_URL, RESUME_FILENAME } from "../lib/resume";
 
 const navLinks = [
   { label: "Home", icon: <FaHome />, id: "home" },
@@ -33,8 +34,18 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    // Only touch React state when the value actually flips (not on every scroll event)
+    let current = null;
+    const handleScroll = () => {
+      const next = window.scrollY > 20;
+      if (next !== current) {
+        current = next;
+        setScrolled(next);
+      }
+    };
+    handleScroll();
+    // passive: browser can scroll immediately without waiting for this handler
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -60,9 +71,9 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full z-[100] transition-[background-color,padding,box-shadow] duration-500 ${
         scrolled
-          ? "bg-black/80 backdrop-blur-xl py-3 shadow-2xl"
+          ? "bg-black/85 backdrop-blur-md py-3 shadow-2xl"
           : "bg-transparent py-6"
       }`}
     >
@@ -112,8 +123,9 @@ const Navbar = () => {
           <motion.a
             whileHover={{ y: -3, scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="YOUR_RESUME_LINK"
+            href={RESUME_URL}
             target="_blank"
+            rel="noreferrer"
             className="hidden sm:flex items-center gap-2 bg-lime-400 text-black px-6 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-white transition-colors"
           >
             <DecryptLabel
@@ -149,7 +161,7 @@ const Navbar = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] lg:hidden"
+              className="fixed inset-0 bg-black/70 z-[90] lg:hidden"
             />
 
             <motion.div
@@ -186,7 +198,8 @@ const Navbar = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  href="YOUR_RESUME_LINK"
+                  href={RESUME_URL}
+                  download={RESUME_FILENAME}
                   className="mt-8 bg-lime-400 text-black py-4 rounded-xl font-black text-center text-sm uppercase flex items-center justify-center gap-2"
                 >
                   <DecryptLabel
