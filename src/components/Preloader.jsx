@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import DecryptLabel from "./DecryptLabel";
 import bannerImage from "../assets/myImg.webp";
 
-const LOAD_DURATION = 1650;
+// Shorter intro = site feels faster. Split starts right after the counter hits 100%.
+const LOAD_DURATION = 1100;
+const SPLIT_AT = LOAD_DURATION + 50;
+const FINISH_AT = SPLIT_AT + 800;
 
 const statusMessages = [
   "Booting portfolio...",
@@ -12,36 +15,48 @@ const statusMessages = [
   "Almost ready...",
 ];
 
-const Preloader = ({ onFinish }) => {
+const Preloader = ({ onReveal, onFinish }) => {
   const [startSplit, setStartSplit] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [statusIndex, setStatusIndex] = useState(0);
+  const counterRef = useRef(null);
+  const barRef = useRef(null);
+
+  // Latest callbacks in a ref: the parent re-renders when the reveal starts,
+  // and that must not restart the timers below.
+  const callbacksRef = useRef({ onReveal, onFinish });
+  callbacksRef.current = { onReveal, onFinish };
 
   useEffect(() => {
     const splitTimer = setTimeout(() => {
       setStartSplit(true);
-    }, 1700);
+      callbacksRef.current.onReveal?.();
+    }, SPLIT_AT);
 
     const finishTimer = setTimeout(() => {
-      onFinish?.();
-    }, 2500);
+      callbacksRef.current.onFinish?.();
+    }, FINISH_AT);
 
     return () => {
       clearTimeout(splitTimer);
       clearTimeout(finishTimer);
     };
-  }, [onFinish]);
+  }, []);
 
-  // Drives the numeric counter off real elapsed time (instead of a fixed CSS
-  // duration) so it always lands on 100% right as the split animation starts.
+  // Counter + bar are written straight to the DOM every frame — no React
+  // re-render per frame while the rest of the site is still booting.
   useEffect(() => {
     const startTime = performance.now();
     let frameId;
+    let lastPct = -1;
 
     const tick = (now) => {
       const elapsed = now - startTime;
       const pct = Math.min(100, Math.round((elapsed / LOAD_DURATION) * 100));
-      setProgress(pct);
+      if (pct !== lastPct) {
+        lastPct = pct;
+        if (counterRef.current) counterRef.current.textContent = `${pct}%`;
+        if (barRef.current) barRef.current.style.transform = `scaleX(${pct / 100})`;
+      }
       if (pct < 100) frameId = requestAnimationFrame(tick);
     };
 
@@ -95,7 +110,7 @@ const Preloader = ({ onFinish }) => {
           <div className="preloader-banner-glow" />
           <div className="preloader-banner-ring" />
 
-          <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-black/45 shadow-[0_0_65px_rgba(163,230,53,0.14)] backdrop-blur-md">
+          <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-black/45 shadow-[0_0_65px_rgba(163,230,53,0.14)]">
             <motion.img
               src={bannerImage}
               alt="Tumit Hasan"
@@ -140,18 +155,19 @@ const Preloader = ({ onFinish }) => {
                     {statusMessages[statusIndex]}
                   </motion.p>
                 </AnimatePresence>
-                <span className="preloader-counter shrink-0 font-mono text-sm font-black tabular-nums text-white">
-                  {progress}%
+                <span
+                  ref={counterRef}
+                  className="preloader-counter shrink-0 font-mono text-sm font-black tabular-nums text-white"
+                >
+                  0%
                 </span>
               </div>
 
               <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-800/90">
-                <motion.div
+                <div
+                  ref={barRef}
                   className="h-full rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 shadow-[0_0_12px_rgba(163,230,53,0.6)]"
-                  style={{ transformOrigin: "left" }}
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: progress / 100 }}
-                  transition={{ duration: 0.15, ease: "linear" }}
+                  style={{ transformOrigin: "left", transform: "scaleX(0)" }}
                 />
               </div>
             </div>
