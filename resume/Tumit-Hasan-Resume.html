@@ -1,0 +1,322 @@
+<!doctype html>
+<!--
+  Source of public/Tumit-Hasan-Resume.pdf
+  To update: edit this file, open it in Chrome → Ctrl+P → "Save as PDF"
+  (Paper: A4, Margins: None, Background graphics: ON), save over
+  public/Tumit-Hasan-Resume.pdf.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tumit Hasan — MERN Stack Developer — Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" />
+  <style>
+    @page { size: A4; margin: 0; }
+
+    :root {
+      --ink: #111511;
+      --body: #343a33;
+      --muted: #6b7166;
+      --accent: #4d7c0f;
+      --accent-soft: #ecfccb;
+      --line: #e3e7df;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: #fff;
+      color: var(--body);
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
+      font-size: 8.8pt;
+      line-height: 1.38;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 0 15mm 12mm;
+      position: relative;
+    }
+
+    /* top accent bar */
+    .page::before {
+      content: "";
+      display: block;
+      height: 5px;
+      margin: 0 -15mm 8.5mm;
+      background: linear-gradient(90deg, #65a30d, #a3e635);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ---------- header ---------- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 8mm;
+      padding-bottom: 3.8mm;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      font-family: "Poppins", "Inter", sans-serif;
+      font-size: 25pt;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .role {
+      margin-top: 2.2mm;
+      font-family: "Poppins", "Inter", sans-serif;
+      font-size: 11pt;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .contact {
+      text-align: right;
+      font-size: 8.5pt;
+      line-height: 1.65;
+      color: var(--body);
+    }
+
+    .contact a { color: var(--ink); font-weight: 500; }
+    .contact .sep { color: #b6bcb1; margin: 0 1.6mm; }
+
+    /* ---------- sections ---------- */
+    section { margin-top: 3.9mm; }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 2.5mm;
+      margin-bottom: 2.4mm;
+      font-family: "Poppins", "Inter", sans-serif;
+      font-size: 9.4pt;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    h2::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    .summary { color: var(--body); }
+
+    /* skills */
+    .skills { display: grid; grid-template-columns: 22mm 1fr; row-gap: 0.9mm; column-gap: 3mm; }
+    .skills dt { font-weight: 600; color: var(--ink); }
+    .skills dd { color: var(--body); }
+
+    /* projects */
+    .item { margin-bottom: 2.4mm; break-inside: avoid; }
+    .item:last-child { margin-bottom: 0; }
+
+    .item-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 4mm;
+    }
+
+    .item-title { font-weight: 700; color: var(--ink); font-size: 9.6pt; }
+    .item-title .sub { font-weight: 500; color: var(--muted); }
+
+    .links { font-size: 8.2pt; white-space: nowrap; }
+    .links a { color: var(--accent); font-weight: 600; }
+    .links .sep { color: #b6bcb1; margin: 0 1.2mm; }
+
+    .stack {
+      margin-top: 0.6mm;
+      font-size: 8.1pt;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    ul.points { margin-top: 1mm; padding-left: 4.2mm; }
+    ul.points li { margin-bottom: 0.5mm; }
+    ul.points li::marker { color: var(--accent); }
+
+    /* client work: compact two-column list */
+    .clients { display: grid; grid-template-columns: 1fr 1fr; column-gap: 7mm; row-gap: 1.8mm; }
+    .client .item-title { font-size: 9.1pt; }
+    .client p { margin-top: 0.4mm; }
+    .also { margin-top: 1.8mm; color: var(--muted); }
+    .also a { color: var(--accent); font-weight: 600; }
+
+    /* bottom row */
+    .grid-2 { display: grid; grid-template-columns: 1.25fr 1fr; column-gap: 8mm; }
+    .muted { color: var(--muted); }
+    .tag {
+      display: inline-block;
+      padding: 0.3mm 2mm;
+      margin: 0.8mm 1mm 0 0;
+      border-radius: 3mm;
+      background: var(--accent-soft);
+      color: #3f6212;
+      font-size: 7.8pt;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div>
+        <h1>Tumit Hasan</h1>
+        <p class="role">MERN Stack Developer</p>
+      </div>
+      <div class="contact">
+        Jashore, Bangladesh<span class="sep">|</span><a href="tel:+8801611960330">+880 1611-960330</a><br />
+        <a href="mailto:tumithasan1@gmail.com">tumithasan1@gmail.com</a><span class="sep">|</span><a href="https://tumit.tech">tumit.tech</a><br />
+        <a href="https://github.com/tumit-h-r-75">github.com/tumit-h-r-75</a><span class="sep">|</span><a href="https://www.linkedin.com/in/tumit-hasan-rafi/">linkedin.com/in/tumit-hasan-rafi</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <p class="summary">
+        MERN Stack Developer with 1+ years of hands-on experience building full-stack web apps with React, Next.js,
+        Node.js, Express and MongoDB, and shipping live client websites across hospitality, healthcare, travel and
+        food &amp; beverage. Focused on clean architecture, responsive UI and fast, production-ready code.
+      </p>
+    </section>
+
+    <section>
+      <h2>Technical Skills</h2>
+      <dl class="skills">
+        <dt>Languages</dt>
+        <dd>JavaScript (ES6+), TypeScript, PHP</dd>
+        <dt>Frontend</dt>
+        <dd>React.js, Next.js, Tailwind CSS, DaisyUI, React Router, TanStack Query, Axios, Framer Motion</dd>
+        <dt>Backend</dt>
+        <dd>Node.js, Express.js, MongoDB, Mongoose, REST APIs, JWT, Firebase Auth, Stripe, Nodemailer</dd>
+        <dt>CMS</dt>
+        <dd>WordPress, Elementor Pro, JetEngine, JetSmartFilters, ACF, Custom Post Types</dd>
+        <dt>Tools</dt>
+        <dd>Git, GitHub, VS Code, Figma, Vite, Vercel, Netlify, Firebase Hosting, Cloudinary</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>Featured Projects</h2>
+
+      <div class="item">
+        <div class="item-head">
+          <p class="item-title">Kaimana <span class="sub">— AI-Powered Coding Practice &amp; Contest Platform</span></p>
+          <p class="links"><a href="https://kaimana.vercel.app/">Live</a><span class="sep">·</span><a href="https://github.com/tumit-h-r-75/Kaimana">GitHub</a></p>
+        </div>
+        <p class="stack">Next.js · React · TypeScript · Node.js · AI integration</p>
+        <ul class="points">
+          <li>Online judge that runs submissions against hidden test cases in Python, C++, JavaScript and TypeScript.</li>
+          <li>AI coach with tiered hints, Big-O complexity analysis and refactor suggestions; live contests with a real-time leaderboard.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="item-head">
+          <p class="item-title">AppOrbit <span class="sub">— Tech Product Discovery Platform</span></p>
+          <p class="links"><a href="https://app-orbit-tumit.web.app/">Live</a><span class="sep">·</span><a href="https://github.com/tumit-h-r-75/App-orbit-client">Client</a><span class="sep">·</span><a href="https://github.com/tumit-h-r-75/app-orbit-server">Server</a></p>
+        </div>
+        <p class="stack">React · Node.js · Express · MongoDB · Stripe · JWT</p>
+        <ul class="points">
+          <li>Product Hunt-style platform with role-based dashboards (User / Moderator / Admin) and Stripe premium subscriptions with coupons.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="item-head">
+          <p class="item-title">Roommate Finder <span class="sub">— Roommate Matching Web App</span></p>
+          <p class="links"><a href="https://roommate-finder-application.web.app/">Live</a><span class="sep">·</span><a href="https://github.com/tumit-h-r-75/assignment-10-roommate-finder">Client</a><span class="sep">·</span><a href="https://github.com/tumit-h-r-75/assignment-10-server">Server</a></p>
+        </div>
+        <p class="stack">React · Express · MongoDB · Firebase · JWT</p>
+        <ul class="points">
+          <li>Firebase email/Google auth, JWT-protected Express APIs for listing CRUD, and a once-per-user like system.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="item-head">
+          <p class="item-title">Developer Portfolio &amp; Admin CMS <span class="sub">— tumit.tech</span></p>
+          <p class="links"><a href="https://tumit.tech">Live</a><span class="sep">·</span><a href="https://github.com/tumit-h-r-75">GitHub</a></p>
+        </div>
+        <p class="stack">React · Express · MongoDB · Cloudinary · Nodemailer · JWT</p>
+        <ul class="points">
+          <li>JWT-protected admin dashboard for projects, skills and Cloudinary media; Nodemailer contact form with spam protection.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Client Projects</h2>
+      <div class="clients">
+        <div class="client">
+          <p class="item-title">South East Flyer <span class="sub">— Airport shuttle booking, Melbourne</span></p>
+          <p>Custom WordPress booking plugin (PHP): seat-limited trips, dynamic fares, add-ons.
+            <a class="links" href="https://southeastflyer.com.au"><span style="color:var(--accent);font-weight:600">Live</span></a></p>
+        </div>
+        <div class="client">
+          <p class="item-title">El Royale Hotel &amp; Resort <span class="sub">— Next.js</span></p>
+          <p>Hotel site with an interactive resort map, room booking and guest portal.
+            <a class="links" href="https://el-royale-hote.vercel.app/"><span style="color:var(--accent);font-weight:600">Live</span></a></p>
+        </div>
+        <div class="client">
+          <p class="item-title">HajjJi <span class="sub">— Hajj &amp; Umrah booking (WordPress)</span></p>
+          <p>Date-based booking rules, dynamic cart and journey countdown (JetEngine).
+            <a class="links" href="https://hajjji.com/"><span style="color:var(--accent);font-weight:600">Live</span></a></p>
+        </div>
+        <div class="client">
+          <p class="item-title">Beachin' <span class="sub">— Beverage brand, California</span></p>
+          <p>Filterable drink menu, product pages and DoorDash ordering (Elementor Pro).
+            <a class="links" href="https://colton-king.pronizam.com"><span style="color:var(--accent);font-weight:600">Live</span></a></p>
+        </div>
+      </div>
+      <p class="also">
+        Also: <a href="https://tersen-tech.vercel.app/">Tersan Tech</a>,
+        <a href="https://hpaccountable.vercel.app/">HPAccountable HomeCare</a>,
+        <a href="https://ndstudios.pronizam.com/">ND Studios</a>,
+        <a href="https://tyrellscott.pronizam.com/">Final Cut Multimedia</a>,
+        <a href="https://sarsarasarita.pronizam.com/">Sarita Portfolio</a>
+      </p>
+    </section>
+
+    <section class="grid-2">
+      <div>
+        <h2>Education</h2>
+        <div class="item-head">
+          <p class="item-title">Diploma in Computer Science &amp; Technology</p>
+          <p class="muted">2022 – 2025</p>
+        </div>
+        <p>Satkhira Govt Polytechnic Institute</p>
+        <p class="muted" style="margin-top:0.4mm">Coursework: DSA, DBMS, Networking, Computer Architecture</p>
+
+        <h2 style="margin-top:3.6mm">Leadership</h2>
+        <p><span class="item-title">Vice-Captain, Bipanon Cricket Team</span> — Jashore First Division Cricket;
+          led the team in regional first-division matches.</p>
+      </div>
+      <div>
+        <h2>Soft Skills</h2>
+        <p>
+          <span class="tag">Teamwork</span><span class="tag">Communication</span><span class="tag">Adaptability</span><span class="tag">Problem Solving</span><span class="tag">Time Management</span><span class="tag">Attention to Detail</span><span class="tag">Leadership</span>
+        </p>
+
+        <h2 style="margin-top:3.6mm">Languages</h2>
+        <p>Bangla (Native) · English (Fluent) · Hindi (Intermediate)</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
