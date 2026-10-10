@@ -300,7 +300,7 @@ const DesktopTimeline = () => {
 const Workflow = () => {
   // Render only the layout that is actually visible (mobile list OR desktop
   // zigzag) instead of mounting both and hiding one with CSS.
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   return (
     <div className="mb-20 md:mb-28">
