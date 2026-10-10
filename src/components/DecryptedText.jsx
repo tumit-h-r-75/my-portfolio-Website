@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
-import { motion } from 'motion/react';
 
 const styles = {
   wrapper: {
@@ -18,7 +17,22 @@ const styles = {
   }
 };
 
-export default function DecryptedText({
+// Static path: when animation is disabled (the site-wide default) render plain
+// text immediately — no state, no IntersectionObserver, no interval re-renders.
+export default function DecryptedText({ disableAnimation = true, ...props }) {
+  if (disableAnimation) {
+    const { text, className = '', parentClassName = '' } = props;
+    return (
+      <span className={parentClassName} style={styles.wrapper}>
+        <span style={styles.srOnly}>{text}</span>
+        <span aria-hidden="true" className={className}>{text}</span>
+      </span>
+    );
+  }
+  return <AnimatedDecryptedText {...props} />;
+}
+
+function AnimatedDecryptedText({
   text,
   speed = 50,
   maxIterations = 10,
@@ -31,7 +45,6 @@ export default function DecryptedText({
   encryptedClassName = '',
   animateOn = 'hover',
   clickMode = 'once',
-  disableAnimation = true,
   ...props
 }) {
   const [displayText, setDisplayText] = useState(text);
@@ -347,16 +360,6 @@ export default function DecryptedText({
     setDirection('forward');
   }, [animateOn, text, encryptInstantly]);
 
-  // If animation is disabled, just show plain text
-  if (disableAnimation) {
-    return (
-      <motion.span className={parentClassName} style={styles.wrapper} {...props}>
-        <span style={styles.srOnly}>{text}</span>
-        <span aria-hidden="true" className={className}>{text}</span>
-      </motion.span>
-    );
-  }
-
   const animateProps =
     animateOn === 'hover' || animateOn === 'inViewHover'
       ? {
@@ -370,7 +373,7 @@ export default function DecryptedText({
         : {};
 
   return (
-    <motion.span
+    <span
       className={parentClassName}
       ref={containerRef}
       style={styles.wrapper}
@@ -388,6 +391,6 @@ export default function DecryptedText({
           );
         })}
       </span>
-    </motion.span>
+    </span>
   );
 }
