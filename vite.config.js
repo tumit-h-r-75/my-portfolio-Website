@@ -11,4 +11,16 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // Big libraries in their own long-cached chunks: a site update
+        // only re-downloads the app code, not React/framer-motion again.
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-dom/client', 'react-router-dom'],
+          motion: ['framer-motion'],
+        },
+      },
+    },
+  },
 })
