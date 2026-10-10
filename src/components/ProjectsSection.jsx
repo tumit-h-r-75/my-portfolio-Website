@@ -2,12 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowRight, FaThLarge } from "react-icons/fa";
-import ProjectCard from "./ProjectCard";
+import ProjectStack from "./ProjectStack/ProjectStack";
 import { NavigateContext } from "../context/NavigateContext";
-import SectionHeading from "./SectionHeading";
 import { publicApi } from "../lib/publicApi";
 
-const HOME_PREVIEW_COUNT = 4;
+const HOME_PREVIEW_COUNT = 5;
 
 const ProjectsSection = () => {
   const { portfolioRef } = useContext(NavigateContext);
@@ -42,33 +41,38 @@ const ProjectsSection = () => {
     <section
       id="portfolio"
       ref={portfolioRef}
-      className="py-20 md:py-28 px-4 sm:px-6 md:px-10 max-w-[96rem] mx-auto"
+      className="psc-section py-20 md:py-28 px-4 sm:px-6 md:px-10 max-w-[96rem] mx-auto"
     >
-      <SectionHeading kicker="Portfolio" before="Featured " highlight="Projects" align="center" />
-      <p className="mx-auto -mt-8 mb-14 max-w-2xl text-center text-sm md:text-base text-zinc-400">
-        A selection of my recent work. Each project is crafted with passion and built with modern technologies.
-      </p>
-
-      {/* Project Cards Grid */}
+      {/* cinematic heading */}
       <motion.div
-        initial={{ opacity: 0, y: 60 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="grid items-start gap-6 grid-cols-1 xl:grid-cols-2"
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="psc-head"
       >
-        {loading && <p className="col-span-full text-center text-zinc-400">Loading projects...</p>}
-        {!loading && error && <p className="col-span-full text-center text-red-300">{error}</p>}
-        {!loading && !error && previewProjects.length === 0 && (
-          <p className="col-span-full text-center text-zinc-400">No projects found in database.</p>
-        )}
-        {!loading && !error && previewProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
+        <div>
+          <p className="psc-kicker">Featured Work</p>
+          <h2 className="psc-heading">
+            <span className="light">Selected Works.</span>
+            <span className="accent">Built to Perform.</span>
+          </h2>
+        </div>
+        <p className="psc-head-copy">
+          Scroll through the case files — each project is shipped with clean architecture, fast
+          performance and real features people actually use.
+        </p>
       </motion.div>
 
+      {loading && <p className="text-center text-zinc-400">Loading projects...</p>}
+      {!loading && error && <p className="text-center text-red-300">{error}</p>}
+      {!loading && !error && previewProjects.length === 0 && (
+        <p className="text-center text-zinc-400">No projects found in database.</p>
+      )}
+      {!loading && !error && previewProjects.length > 0 && <ProjectStack projects={previewProjects} />}
+
       {/* View all */}
-      <div className="mt-12 flex flex-col items-center gap-3">
+      <div className="mt-14 flex flex-col items-center gap-3">
         <Link
           to="/projects"
           className="group inline-flex items-center gap-3 rounded-full border border-lime-400/40 bg-lime-400/5 px-7 py-3.5 text-sm font-black uppercase tracking-[0.15em] text-lime-300 transition hover:bg-lime-400/10"
