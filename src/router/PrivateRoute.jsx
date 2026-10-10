@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { API_BASE_URL } from '../pages/Dashboard/apiClient';
 import '../pages/Dashboard/Dashboard.css';
+import SiteLoader from '../components/SiteLoader/SiteLoader';
 
 const PrivateRoute = ({ children }) => {
     const [authState, setAuthState] = useState('checking');
@@ -38,7 +39,7 @@ const PrivateRoute = ({ children }) => {
     }, []);
 
     if (authState === 'checking') {
-        return <div className="dashboard-shell"><div className="dashboard-panel dashboard-state">Checking session...</div></div>;
+        return <div className="dashboard-shell"><div className="dashboard-panel dashboard-state"><SiteLoader size="sm" messages={["Checking session", "Verifying access"]} /></div></div>;
     }
 
     return authState === 'logged-in' ? children : <Navigate to="/login" replace />;

@@ -3,6 +3,7 @@ import { FaPen, FaPlus, FaTimes, FaTrash, FaSearch } from 'react-icons/fa';
 import './Dashboard.css';
 import { ApiClient } from './apiClient';
 import { getTechIcon } from '../../lib/techIcons';
+import SiteLoader from '../../components/SiteLoader/SiteLoader';
 
 const categories = ['Frontend', 'Backend', 'CMS', 'Database', 'DevOps', 'Other'];
 
@@ -171,7 +172,7 @@ const ManageSkills = () => {
         }
     };
 
-    if (loading) return <div className="dashboard-panel dashboard-state">Loading skills...</div>;
+    if (loading) return <div className="dashboard-panel dashboard-state"><SiteLoader size="sm" messages={["Loading skills"]} /></div>;
     if (error) return <div className="dashboard-panel dashboard-state error">Error: {error}</div>;
 
     return (

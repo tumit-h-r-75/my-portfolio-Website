@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import './Dashboard.css';
 import { ApiClient } from './apiClient';
+import SiteLoader from '../../components/SiteLoader/SiteLoader';
 
 const MediaLibrary = () => {
     const [media, setMedia] = useState({ all: [], projects: [], skills: [] });
@@ -44,7 +45,7 @@ const MediaLibrary = () => {
         }
     };
 
-    if (loading) return <div className="dashboard-panel dashboard-state">Loading media...</div>;
+    if (loading) return <div className="dashboard-panel dashboard-state"><SiteLoader size="sm" messages={["Loading media library"]} /></div>;
     if (error) return <div className="dashboard-panel dashboard-state error">Error: {error}</div>;
 
     return (

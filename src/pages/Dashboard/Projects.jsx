@@ -3,6 +3,7 @@ import { FaImage, FaPlus, FaPen, FaTimes, FaTrash, FaSearch } from 'react-icons/
 import './Dashboard.css';
 import { ApiClient } from './apiClient';
 import { getTechIcon } from '../../lib/techIcons';
+import SiteLoader from '../../components/SiteLoader/SiteLoader';
 
 const initialForm = {
     title: '',
@@ -179,7 +180,7 @@ const ManageProjects = () => {
         }
     };
 
-    if (loading) return <div className="dashboard-panel dashboard-state">Loading projects...</div>;
+    if (loading) return <div className="dashboard-panel dashboard-state"><SiteLoader size="sm" messages={["Loading projects"]} /></div>;
     if (error) return <div className="dashboard-panel dashboard-state error">Error: {error}</div>;
 
     return (
